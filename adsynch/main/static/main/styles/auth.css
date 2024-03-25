@@ -11,8 +11,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        background-color: #d7d7d7;
-    /*    background-color: #0d0e3a;  Любой цвет фона */
+        background-color: #0d0e3a; /* Любой цвет фона */
         border-bottom-right-radius: 35px;
         border-bottom-left-radius: 35px;
 
@@ -23,7 +22,7 @@
     }
 
     .nav-item a {
-    color: #524545;
+    color: #fff;
 }
 
         .navbar-brand img {
@@ -60,7 +59,7 @@
 
 .carousel-inner {
     display: flex;
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease; 
     height: 100%; /* Добавляем высоту 100% для растягивания на всю высоту контейнера */
 }
 
@@ -71,7 +70,7 @@
 }
 
 .carousel-item.active {
-    display: block;
+    display: block; 
 }
 
 .ttlslider {
@@ -92,7 +91,7 @@
 
 .carousel-caption {
     padding: 20px;
-    color: #524545;
+    color: white;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -101,15 +100,10 @@
 }
 
 .carousel-indicators{
-top: 55vh;
-margin-top: -100px;
+top: 55vh;"
 }
 
-.carousel-indicators li{
-    background-color: #524545;
-}
-
-.service {
+.service { 
 margin-top: 6vh;
 margin-bottom: 15vh;
 
@@ -139,8 +133,7 @@ margin-bottom: 15vh;
 }
 
 .card-body i {
-    /* color: #00fcff; */
-    color: #505050;
+    color: #00fcff;
     font-size: 5vh;
 }
 
@@ -162,7 +155,7 @@ margin-bottom: 5vh;
 
 .obv-1 .card-img-top {
     object-fit: cover;
-    height: 50%; /* Выберите желаемую высоту */
+    height: 200px; /* Выберите желаемую высоту */
     width: 100%; /* Чтобы оставаться внутри контейнера */
 }
 
@@ -182,7 +175,7 @@ margin-bottom: 5vh;
 }
 
 .checkin {
-    color: #524545;
+    color: #fff;
 }
 
 .checkin form {
@@ -191,7 +184,7 @@ margin-top: 5vh;
 
 
 .footer {
-    background-color: #d7d7d7;
+    background-color: #0d0e3a;
     padding: 20px 0;
 }
 
@@ -207,7 +200,7 @@ margin-top: 5vh;
 }
 
 a {
-        color: #524545;
+        color: #fff;
 }
 
 a:hover {
@@ -219,8 +212,8 @@ a:hover {
     margin-right: 0;
 }
 
-.footer article {
-color: #524545;
+.footer article { 
+color: #fff;
 font-size: 1.2vh;
 margin-top: 5vh;
 letter-spacing: 1px;
@@ -228,8 +221,8 @@ font-weight: 700;
  }
 
 
- .top-ft {
-border-bottom: 1px solid #524545;
+ .top-ft { 
+border-bottom: 1px solid #fff;
 margin-bottom: 2vh;
 border-left-width:50%;
 
@@ -268,6 +261,7 @@ margin-top: 3vh;
 .carousel {
     margin-bottom: -10vh;
 }
+
 
 
 .modal {

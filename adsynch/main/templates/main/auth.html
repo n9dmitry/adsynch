@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selbie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+
+<header class="full-screen-header container-fluid">
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="#">
+                <img width="100" src="img/logo.png" alt="Логотип">
+            </a>
+            <button class="btn btn-light ml-3" type="button">Разместить объявление</button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <form class="form-inline my-3 my-lg-0 ml-auto">
+                    <input class="form-control mr-3" type="search" placeholder="Поиск">
+                    <button class="btn btn-light" type="submit">Поиск</button>
+                </form>
+                <div class="dropdown">
+                    <button class="btn btn-light ml-2 dropdown-toggle" type="button" id="toggleCategories"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Все категории
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="toggleCategories">
+                        <a class="dropdown-item" href="#">Категория 1</a>
+                        <a class="dropdown-item" href="#">Категория 2</a>
+                        <a class="dropdown-item" href="#">Категория 3</a>
+                        <!-- Добавьте другие категории как ссылки внутри dropdown-menu -->
+                    </div>
+                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Помощь</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Контакты</a>
+                    </li>
+                    <li class="nav-item tg">
+                        <a class="nav-link telegram-link" href="#" id="openModal">
+                            <i class="fab fa-telegram telegram-icon"></i> Регистрация
+                        </a>
+
+                        <div id="modal" class="modal">
+                            <div class="modal-content">
+                                <button class="auth-button vk-button"><i class="fab fa-vk"></i> ВКонтакте</button>
+                                <button class="auth-button yandex-button"><i class="fab fa-yandex"></i> Яндекс Почта
+                                </button>
+                                <button class="auth-button telegram-auth-button"><i class="fab fa-telegram"></i>
+                                    Телеграм
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+
+        <script>
+
+            const openModalButton = document.getElementById('openModal');
+            const modal = document.getElementById('modal');
+
+            openModalButton.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+        </script>
+
+</body>
+</html>

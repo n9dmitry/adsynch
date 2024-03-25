@@ -1,6 +1,5 @@
 {% load static %}
 
-<!DOCTYPE html>
 <html>
 <head>
     <title>Selbie</title>
@@ -51,6 +50,22 @@
                         <a class="nav-link telegram-link" href="#">
                             <i class="fab fa-telegram telegram-icon"></i> Телеграм Канал
                         </a>
+                    </li>
+                    <li class="nav-item tg">
+                        <a class="nav-link telegram-link" href="#" id="openModal">
+                            <i class="fab fa-telegram telegram-icon"></i> Вход
+                        </a>
+
+                        <div id="modal" class="modal">
+                            <div class="modal-content">
+                                <button class="auth-button vk-button"><i class="fab fa-vk"></i> ВКонтакте </button>
+                                <button class="auth-button yandex-button"><i class="fab fa-yandex"></i> Яндекс Почта
+                                </button>
+                                <button class="auth-button telegram-auth-button"><i class="fab fa-telegram"></i>
+                                    Телеграм
+                                </button>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -254,6 +269,24 @@
         });
     });
 </script>
+
+        <script>
+
+            const openModalButton = document.getElementById('openModal');
+            const modal = document.getElementById('modal');
+
+            openModalButton.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+        </script>
+
 
 
 </body>
