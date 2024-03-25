@@ -11,8 +11,8 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-    /*    background-color: #0d0e3a;  Любой цвет фона */
         background-color: #d7d7d7;
+    /*    background-color: #0d0e3a;  Любой цвет фона */
         border-bottom-right-radius: 35px;
         border-bottom-left-radius: 35px;
 
@@ -23,7 +23,7 @@
     }
 
     .nav-item a {
-    color: #fff;
+    color: #524545;
 }
 
         .navbar-brand img {
@@ -92,7 +92,7 @@
 
 .carousel-caption {
     padding: 20px;
-    color: white;
+    color: #524545;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -103,6 +103,10 @@
 .carousel-indicators{
 top: 55vh;
 margin-top: -100px;
+}
+
+.carousel-indicators li{
+    background-color: #524545;
 }
 
 .service {
@@ -135,7 +139,8 @@ margin-bottom: 15vh;
 }
 
 .card-body i {
-    color: #00fcff;
+    /* color: #00fcff; */
+    color: #505050;
     font-size: 5vh;
 }
 
@@ -157,7 +162,7 @@ margin-bottom: 5vh;
 
 .obv-1 .card-img-top {
     object-fit: cover;
-    height: 200px; /* Выберите желаемую высоту */
+    height: 50%; /* Выберите желаемую высоту */
     width: 100%; /* Чтобы оставаться внутри контейнера */
 }
 
