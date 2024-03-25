@@ -11,7 +11,8 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        background-color: #0d0e3a; /* Любой цвет фона */
+    /*    background-color: #0d0e3a;  Любой цвет фона */
+        background-color: #d7d7d7;
         border-bottom-right-radius: 35px;
         border-bottom-left-radius: 35px;
 
@@ -100,7 +101,8 @@
 }
 
 .carousel-indicators{
-top: 55vh;"
+top: 55vh;
+margin-top: -100px;
 }
 
 .service {
@@ -185,6 +187,7 @@ margin-top: 5vh;
 
 .footer {
     background-color: #0d0e3a;
+    background-color: #d7d7d7
     padding: 20px 0;
 }
 
