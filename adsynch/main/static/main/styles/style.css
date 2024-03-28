@@ -103,6 +103,7 @@
 .carousel-indicators{
 top: 55vh;
 margin-top: -100px;
+z-index: 1;
 }
 
 .carousel-indicators li{
@@ -228,7 +229,7 @@ font-weight: 700;
  }
 
 
- .top-ft {
+.top-ft {
 border-bottom: 1px solid #524545;
 margin-bottom: 2vh;
 border-left-width:50%;
@@ -273,7 +274,7 @@ margin-top: 3vh;
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
@@ -296,11 +297,27 @@ margin-top: 3vh;
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
-    background-color: #0088cc;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.auth-button.vk-button {
+    background-color: #0077B5; /* Цвет для ВК */
+}
+
+.auth-button.google-auth-button {
+    background-color: #EA4335; /* Цвет для Google */
+}
+
+.auth-button.yandex-button {
+    background-color: #ffcc00; /* Цвет для Яндекс */
+    color: red;
+}
+
+.auth-button.telegram-auth-button {
+    background-color: #0088cc; /* Цвет для Телеграм */
 }
 
 .auth-button i {

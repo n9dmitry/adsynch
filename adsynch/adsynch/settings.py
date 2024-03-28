@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,8 +65,8 @@ MIDDLEWARE = [
 SOCIALACCOUNT_PROVIDERS = {
     'yandex': {
         'APP': {
-            'client_id': 'cc9d551312ba405e81b68c1c11bab52b',
-            'secret': 'f05b0936d1164027b5968e9bf8c11131',
+            'client_id': config('YANDEX_KEY'),
+            'secret': config('YANDEX_SECRET'),
             'key': ''
         }
     },
