@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <html>
 <head>
@@ -76,9 +77,10 @@
 <!--                                            <a href="/forgot-password">Напомнить пароль</a>-->
 <!--                                        </div>-->
 <!--                                        &lt;!&ndash; Кнопки для авторизации через социальные сети &ndash;&gt;-->
-                                        <button class="auth-button vk-button"><i class="fab fa-vk"></i>
-                                            <a class="dropdown-item" href="{% provider_login_url "vk" method="oauth2" %}">ВКонтакте</a>
-                                        </button>
+                                        <a class="dropdown-item" href="{% provider_login_url "vk" method="oauth2" %}">
+                                            <button class="auth-button vk-button"><i class="fab fa-vk"></i>ВКонтакте
+                                            </button>
+                                        </a>
                                         <button class="auth-button yandex-button"><i class="fab fa-yandex"></i> Яндекс</button>
                                         <button class="auth-button telegram-auth-button"><i class="fab fa-telegram"></i> Телеграм</button>
                                         <button class="auth-button google-auth-button"><i class="fab fa-google"></i> Google</button>

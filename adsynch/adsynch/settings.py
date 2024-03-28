@@ -63,18 +63,19 @@ MIDDLEWARE = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
+
+    'vk': {
+        'APP': {
+            'client_id': config('VK_KEY'),
+            'secret': config('VK_SECRET'),
+            'key': '',
+        }
+    },
+
     'yandex': {
         'APP': {
             'client_id': config('YANDEX_KEY'),
             'secret': config('YANDEX_SECRET'),
-            'key': ''
-        }
-    },
-
-    'vk': {
-        'APP': {
-            'client_id': '',
-            'secret': '',
             'key': ''
         }
     },
