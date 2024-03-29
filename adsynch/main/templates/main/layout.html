@@ -52,51 +52,73 @@
                             <i class="fab fa-telegram telegram-icon"></i> Телеграм Канал
                         </a>
                     </li>
-                    <li class="nav-item tg">
-                        <a class="nav-link telegram-link" href="#" id="openModal">
-                            <i class="fab fa-telegram telegram-icon"></i> Вход
-                        </a>
+                  <li class="nav-item tg">
+    <a class="nav-link telegram-link" href="#" id="openModal">
+        <i class="fab fa-telegram telegram-icon"></i> Вход
+    </a>
 
-                        <div id="modal" class="modal">
-                            <div class="modal-content">
-                                <h2>{% block title %} Авторизоваться {% endblock %}</h2>
-                                <!--                                        <form id="login-form" action="/login" method="post">-->
-                                <!--                                            <div class="form-group">-->
-                                <!--                                                <label for="email">Email:</label>-->
-                                <!--                                                <input type="email" id="email" name="email" required>-->
-                                <!--                                            </div>-->
-                                <!--                                            <div class="form-group">-->
-                                <!--                                                <label for="password">Пароль:</label>-->
-                                <!--                                                <input type="password" id="password" name="password" required>-->
-                                <!--                                            </div>-->
-                                <!--                                            <button type="submit" class="login-button">Войти</button>-->
-                                <!--                                        </form>-->
-                                <!--                                        &lt;!&ndash; Кнопки "Зарегистрироваться" и "Напомнить пароль" &ndash;&gt;-->
-                                <!--                                        <div class="additional-options">-->
-                                <!--                                            <a href="/registration">Зарегистрироваться</a>-->
-                                <!--                                            <a href="/forgot-password">Напомнить пароль</a>-->
-                                <!--                                        </div>-->
-                                <!--                                        &lt;!&ndash; Кнопки для авторизации через социальные сети &ndash;&gt;-->
-<!--                                <a class="dropdown-item" href="">-->
-<!--                                    <button class="auth-button vk-button"><i class="fab fa-vk"></i>-->
-<!--                                        ВКонтакте-->
-<!--                                    </button>-->
-<!--                                </a>-->
-<!--                                <a class="dropdown-item" href="">-->
-<!--                                    <button class="auth-button yandex-button"><i class="fab fa-yandex"></i>-->
-<!--                                        Яндекс-->
-<!--                                    </button>-->
-<!--                                </a>-->
-                                <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
-                                    <i class="fab fa-yandex"></i>Яндекс
-                                </a>
-                                <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%} ">
-                                    <i class="fab fa-vk"></i>ВКонтакте
-                                </a>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="container">
 
-                            </div>
-                        </div>
-                    </li>
+
+
+            <h2 class="mt-5">Регистрация</h2>
+            <form>
+            <div class="mb-3">
+              <label for="fullName" class="form-label">ФИО</label>
+              <input type="text" class="form-control" id="fullName" placeholder="Введите ваше полное имя" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" placeholder="name@example.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Пароль</label>
+              <input type="password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+              <input type="password" class="form-control" id="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+            </div>
+            <h2>{% block title %} Авторизоваться {% endblock %}</h2>
+
+            <!-- Форма логина и пароля -->
+            <form id="login-form" action="/login" method="post">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-button">Войти</button>
+            </form>
+
+            <!-- Кнопки "Регистрация" и "Забыли пароль" -->
+            <div class="additional-options">
+                <a href="/registration">Зарегистрироваться</a>
+                <a href="/forgot-password">Напомнить пароль</a>
+            </div>
+
+            <!-- Кнопки для авторизации через социальные сети -->
+            <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
+                <i class="fab fa-yandex"></i>Яндекс
+            </a>
+            <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%}">
+                <i class="fab fa-vk"></i>ВКонтакте
+            </a>
+             <a class="auth-button google-auth-button" href="#">
+                <i class="fab fa-google"></i>Google
+            </a>
+        </div>
+    </div>
+</li>
+
                 </ul>
             </div>
         </nav>

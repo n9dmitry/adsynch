@@ -92,7 +92,7 @@ SOCIALACCOUNT_PROVIDERS = {
     #         'key': ''
     #     }
     # },
-    #
+
     #
     # 'google': {
     #     'APP': {
