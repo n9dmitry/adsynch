@@ -85,22 +85,22 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     },
 
-    'telegram': {
-        'APP': {
-            'client_id': config('TELEGRAM_KEY'),
-            'secret': config('TELEGRAM_SECRET'),
-            'key': ''
-        }
-    },
-
-
-    'google': {
-        'APP': {
-            'client_id': config('GOOGLE_KEY'),
-            'secret': config('GOOGLE_SECRET'),
-            'key': ''
-        }
-    }
+    # 'telegram': {
+    #     'APP': {
+    #         'client_id': config('TELEGRAM_KEY'),
+    #         'secret': config('TELEGRAM_SECRET'),
+    #         'key': ''
+    #     }
+    # },
+    #
+    #
+    # 'google': {
+    #     'APP': {
+    #         'client_id': config('GOOGLE_KEY'),
+    #         'secret': config('GOOGLE_SECRET'),
+    #         'key': ''
+    #     }
+    # }
 
 
 }
