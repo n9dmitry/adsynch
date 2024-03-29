@@ -303,21 +303,24 @@ margin-top: 3vh;
     cursor: pointer;
 }
 
-.auth-button.vk-button {
-    background-color: #0077B5; /* Цвет для ВК */
-}
-
-.auth-button.google-auth-button {
-    background-color: #EA4335; /* Цвет для Google */
-}
-
-.auth-button.yandex-button {
-    background-color: #ffcc00; /* Цвет для Яндекс */
+a.yandex-auth-button {
+    background-color: #ffcc00;
     color: red;
 }
 
-.auth-button.telegram-auth-button {
+a.vk-auth-button {
+    background-color: #0077B5;
+    color: white;
+}
+
+a.google-auth-button {
+    background-color: #EA4335; /* Цвет для Google */
+    color: white; /* Цвет текста для Google */
+}
+
+a.telegram-auth-button {
     background-color: #0088cc; /* Цвет для Телеграм */
+    color: white; /* Цвет текста для Телеграм */
 }
 
 .auth-button i {

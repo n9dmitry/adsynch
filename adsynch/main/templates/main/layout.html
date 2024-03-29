@@ -57,35 +57,50 @@
                             <i class="fab fa-telegram telegram-icon"></i> Вход
                         </a>
 
-                              <div id="modal" class="modal">
-                                    <div class="modal-content">
-                                        <h2>{% block title %} Авторизоваться {% endblock %}</h2>
-<!--                                        <form id="login-form" action="/login" method="post">-->
-<!--                                            <div class="form-group">-->
-<!--                                                <label for="email">Email:</label>-->
-<!--                                                <input type="email" id="email" name="email" required>-->
-<!--                                            </div>-->
-<!--                                            <div class="form-group">-->
-<!--                                                <label for="password">Пароль:</label>-->
-<!--                                                <input type="password" id="password" name="password" required>-->
-<!--                                            </div>-->
-<!--                                            <button type="submit" class="login-button">Войти</button>-->
-<!--                                        </form>-->
-<!--                                        &lt;!&ndash; Кнопки "Зарегистрироваться" и "Напомнить пароль" &ndash;&gt;-->
-<!--                                        <div class="additional-options">-->
-<!--                                            <a href="/registration">Зарегистрироваться</a>-->
-<!--                                            <a href="/forgot-password">Напомнить пароль</a>-->
-<!--                                        </div>-->
-<!--                                        &lt;!&ndash; Кнопки для авторизации через социальные сети &ndash;&gt;-->
-                                        <a class="dropdown-item" href="{% provider_login_url "vk" method="oauth2" %}">
-                                            <button class="auth-button vk-button"><i class="fab fa-vk"></i>ВКонтакте
-                                            </button>
-                                        </a>
-                                        <button class="auth-button yandex-button"><i class="fab fa-yandex"></i> Яндекс</button>
-                                        <button class="auth-button telegram-auth-button"><i class="fab fa-telegram"></i> Телеграм</button>
-                                        <button class="auth-button google-auth-button"><i class="fab fa-google"></i> Google</button>
-                                    </div>
-                                </div>
+                        <div id="modal" class="modal">
+                            <div class="modal-content">
+                                <h2>{% block title %} Авторизоваться {% endblock %}</h2>
+                                <!--                                        <form id="login-form" action="/login" method="post">-->
+                                <!--                                            <div class="form-group">-->
+                                <!--                                                <label for="email">Email:</label>-->
+                                <!--                                                <input type="email" id="email" name="email" required>-->
+                                <!--                                            </div>-->
+                                <!--                                            <div class="form-group">-->
+                                <!--                                                <label for="password">Пароль:</label>-->
+                                <!--                                                <input type="password" id="password" name="password" required>-->
+                                <!--                                            </div>-->
+                                <!--                                            <button type="submit" class="login-button">Войти</button>-->
+                                <!--                                        </form>-->
+                                <!--                                        &lt;!&ndash; Кнопки "Зарегистрироваться" и "Напомнить пароль" &ndash;&gt;-->
+                                <!--                                        <div class="additional-options">-->
+                                <!--                                            <a href="/registration">Зарегистрироваться</a>-->
+                                <!--                                            <a href="/forgot-password">Напомнить пароль</a>-->
+                                <!--                                        </div>-->
+                                <!--                                        &lt;!&ndash; Кнопки для авторизации через социальные сети &ndash;&gt;-->
+<!--                                <a class="dropdown-item" href="">-->
+<!--                                    <button class="auth-button vk-button"><i class="fab fa-vk"></i>-->
+<!--                                        ВКонтакте-->
+<!--                                    </button>-->
+<!--                                </a>-->
+<!--                                <a class="dropdown-item" href="">-->
+<!--                                    <button class="auth-button yandex-button"><i class="fab fa-yandex"></i>-->
+<!--                                        Яндекс-->
+<!--                                    </button>-->
+<!--                                </a>-->
+                                <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
+                                    <i class="fab fa-yandex"></i>Яндекс
+                                </a>
+                                <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%} ">
+                                    <i class="fab fa-vk"></i>ВКонтакте
+                                </a>
+                                <a class="auth-button telegram-auth-button" href="{% provider_login_url 'telegram'%}">
+                                    <i class="fab fa-telegram"></i>Телеграм
+                                </a>
+                                <a class="auth-button google-auth-button" href="{% provider_login_url 'google'%}">
+                                    <i class="fab fa-google"></i>Google
+                                </a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -110,7 +125,7 @@
                 <div class="carousel-item">
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="{% static 'main/img/kv.png' %}"  class="d-block w-100" alt="Image">
+                            <img src="{% static 'main/img/kv.png' %}" class="d-block w-100" alt="Image">
                         </div>
                         <div class="col-md-6 ttlslider">
                             <div class="carousel-caption">
@@ -290,23 +305,22 @@
     });
 </script>
 
-        <script>
+<script>
 
-            const openModalButton = document.getElementById('openModal');
-            const modal = document.getElementById('modal');
+    const openModalButton = document.getElementById('openModal');
+    const modal = document.getElementById('modal');
 
-            openModalButton.addEventListener('click', function() {
-                modal.style.display = 'block';
-            });
+    openModalButton.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
 
-            modal.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 
-        </script>
-
+</script>
 
 
 </body>

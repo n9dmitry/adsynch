@@ -32,6 +32,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.yandex',
+    # 'allauth.socialaccount.providers.telegram',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,14 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # авторизация
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.vk',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.yandex',
-    'allauth.socialaccount.providers.telegram',
 
+# была подобная проблема, перезагружал какую-то из библиотек и работало
 ]
 
 MIDDLEWARE = [
@@ -62,13 +63,17 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 SOCIALACCOUNT_PROVIDERS = {
 
     'vk': {
         'APP': {
-            'client_id': config('VK_KEY'),
+            'client_id': config('VK_API_TOKEN'),
             'secret': config('VK_SECRET'),
-            'key': '',
+            'key': config('VK_KEY'),
         }
     },
 
@@ -82,14 +87,29 @@ SOCIALACCOUNT_PROVIDERS = {
 
     'telegram': {
         'APP': {
-            'client_id': '',
-            'secret': '',
+            'client_id': config('TELEGRAM_KEY'),
+            'secret': config('TELEGRAM_SECRET'),
+            'key': ''
+        }
+    },
+
+
+    'google': {
+        'APP': {
+            'client_id': config('GOOGLE_KEY'),
+            'secret': config('GOOGLE_SECRET'),
             'key': ''
         }
     }
 
 
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_AUTHENTICATION_EMAIL = "email"
+
+ACCOUNT_EMAIL_REQUIRED = True
 
 
 ROOT_URLCONF = 'adsynch.urls'
