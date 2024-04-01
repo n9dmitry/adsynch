@@ -1,8 +1,23 @@
-from urllib import request
+from django.shortcuts import render, redirect
+from .forms import RegistrationForm
+from django.contrib.auth.models import User
 
-from django.shortcuts import render
 
-# Create your views here.
 
 def index(request):
     return render(request, 'main/index.html',)
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            # Создаем пользователя
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            # После сохранения пользователя, вы можете добавить дополнительные действия, если это необходимо
+    else:
+        form = RegistrationForm()
+    return render(request, 'main/register.html', {'form': form})

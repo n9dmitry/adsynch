@@ -7,6 +7,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/', include('allauth.urls')),
+    path('register/', views.register, name='register'),
     # path('delivery', views.delivery_view, name='delivery'),
     # path('search/', views.search_products, name='search_products')
 ]
