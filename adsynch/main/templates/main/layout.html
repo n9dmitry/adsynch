@@ -52,73 +52,89 @@
                             <i class="fab fa-telegram telegram-icon"></i> Телеграм Канал
                         </a>
                     </li>
-                  <li class="nav-item tg">
-    <a class="nav-link telegram-link" href="#" id="openModal">
-        <i class="fab fa-telegram telegram-icon"></i> Вход
-    </a>
+                    <li class="nav-item tg">
+                        <a class="nav-link telegram-link" href="#" id="openModal">
+                            <i class="fab fa-telegram telegram-icon"></i> Вход
+                        </a>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="container">
+                        <div id="modal" class="modal">
+                            <div class="modal-content">
 
-                <h2 class="mt-5">Регистрация</h2>
-                <form method="POST" action="{% url 'register' %}">
-                    {% csrf_token %}
+                                <h2>Вход</h2>
 
-                    <div class="mb-3">
-                        <label for="fullName" class="form-label">{{ form.name }}</label>
-                        <input type="text" class="form-control" id="fullName" name="username"
-                               placeholder="Введите ваше полное имя" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">{{ form.email }}</label>
-                        <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">{{ form.password1 }}</label>
-                        <input type="password" class="form-control" name="password1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">{{ form.password2 }}</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="password2" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                </form>
-            </div>
-            <h2>Авторизоваться</h2>
+                                <!-- Форма логина и пароля -->
+                                <form id="login-form" action="/login" method="post">
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Пароль:</label>
+                                        <input type="password" id="password" name="password" required>
+                                    </div>
+                                    <button type="submit" class="login-button">Войти</button>
+                                </form>
 
-            <!-- Форма логина и пароля -->
-            <form id="login-form" action="/login" method="post">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Пароль:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-button">Войти</button>
-            </form>
+                                <!-- Кнопки "Регистрация" и "Забыли пароль" -->
+                                <div class="additional-options">
+                                    <a href="/registration">Зарегистрироваться</a>
+                                    <a href="/forgot-password">Напомнить пароль</a>
+                                </div>
 
-            <!-- Кнопки "Регистрация" и "Забыли пароль" -->
-            <div class="additional-options">
-                <a href="/registration">Зарегистрироваться</a>
-                <a href="/forgot-password">Напомнить пароль</a>
-            </div>
+                                <!-- Кнопки для авторизации через социальные сети -->
+                                <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
+                                    <i class="fab fa-yandex"></i>Яндекс
+                                </a>
+                                <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%}">
+                                    <i class="fab fa-vk"></i>ВКонтакте
+                                </a>
+                                <a class="auth-button google-auth-button" href="#">
+                                    <i class="fab fa-google"></i>Google
+                                </a>
 
-            <!-- Кнопки для авторизации через социальные сети -->
-            <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
-                <i class="fab fa-yandex"></i>Яндекс
-            </a>
-            <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%}">
-                <i class="fab fa-vk"></i>ВКонтакте
-            </a>
-             <a class="auth-button google-auth-button" href="#">
-                <i class="fab fa-google"></i>Google
-            </a>
-        </div>
-    </div>
-</li>
+
+                                                                <div class="container">
+
+                                    <h2 class="mt-5">Регистрация</h2>
+                                    <form method="POST" action="{% url 'register' %}">
+                                        {% csrf_token %}
+                                        {% if form.errors %}
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                {% for field in form %}
+                                                {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                                {% endfor %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                        <div class="mb-3">
+                                            <label for="fullName" class="form-label">{{ form.name }}</label>
+                                            <input type="text" class="form-control" id="fullName" name="username"
+                                                   placeholder="Введите ваше полное имя" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">{{ form.email }}</label>
+                                            <input type="email" class="form-control" name="email"
+                                                   placeholder="name@example.com" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">{{ form.password1 }}</label>
+                                            <input type="password" class="form-control" name="password1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">{{ form.password2 }}</label>
+                                            <input type="password" class="form-control" id="confirmPassword"
+                                                   name="password2" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
 
                 </ul>
             </div>

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.contrib.auth.models import User
+from django.contrib import messages
+
 
 
 
@@ -17,7 +19,12 @@ def register(request):
             # Создаем пользователя
             user = User.objects.create_user(username, email, password)
             user.save()
-            # После сохранения пользователя, вы можете добавить дополнительные действия, если это необходимо
-    else:
-        form = RegistrationForm()
-    return render(request, 'main/register.html', {'form': form})
+            messages.success(request, 'Пользователь успешно зарегистрирован!')
+            return redirect('home')  # перенаправить на вашу главную страницу
+        else:
+            # Если форма невалидна, передаем ошибки в шаблон
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+            return render(request, 'main/index.html', {'form': form})
+    # else:
+    #     form = RegistrationForm()
+    # return render(request, 'main/index.html', {'form': form})
