@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+import uuid
+from transliterate import translit
 
 
 
@@ -13,18 +15,20 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             # Создаем пользователя
-            user = User.objects.create_user(username, email, password)
+            username = translit(name.lower(), reversed=True)  # Транслитерация имени в lowercase
+            username += '.' + str(uuid.uuid4().hex)[:6]  # Добавляем уникальный идентификатор
+
+            user = User.objects.create_user(name, username, email, password)
             user.save()
             messages.success(request, 'Пользователь успешно зарегистрирован!')
-            return redirect('home')  # перенаправить на вашу главную страницу
+            return redirect('index')  # перенаправить на вашу главную страницу
         else:
             # Если форма невалидна, передаем ошибки в шаблон
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
-            return render(request, 'main/index.html', {'form': form})
-    # else:
-    #     form = RegistrationForm()
-    # return render(request, 'main/index.html', {'form': form})
+    else:
+        form = RegistrationForm()
+    return render(request, 'main/index.html', {'form': form})

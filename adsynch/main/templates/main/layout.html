@@ -95,41 +95,62 @@
 
                                                                 <div class="container">
 
-                                    <h2 class="mt-5">Регистрация</h2>
-                                    <form method="POST" action="{% url 'register' %}">
-                                        {% csrf_token %}
-                                        {% if form.errors %}
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                {% for field in form %}
-                                                {% for error in field.errors %}
-                                                <li>{{ error }}</li>
-                                                {% endfor %}
+                                <h2 class="mt-5">Регистрация</h2>
+                                <form method="POST" action="{% url 'register' %}">
+                                    {% csrf_token %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %}">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label">Имя</label>
+                                        <input type="text" class="form-control" id="fullName" name="name" placeholder="Введите ваше полное имя" required>
+                                        {% if form.name.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in form.name.errors %}
+                                                    <li>{{ error }}</li>
                                                 {% endfor %}
                                             </ul>
-                                        </div>
                                         {% endif %}
-                                        <div class="mb-3">
-                                            <label for="fullName" class="form-label">{{ form.name }}</label>
-                                            <input type="text" class="form-control" id="fullName" name="username"
-                                                   placeholder="Введите ваше полное имя" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">{{ form.email }}</label>
-                                            <input type="email" class="form-control" name="email"
-                                                   placeholder="name@example.com" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">{{ form.password1 }}</label>
-                                            <input type="password" class="form-control" name="password1" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="confirmPassword" class="form-label">{{ form.password2 }}</label>
-                                            <input type="password" class="form-control" id="confirmPassword"
-                                                   name="password2" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                                    </form>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+                                        {% if form.email.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in form.email.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" name="password1" required>
+                                        {% if form.password1.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in form.password1.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+                                        <input type="password" class="form-control" id="confirmPassword" name="password2" required>
+                                        {% if form.password2.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in form.password2.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                                </form>
                                 </div>
                             </div>
 
@@ -339,23 +360,48 @@
     });
 </script>
 
-<script>
+<!--<script>-->
 
+<!--    const openModalButton = document.getElementById('openModal');-->
+<!--    const modal = document.getElementById('modal');-->
+
+<!--    openModalButton.addEventListener('click', function() {-->
+<!--        modal.style.display = 'block';-->
+<!--    });-->
+
+<!--    modal.addEventListener('click', function(event) {-->
+<!--        if (event.target === modal) {-->
+<!--            modal.style.display = 'none';-->
+<!--        }-->
+<!--    });-->
+
+<!--</script>-->
+<script>
     const openModalButton = document.getElementById('openModal');
     const modal = document.getElementById('modal');
 
+    // Проверяем, есть ли значение в localStorage
+    const isModalOpen = localStorage.getItem('modalOpen');
+
+    // Если в localStorage есть значение, и оно равно "true", показываем модальное окно
+    if (isModalOpen === 'true') {
+        modal.style.display = 'block';
+    }
+
     openModalButton.addEventListener('click', function() {
         modal.style.display = 'block';
+        // Сохраняем значение в localStorage при открытии модального окна
+        localStorage.setItem('modalOpen', 'true');
     });
 
     modal.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
+            // Удаляем значение из localStorage при закрытии модального окна
+            localStorage.removeItem('modalOpen');
         }
     });
-
 </script>
-
 
 </body>
 </html>
