@@ -98,59 +98,61 @@
                                 <h2 class="mt-5">Регистрация</h2>
                                 <form method="POST" action="{% url 'register' %}">
                                     {% csrf_token %}
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %}">
-                                                {{ message }}
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
                                     <div class="mb-3">
                                         <label for="fullName" class="form-label">Имя</label>
                                         <input type="text" class="form-control" id="fullName" name="name" placeholder="Введите ваше полное имя" required>
                                         {% if form.name.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in form.name.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    {% for error in form.name.errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         {% endif %}
                                     </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
                                         {% if form.email.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in form.email.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    {% for error in form.email.errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         {% endif %}
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Пароль</label>
                                         <input type="password" class="form-control" name="password1" required>
                                         {% if form.password1.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in form.password1.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    {% for error in form.password1.errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         {% endif %}
                                     </div>
                                     <div class="mb-3">
                                         <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
                                         <input type="password" class="form-control" id="confirmPassword" name="password2" required>
                                         {% if form.password2.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in form.password2.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    {% for error in form.password2.errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         {% endif %}
                                     </div>
                                     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                                 </form>
+
                                 </div>
                             </div>
 
