@@ -1,9 +1,15 @@
+# Стандартные Django-импорты
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout as auth_logout
+# Импорты из проекта
+from .forms import RegistrationForm
+# Внешние библиотеки
 import uuid
 from transliterate import translit
+
 
 
 
@@ -20,14 +26,13 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             # Создаем пользователя
-            username = translit(name, reversed=True)  # Транслитерация имени в lowercase
+            username = translit(name, reversed=True)    # Транслитерация имени в lowercase
+            username = username.lower()
             username += '.' + str(uuid.uuid4().hex)[:6]  # Добавляем уникальный идентификатор
 
             user = User.objects.create_user(username, email, password)
-            print('username', username)
             user.save()
             messages.success(request, 'Пользователь успешно зарегистрирован!')
-            print('1')
             return redirect('index')  # перенаправить на вашу главную страницу
         else:
             # Если форма невалидна, передаем ошибки в шаблон
@@ -38,3 +43,32 @@ def register(request):
         form = RegistrationForm()
         print('3')
     return render(request, 'main/index.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        print("Received email:", email)  # Отладочное сообщение для проверки полученного email
+        print("Received password:", password)  # Отладочное сообщение для проверки полученного пароля
+
+        # Проверяем наличие пользователя в базе данных
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        # Если пользователь существует, проверяем правильность пароля
+        if user is not None and user.check_password(password):
+            login(request, user)
+            print("User authenticated successfully:", user)  # Отладочное сообщение для проверки успешной аутентификации пользователя
+            # Здесь можно добавить перенаправление на другую страницу после успешного входа
+            return redirect('index')
+        else:
+            messages.error(request, 'Неверный email или пароль')
+            return render(request, 'main/index.html')
+    return render(request, 'main/index.html')
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('index')

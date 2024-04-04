@@ -326,3 +326,28 @@ a.telegram-auth-button {
 .auth-button i {
     margin-right: 5px;
 }
+
+
+
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 0; /* Меняем позиционирование меню справа */
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+}
