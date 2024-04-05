@@ -17,25 +17,29 @@ from transliterate import translit
 def index(request):
     return render(request, 'main/index.html',)
 
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            # username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
-            # Создаем пользователя
-            username = translit(name, reversed=True)    # Транслитерация имени в lowercase
+
+            # Проверяем, существует ли пользователь с таким email
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'Пользователь с таким email уже существует.')
+                return render(request, 'main/index.html', {'form': form})
+
+            username = translit(name, reversed=True)
             username = username.lower()
-            username += '.' + str(uuid.uuid4().hex)[:6]  # Добавляем уникальный идентификатор
+            username += '.' + str(uuid.uuid4().hex)[:6]
 
             user = User.objects.create_user(username, email, password)
             user.save()
             messages.success(request, 'Пользователь успешно зарегистрирован!')
-            return redirect('index')  # перенаправить на вашу главную страницу
+            return redirect('index')
         else:
-            # Если форма невалидна, передаем ошибки в шаблон
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
             print(form.errors.as_data())
 
@@ -43,7 +47,6 @@ def register(request):
         form = RegistrationForm()
         print('3')
     return render(request, 'main/index.html', {'form': form})
-
 
 def login_view(request):
     if request.method == 'POST':
