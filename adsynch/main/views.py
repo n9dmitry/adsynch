@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.forms import PasswordResetForm
+
 # Импорты из проекта
 from .forms import RegistrationForm
 # Внешние библиотеки
 import uuid
 from transliterate import translit
+
 
 
 
@@ -40,8 +43,10 @@ def register(request):
             messages.success(request, 'Пользователь успешно зарегистрирован!')
             return redirect('index')
         else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
-            print(form.errors.as_data())
+            error_messages = '\n'.join([f'{field}: {", ".join(errors)}' for field, errors in form.errors.items()])
+            messages.error(request, f'Пожалуйста, исправьте ошибки в форме:\n{error_messages}')
+
+
 
     else:
         form = RegistrationForm()
@@ -75,3 +80,14 @@ def login_view(request):
 def logout_view(request):
     auth_logout(request)
     return redirect('index')
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
+            return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
+    else:
+        form = PasswordResetForm()
+    return render(request, 'forgot_password.html', {'form': form})
