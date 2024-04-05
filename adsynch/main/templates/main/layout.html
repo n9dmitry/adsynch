@@ -71,24 +71,27 @@
 
                         <div id="modal" class="modal">
                             <div class="modal-content">
+                                {% if messages %}
+                                <div>
+                                    {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                    {% elif message.tags == 'success' %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
 
                                 <h2>Вход</h2>
                                 {% if user.is_authenticated %}
                                     <p>Вы успешно вошли в систему как {{ user.username }}!</p>
                                 {% endif %}
-                                {% if messages %}
-                                {% for message in messages %}
-                                <div class="alert alert-success {% for tag in message.tags %}{{ tag }} {% endfor %}">
-                                    {{ message.success }}
-                                </div>
-                                {% endfor %}
-                                {% endif %}
 
-                                {% if error %}
-                                <div class="alert alert-danger">
-                                    <p>{{ error }}</p>
-                                </div>
-                                {% endif %}
                                 <!-- Форма логина и пароля -->
                                 <form id="login-form" action="{% url 'login' %}" method="post">
                                     {% csrf_token %}
@@ -124,25 +127,7 @@
 
                                     <h2 class="mt-5">Регистрация</h2>
 
-                                    {% if messages %}
-                                    {% for message in messages %}
-                                    <div class="alert alert-success {% for tag in message.tags %}{{ tag }} {% endfor %}">
-                                        {{ message }}
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
 
-                                    {% if form.errors %}
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            {% for field, errors in form.errors.items %}
-                                            {% for error in errors %}
-                                            <li>{{ error }}</li>
-                                            {% endfor %}
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    {% endif %}
 
                                     <form method="POST" action="{% url 'register' %}">
                                         {% csrf_token %}
