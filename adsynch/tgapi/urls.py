@@ -1,7 +1,6 @@
 from django.urls import path
-
-from .views import UserDataAPIView
+from . import views
 
 urlpatterns = [
-    path("api/user_data/", UserDataAPIView.as_view()),
+    path("user_data/", views.bot_webhook),  # Обратите внимание на двоеточие после views
 ]

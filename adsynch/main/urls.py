@@ -4,7 +4,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 from .views import forgot_password
 
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/', include('allauth.urls')),
@@ -12,7 +11,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('forgot-password/', forgot_password, name='forgot_password'),
+    path('api/', include('tgapi.urls')),  # Добавьте эту строку
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
