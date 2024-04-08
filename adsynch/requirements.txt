@@ -1,3 +1,4 @@
 django-allauth
 python-decouple
 asgirefef
+django-environ
