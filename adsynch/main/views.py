@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
-from .forms import CustomPasswordResetForm
+# from .forms import CustomPasswordResetForm
 
 
 
@@ -85,25 +85,25 @@ def logout_view(request):
     return redirect('index')
 
 
-def forgot_password(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            form.save(request=request)
-            email = form.cleaned_data.get('email')  # Получаем адрес электронной почты из формы
-            token = form.cleaned_data.get('token')  # Получаем токен из формы (если он нужен)
-
-            # Отправляем письмо с токеном на адрес электронной почты
-            send_mail(
-                'Восстановление пароля',  # Тема письма
-                'Ваш токен для восстановления пароля: {}'.format(token),  # Текст письма
-                'your_email@example.com',  # Адрес отправителя
-                [email],  # Адреса получателей
-                fail_silently=False,  # Не игнорировать ошибки при отправке
-            )
-
-            messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
-            return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
-    else:
-        form = CustomPasswordResetForm()
-    return render(request, 'main/forgot_password.html', {'form': form})
+# def forgot_password(request):
+#     if request.method == 'POST':
+#         form = PasswordResetForm(request.POST)
+#         if form.is_valid():
+#             form.save(request=request)
+#             email = form.cleaned_data.get('email')  # Получаем адрес электронной почты из формы
+#             token = form.cleaned_data.get('token')  # Получаем токен из формы (если он нужен)
+#
+#             # Отправляем письмо с токеном на адрес электронной почты
+#             send_mail(
+#                 'Восстановление пароля',  # Тема письма
+#                 'Ваш токен для восстановления пароля: {}'.format(token),  # Текст письма
+#                 'your_email@example.com',  # Адрес отправителя
+#                 [email],  # Адреса получателей
+#                 fail_silently=False,  # Не игнорировать ошибки при отправке
+#             )
+#
+#             messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
+#             return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
+#     else:
+#         form = CustomPasswordResetForm()
+#     return render(request, 'main/forgot_password.html', {'form': form})

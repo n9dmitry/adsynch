@@ -10,6 +10,3 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'password1', 'password2']
-
-class CustomPasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(label='Email', max_length=254, widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
