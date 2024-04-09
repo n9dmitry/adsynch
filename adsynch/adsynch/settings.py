@@ -209,13 +209,8 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = "baikerbol@yandex.ru"
-EMAIL_HOST_PASSWORD = "unbzjlpdhwglvqnt"
-
-
-
-# EMAIL_HOST_USER = 'selbie-pro@yandex.ru'
-# EMAIL_HOST_PASSWORD = config('YANDEX_SECRET')
+EMAIL_HOST_USER = 'selbie-pro@yandex.ru'
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
