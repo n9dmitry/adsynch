@@ -6,6 +6,8 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path(r'^ckeditor/', include("ckeditor_uploader.urls")),
+    path('api/', include('tgapi.urls')),  # Добавьте эту строку
+    path('cars', include('tgapi.urls')),  # Добавьте эту строку
 
 ]
 
