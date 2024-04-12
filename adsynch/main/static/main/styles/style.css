@@ -6,17 +6,17 @@
 
 
     .full-screen-header {
-        height: 75vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        background-color: #d7d7d7;
     /*    background-color: #0d0e3a;  Любой цвет фона */
         border-bottom-right-radius: 35px;
         border-bottom-left-radius: 35px;
 
     }
+
+
 
     .navbar {
         margin-top: 20px; /* отступ сверху */
@@ -170,6 +170,38 @@ margin-bottom: 5vh;
 .obv-1 .card {
     height: 100%;
 }
+
+.album {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.album .main-image {
+  width: 100%;
+}
+
+.album .thumbnails img {
+  height: 80px;
+  cursor: pointer;
+}
+
+ .thumbnails img, #main-image-1 {
+    max-width: 100%; /* Максимальная ширина изображения */
+    max-height: 100%; /* Максимальная высота изображения */
+    width: 1920px; /* Ширина изображения */
+    height: 380px; /* Высота изображения */
+
+    object-fit: cover; /* Растягивание/сжатие изображения для заполнения контейнера */
+  }
+
+.owner-contact a{
+color:#ff0000;
+}
+
+.owner-contact a:hover{
+color:#000;
+}
+
 
 .checkin {
     padding-top: 7vh;

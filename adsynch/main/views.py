@@ -12,13 +12,33 @@ from .forms import RegistrationForm
 import uuid
 from transliterate import translit
 
+from tgapi.models import Car
+
 
 
 
 
 
 def index(request):
-    return render(request, 'main/index.html',)
+    car_brands = Car.objects.values_list('car_brand', flat=True).distinct()
+    car_models = Car.objects.values_list('car_model', flat=True).distinct()
+    car_years = Car.objects.values_list('car_year', flat=True).distinct()
+
+    selected_brand = request.GET.get('car_brand')
+    selected_model = request.GET.get('car_model')
+    selected_year = request.GET.get('car_year')
+
+    filtered_cars = Car.objects.all()
+
+    if selected_brand:
+        filtered_cars = filtered_cars.filter(car_brand=selected_brand)
+    if selected_model:
+        filtered_cars = filtered_cars.filter(car_model=selected_model)
+    if selected_year:
+        filtered_cars = filtered_cars.filter(car_year=selected_year)
+
+    all_cars = Car.objects.all().order_by('-date_published')
+    return render(request, 'main/index.html',{'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
 
 
 def register(request):
@@ -91,3 +111,5 @@ def forgot_password(request):
     else:
         form = PasswordResetForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+

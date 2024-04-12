@@ -1,0 +1,83 @@
+{% load static %}
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{%  static 'main/img/lada.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Автомаркет</h1>
+                                <p>Найди авто своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{% static 'main/img/kv.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Твой Риэлтор</h1>
+                                <p>Найди дом своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{% static 'main/img/lada.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Автомаркет</h1>
+                                <p>Найди авто своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+        </div>
+
+
+    <div class="service">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-serv text-center">
+                    <div class="card-body">
+                        <i class="fa fa-car" aria-hidden="true"></i>
+                        <h4 class="card-title">Авто</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-serv text-center">
+                    <div class="card-body">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <h4 class="card-title">Недвижемоть</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-serv text-center">
+                    <div class="card-body">
+                        <i class="fa fa-search-plus" aria-hidden="true"></i>
+                        <h4 class="card-title">Работа</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
