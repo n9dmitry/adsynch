@@ -1,0 +1,98 @@
+{% extends 'main/layout.html' %}
+{% block cars %}
+{% load static %}
+
+</head>
+<body>
+
+<div class="container album">
+  <div id="mainImage" class="main-image text-center">
+    <img id="main-image-1" class="img-fluid" alt="Main Image">
+  </div>
+
+<div class="thumbnails d-flex justify-content-center mt-3" id="thumbnails-container">
+</div>
+
+
+    <div class="car-specifications mt-3">
+      <h3>Характеристики</h3>
+    <ul style="list-style-type: none;">
+      <li>Car Body Type: {{ car.car_body_type }}</li>
+      <li>Car Engine Type: {{ car.car_engine_type }}</li>
+      <li>Car Engine Volume: {{ car.car_engine_volume }}</li>
+      <li>Car Power: {{ car.car_power }}</li>
+      <li>Car Transmission Type: {{ car.car_transmission_type }}</li>
+      <li>Car Color: {{ car.car_color }}</li>
+    </ul>
+  </div>
+
+    <div class="car-specifications mt-3">
+      <h3>Дополнительная информация</h3>
+        <ul style="list-style-type: none;">
+        <li>Пробег автомобиля: {{ car.car_mileage }}</li>
+        <li>Статус документов автомобиля: {{ car.car_document_status }}</li>
+        <li>Количество владельцев автомобиля: {{ car.car_owners }}</li>
+        <li>Таможенная очистка: {{ car.car_customs_cleared }}</li>
+        <li>Состояние автомобиля: {{ car.car_condition }}</li>
+    </ul>
+
+  </div>
+
+  <div class="car-description mt-3">
+    <h3>Описание</h3>
+    <p>{{ car.car_description }}</p>
+  </div>
+
+  <div class="owner-contact mt-3">
+    <!-- Блок с контактами владельца -->
+    <p><strong>Контакты владельца:</strong>Телефон <a href="tel:{{ car.seller_phone }}" >{{ car.seller_phone }}</a>, {% if car.username and car.username != "по номеру телефона" %}
+    <a href="tg://resolve?domain={{ car.username }}">Написать пользователю в Telegram</a>
+{% endif %}</p>
+  </div>
+
+</div>
+
+
+
+
+
+<script>
+    var photoUrls = "{{ car.photos }}".split(",");
+  var thumbnailsContainer = document.getElementById("thumbnails-container");
+
+  photoUrls.forEach(function(url, index) {
+    var imgElement = document.createElement("img");
+    imgElement.src = url.trim();
+    imgElement.alt = "Thumbnail " + (index + 1);
+    imgElement.className = "img-thumbnail mx-2";
+    imgElement.setAttribute("data-index", index); // Set data-index attribute
+    imgElement.addEventListener("click", function() {
+      changeImage(index); // Call changeImage function on click
+    });
+
+    thumbnailsContainer.appendChild(imgElement);
+  });
+
+  var mainImage = document.getElementById("main-image-1");
+
+  function changeImage(index) {
+    if (photoUrls.length > index) {
+      mainImage.src = photoUrls[index].trim();
+      mainImage.alt = "Main Image";
+    }
+  }
+
+  // Set initial main image
+  changeImage(0);
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+{% endblock %}

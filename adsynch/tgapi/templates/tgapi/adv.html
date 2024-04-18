@@ -1,0 +1,97 @@
+{% extends 'main/layout.html' %}
+{% block cars %}
+{% load static %}
+
+
+    <section class="obv-1">
+        <h3 class="text-center" style="margin-bottom: 8vh;">Поиск авто</h3>
+
+
+<form id="filterForm" method="GET">
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label for="select-make">Марка авто:</label>
+            <select class="form-control" name="car_brand" id="select-make">
+                <option value="">Любая</option>
+                {% for car_brand in car_brands %}
+                    <option value="{{ car_brand }}" {% if car_brand == request.GET.car_brand %} selected {% endif %}>
+                        {{ car_brand }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4 form-group">
+            <label for="select-model">Модель авто:</label>
+            <select class="form-control" name="car_model" id="select-model">
+                <option value="">Любая</option>
+                {% for car_model in car_models %}
+                    <option value="{{ car_model }}" {% if car_model == request.GET.car_model %} selected {% endif %}>
+                        {{ car_model }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4 form-group">
+            <label for="select-year">Год выпуска:</label>
+            <select class="form-control" name="car_year" id="select-year">
+                <option value="">Любой</option>
+                {% for car_year in car_years %}
+                    <option value="{{ car_year }}" {% if car_year == request.GET.car_year %} selected {% endif %}>
+                        {{ car_year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</form>
+
+<script>
+    document.querySelectorAll(".form-control").forEach(function(select) {
+        select.addEventListener('change', function() {
+            document.getElementById("filterForm").submit();
+        });
+    });
+</script>
+
+
+
+<div class="row">
+    {% for car in filtered_cars %}
+        <div class="col-md-3">
+            <div class="card">
+                <img id="main-image-{{ forloop.counter }}" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.car_brand }} {{ car.car_model }}</h5>
+                    <p class="card-text">Цена: {{ car.car_price }} {{ car.currency }}</p>
+                    <p class="card-text">Год выпуска: {{ car.car_year }}</p>
+                    <p class="card-text">Дата публикации: {{ car.publish_date }}</p>
+                    <a href="{% url 'car_detail' car.id %}" class="btn btn-danger">Подробнее</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var photoUrls{{ forloop.counter }} = "{{ car.photos }}".split(",");
+            var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+            var counter = {{ forloop.counter }};
+
+            mainImage{{ forloop.counter }}.style.width = "420px";
+            mainImage{{ forloop.counter }}.style.height = "240px";
+
+            if (photoUrls{{ forloop.counter }}.length >= 2) {
+                mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                    mainImage{{ forloop.counter }}.src = mainImage{{ counter }}.getAttribute("data-hover-src");
+                });
+
+                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                    mainImage{{ forloop.counter }}.src = photoUrls{{ counter }}[0].trim();
+                });
+            }
+        </script>
+    {% endfor %}
+</div>
+</section>
+{% endblock %}
