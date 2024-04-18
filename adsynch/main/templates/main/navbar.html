@@ -35,8 +35,8 @@
                         <a class="nav-link" href="#">Контакты</a>
                     </li>
                     <li class="nav-item tg">
-                        <a class="nav-link telegram-link" href="#">
-                            <i class="fab fa-telegram telegram-icon"></i> Телеграм Канал
+                        <a class="nav-link telegram-link" href="https://t.me/selbie_bot">
+                            <i class="fab fa-telegram telegram-icon"></i> Телеграм Бот
                         </a>
                     </li>
                     <li class="nav-item tg">
@@ -47,7 +47,7 @@
                                 <i class="fab fa-telegram telegram-icon"></i> {{ user.username }}
                             </a>
                             <div class="dropdown-menu" id="userMenu">
-                                <a class="dropdown-item" href="#">Мои объявления</a>
+                                <a class="dropdown-item" href="{% url 'my_ads' %}">Мои объявления</a>
                                 <a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
 
                                 <!-- Кнопки "Регистрация" и "Забыли пароль" -->
                                 <div class="additional-options">
-                                    <a href="/forgot-password">Напомнить пароль</a>
+                                    <a href="{% url 'password_reset' %}">Восстановить пароль</a>
                                 </div>
 
                                 <!-- Кнопки для авторизации через социальные сети -->
