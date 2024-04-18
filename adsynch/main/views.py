@@ -107,3 +107,7 @@ def logout_view(request):
 #     else:
 #         form = CustomPasswordResetForm()
 #     return render(request, 'main/forgot_password.html', {'form': form})
+
+
+def my_ads_view(request):
+    return render(request, 'main/my_ads.html')  # Предполагается, что у вас есть шаблон my_ads.html

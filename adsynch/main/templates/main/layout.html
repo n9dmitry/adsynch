@@ -59,7 +59,7 @@
                                 <i class="fab fa-telegram telegram-icon"></i> {{ user.username }}
                             </a>
                             <div class="dropdown-menu" id="userMenu">
-                                <a class="dropdown-item" href="#">Мои объявления</a>
+                                <a class="dropdown-item" href="{% url 'my_ads' %}">Мои объявления</a>
                                 <a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a>
                             </div>
                         </div>
