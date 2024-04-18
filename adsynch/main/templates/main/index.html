@@ -1,150 +1,160 @@
 {% extends 'main/layout.html' %}
 {% block index %}
 {% load static %}
-
-
 <main>
 
 
     <section class="obv-1">
-        <h3 class="text-center" style="margin-bottom: 8vh;">Поиск авто</h3>
+        <h3 class="text-center" style="margin-bottom: 8vh;">Рекомендации</h3>
 
 
-<form id="filterForm" method="GET">
-    <div class="row">
-        <div class="col-md-4 form-group">
-            <label for="select-make">Марка авто:</label>
-            <select class="form-control" name="car_brand" id="select-make">
-                <option value="">Любая</option>
-                {% for car_brand in car_brands %}
-                    <option value="{{ car_brand }}" {% if car_brand == request.GET.car_brand %} selected {% endif %}>
-                        {{ car_brand }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4 form-group">
-            <label for="select-model">Модель авто:</label>
-            <select class="form-control" name="car_model" id="select-model">
-                <option value="">Любая</option>
-                {% for car_model in car_models %}
-                    <option value="{{ car_model }}" {% if car_model == request.GET.car_model %} selected {% endif %}>
-                        {{ car_model }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4 form-group">
-            <label for="select-year">Год выпуска:</label>
-            <select class="form-control" name="car_year" id="select-year">
-                <option value="">Любой</option>
-                {% for car_year in car_years %}
-                    <option value="{{ car_year }}" {% if car_year == request.GET.car_year %} selected {% endif %}>
-                        {{ car_year }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-</form>
-
-<script>
-    document.querySelectorAll(".form-control").forEach(function(select) {
-        select.addEventListener('change', function() {
-            document.getElementById("filterForm").submit();
-        });
-    });
-</script>
-
-
-
-<div class="row">
-    {% for car in filtered_cars %}
-        <div class="col-md-3">
-            <div class="card">
-                <img id="main-image-{{ forloop.counter }}" class="card-img-top img-fluid" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ car.car_brand }} {{ car.car_model }}</h5>
-                    <p class="card-text">Цена: {{ car.car_price }} {{ car.currency }}</p>
-                    <p class="card-text">Год выпуска: {{ car.car_year }}</p>
-                    <p class="card-text">Дата публикации: {{ car.publish_date }}</p>
-                    <a href="{% url 'car_detail' car.id %}" class="btn btn-danger">Подробнее</a>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" style="margin-bottom: 5vh;">
+                        <label for="select-make">Марка авто:</label>
+                        <select class="form-control" id="select-make">
+                            <option value="BMW">Любая</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Audi">Audi</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="select-model">Модель авто:</label>
+                        <select class="form-control" id="select-model">
+                            <option value="BMW">Любая</option>
+                            <option value="X5">X5</option>
+                            <option value="E-Class">E-Class</option>
+                            <option value="Corolla">Corolla</option>
+                            <option value="Mustang">Mustang</option>
+                            <option value="A4">A4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="select-year">Год выпуска:</label>
+                        <select class="form-control" id="select-year">
+                            <option value="BMW">Любая</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <script>
-            var photoUrls{{ forloop.counter }} = "{{ car.photos }}".split(",");
-            var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-            var counter = {{ forloop.counter }};
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto1.jpg' %}" data-hover-src="{% static 'main/img/auto2.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto1.jpg' %}" data-hover-src="{% static 'main/img/auto2.jpg' %}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto2.jpg' %}" data-hover-src="{% static 'main/img/auto1.jpg'%}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto2.jpg' %}" data-hover-src="{% static 'main/img/auto1.jpg' %}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            mainImage{{ forloop.counter }}.style.width = "420px";
-            mainImage{{ forloop.counter }}.style.height = "240px";
 
-            if (photoUrls{{ forloop.counter }}.length >= 2) {
-                mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto1.jpg' %}" data-hover-src="{% static 'main/img/auto2.jpg' %}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto2.jpg' %}" data-hover-src="{% static 'main/img/auto1.jpg' %}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto1.jpg' %}" data-hover-src="{% static 'main/img/auto2.jpg'%}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{% static 'main/img/auto2.jpg' %}" data-hover-src="{% static 'main/img/auto1.jpg'%}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Название товара</h5>
+                        <p class="card-text">Цена: $100</p>
+                        <p class="card-text">Дата публикации: 01.01.2024</p>
+                        <a href="#" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
-                    mainImage{{ forloop.counter }}.src = mainImage{{ counter }}.getAttribute("data-hover-src");
-                });
-
-                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
-                    mainImage{{ forloop.counter }}.src = photoUrls{{ counter }}[0].trim();
-                });
-            }
-        </script>
-    {% endfor %}
-</div>
-</section>
-<!--<script>-->
-<!--document.addEventListener('DOMContentLoaded', function() {-->
-<!--    document.querySelectorAll('.form-control').forEach(function(select) {-->
-<!--        select.addEventListener('change', function() {-->
-<!--            var selectedMake = document.getElementById('select-make').value;-->
-<!--            var selectedModel = document.getElementById('select-model').value;-->
-<!--            var selectedYear = document.getElementById('select-year').value;-->
-
-<!--            var cards = document.querySelectorAll('.card');-->
-<!--            var parent = cards[0].parentNode;-->
-
-<!--            var sortedCards = Array.from(cards).sort(function(a, b) {-->
-<!--                var getCarInfo = function(card) {-->
-<!--                    var titleParts = card.querySelector('.card-title').textContent.trim().split(' ');-->
-<!--                    var make = titleParts[0];-->
-<!--                    var model = titleParts[1];-->
-<!--                    var year = card.querySelector('.card-text:nth-child(3)').textContent.trim().split(': ')[1];-->
-<!--                    return { make, model, year };-->
-<!--                };-->
-
-<!--                var carInfoA = getCarInfo(a);-->
-<!--                var carInfoB = getCarInfo(b);-->
-
-<!--                if (-->
-<!--                    (selectedMake === "" || carInfoA.make === selectedMake) &&-->
-<!--                    (selectedModel === "" || carInfoA.model === selectedModel) &&-->
-<!--                    (selectedYear === "" || carInfoA.year === selectedYear)-->
-<!--                ) {-->
-<!--                    return -1;-->
-<!--                } else if (-->
-<!--                    (selectedMake === "" || carInfoB.make === selectedMake) &&-->
-<!--                    (selectedModel === "" || carInfoB.model === selectedModel) &&-->
-<!--                    (selectedYear === "" || carInfoB.year === selectedYear)-->
-<!--                ) {-->
-<!--                    return 1;-->
-<!--                } else {-->
-<!--                    return 0;-->
-<!--                }-->
-<!--            });-->
-
-<!--            parent.innerHTML = "";-->
-<!--            sortedCards.forEach(function(card) {-->
-<!--                parent.appendChild(card);-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--});-->
-<!--    </script>-->
+    </section>
 
     <section class="checkin">
 

@@ -5,6 +5,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
+from django.core.mail import send_mail
+# from .forms import CustomPasswordResetForm
+
+
 
 # Импорты из проекта
 from .forms import RegistrationForm
@@ -12,33 +16,12 @@ from .forms import RegistrationForm
 import uuid
 from transliterate import translit
 
-from tgapi.models import Car
-
-
 
 
 
 
 def index(request):
-    car_brands = Car.objects.values_list('car_brand', flat=True).distinct()
-    car_models = Car.objects.values_list('car_model', flat=True).distinct()
-    car_years = Car.objects.values_list('car_year', flat=True).distinct()
-
-    selected_brand = request.GET.get('car_brand')
-    selected_model = request.GET.get('car_model')
-    selected_year = request.GET.get('car_year')
-
-    filtered_cars = Car.objects.all()
-
-    if selected_brand:
-        filtered_cars = filtered_cars.filter(car_brand=selected_brand)
-    if selected_model:
-        filtered_cars = filtered_cars.filter(car_model=selected_model)
-    if selected_year:
-        filtered_cars = filtered_cars.filter(car_year=selected_year)
-
-    all_cars = Car.objects.all().order_by('-date_published')
-    return render(request, 'main/index.html',{'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
+    return render(request, 'main/index.html',)
 
 
 def register(request):
@@ -101,15 +84,30 @@ def logout_view(request):
     auth_logout(request)
     return redirect('index')
 
-def forgot_password(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            form.save(request=request)
-            messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
-            return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
-    else:
-        form = PasswordResetForm()
-    return render(request, 'forgot_password.html', {'form': form})
+
+# def forgot_password(request):
+#     if request.method == 'POST':
+#         form = PasswordResetForm(request.POST)
+#         if form.is_valid():
+#             form.save(request=request)
+#             email = form.cleaned_data.get('email')  # Получаем адрес электронной почты из формы
+#             token = form.cleaned_data.get('token')  # Получаем токен из формы (если он нужен)
+#
+#             # Отправляем письмо с токеном на адрес электронной почты
+#             send_mail(
+#                 'Восстановление пароля',  # Тема письма
+#                 'Ваш токен для восстановления пароля: {}'.format(token),  # Текст письма
+#                 'your_email@example.com',  # Адрес отправителя
+#                 [email],  # Адреса получателей
+#                 fail_silently=False,  # Не игнорировать ошибки при отправке
+#             )
+#
+#             messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
+#             return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
+#     else:
+#         form = CustomPasswordResetForm()
+#     return render(request, 'main/forgot_password.html', {'form': form})
 
 
+def my_ads_view(request):
+    return render(request, 'main/my_ads.html')  # Предполагается, что у вас есть шаблон my_ads.html
