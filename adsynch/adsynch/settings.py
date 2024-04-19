@@ -35,6 +35,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
+    'tgapi',
+    'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
