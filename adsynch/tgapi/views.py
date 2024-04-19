@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Car, Job
+from .models import Car, Job, Realty
 import os
 from django.shortcuts import render
 import json
@@ -46,6 +46,7 @@ def bot_webhook(request):
                 seller_name=data['seller_name'],
                 seller_phone=data['seller_phone'],
                 username=data['username'],
+                user_id=data['user_id'],
                 photos=','.join(data.getlist('photos'))
             )
         elif category == 'realty':
@@ -54,6 +55,7 @@ def bot_webhook(request):
                 realty_deal=data['realty_deal'],
                 realty_type=data['realty_type'],
                 realty_square=data['realty_square'],
+                user_id=data['user_id'],
                 photos=','.join(data.getlist('photos'))
             )
         elif category == 'job':
@@ -64,6 +66,7 @@ def bot_webhook(request):
                 job_responsibilities=data['job_responsibilities'],
                 job_conditions=data['job_conditions'],
                 job_contacts=data['job_contacts'],
+                user_id=data['user_id'],
                 photos=','.join(data.getlist('photos'))
             )
         else:

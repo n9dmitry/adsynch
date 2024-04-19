@@ -6,7 +6,7 @@
 
 
     .full-screen-header {
-        height: 75vh;
+        height: 45vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
