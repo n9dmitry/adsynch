@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
+from tgapi.models import Realty
 # from .forms import CustomPasswordResetForm
 
 
@@ -110,4 +111,6 @@ def logout_view(request):
 
 
 def my_ads_view(request):
-    return render(request, 'main/my_ads.html')  # Предполагается, что у вас есть шаблон my_ads.html
+    realties = Realty.objects.all()
+
+    return render(request, 'main/my_ads.html', {'realties': realties})
