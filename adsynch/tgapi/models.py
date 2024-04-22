@@ -50,6 +50,7 @@ class Job(models.Model):
     job_conditions = models.TextField()
     job_contacts = models.CharField(max_length=255)
     photos = models.TextField()
+    date_published = models.DateTimeField(default=timezone.now)
 
 
     def __str__(self):
@@ -73,6 +74,7 @@ class Realty(models.Model):
     realty_type = models.CharField(max_length=100)
     realty_square = models.FloatField()
     photos = models.TextField()
+    date_published = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.realty_type} - {self.realty_deal}"

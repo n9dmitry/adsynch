@@ -97,7 +97,7 @@ def display_cars(request):
 
     all_cars = Car.objects.all().order_by('date_published')
 
-    return render(request, 'tgapi/adv.html', {'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
+    return render(request, 'tgapi/cars.html', {'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
 
 class CarDetailView(DetailView):
     model = Car
