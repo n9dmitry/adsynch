@@ -4,14 +4,12 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Car, Job, Realty
+from .models import CarAd, JobAd, RealtyAd
 import os
 from django.shortcuts import render
 import json
 from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
-from .models import Realty
-
 
 
 @csrf_exempt
@@ -27,7 +25,7 @@ def bot_webhook(request):
 
         if category == 'car':
             new_car = Car.objects.create(
-                new_id=data['new_id'],
+                ad_id=data['ad_id'],
                 car_brand=data['car_brand'],
                 car_model=data['car_model'],
                 car_year=data['car_year'],
@@ -54,7 +52,7 @@ def bot_webhook(request):
             )
         elif category == 'realty':
             new_realty = Realty.objects.create(
-                new_id=data['new_id'],
+                ad_id=data['ad_id'],
                 realty_deal=data['realty_deal'],
                 realty_type=data['realty_type'],
                 realty_square=data['realty_square'],
@@ -63,7 +61,7 @@ def bot_webhook(request):
             )
         elif category == 'job':
             new_job = Job.objects.create(
-                new_id=data['new_id'],
+                ad_id=data['ad_id'],
                 job_title=data['job_title'],
                 job_requirements=data['job_requirements'],
                 job_responsibilities=data['job_responsibilities'],
@@ -103,7 +101,7 @@ def display_cars(request):
     return render(request, 'tgapi/adv.html', {'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
 
 class CarDetailView(DetailView):
-    model = Car
+    model = CarAd
     template_name = 'tgapi/car_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -131,7 +129,7 @@ class RealtyListAPIView(APIView):
             realty_data.append({
                 'type': realty.realty_type,
                 'user_id': realty.user_id,
-                'new_id': realty.new_id,
+                'ad_id': realty.ad_id,
                 'deal': realty.realty_deal,
                 'square': realty.realty_square,
                 'photos': realty.photos,
@@ -148,7 +146,7 @@ class RealtyListAPIView(APIView):
             job_data.append({
                 'type': 'job',
                 'user_id': job.user_id,
-                'new_id': job.new_id,
+                'ad_id': job.ad_id,
                 'title': job.job_title,
                 'requirements': job.job_requirements,
                 'responsibilities': job.job_responsibilities,
@@ -168,7 +166,7 @@ class RealtyListAPIView(APIView):
             car_data.append({
                 'type': 'car',
                 'user_id': car.user_id,
-                'new_id': car.new_id,
+                'ad_id': car.ad_id,
                 'brand': car.car_brand,
                 'model': car.car_model,
                 'year': car.car_year,
