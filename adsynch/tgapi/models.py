@@ -98,12 +98,15 @@ from django.utils import timezone
 
 
 class Ads(models.Model):
-    user_id = models.IntegerField(default=2)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     new_id = models.CharField(max_length=100)
     photos = models.TextField()
     date_published = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     title = models.CharField(max_length=255)
+    contact_name = models.CharField(max_length=255)
+    contact_phone = models.CharField(max_length=20)
+    description = models.TextField()
 
     class Meta:
         abstract = True
@@ -114,13 +117,28 @@ class Ads(models.Model):
     def save(self, *args, **kwargs):
         if not self.user_id:  # Если user_id не указан
             user = User.objects.create_user(username=f"user_{self.id}")
-            self.user_id = user.id
-        else:  # Если пользователь существует
-            try:
-                user = User.objects.get(id=self.user_id)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=f"user_{self.user_id}")
+            self.user = user
+
+        # Присваиваем значения полям contact_name и contact_phone в зависимости от типа объявления
+        if isinstance(self, Car):
+            self.contact_name = self.seller_name
+            self.contact_phone = self.seller_phone
+        elif isinstance(self, Realty):
+            self.contact_name = self.realty_name
+            self.contact_phone = self.realty_contacts
+        elif isinstance(self, Job):
+            self.contact_name = self.job_name
+            self.contact_phone = self.job_contacts
+
+        # Формируем строку description с данными из всех полей, кроме служебных и полей контактной информации
+        description_fields = [f"{field.name}: {getattr(self, field.name)}" for field in self._meta.get_fields() if
+                              field.name not in ['id', 'user', 'date_published', 'is_active', 'contact_name',
+                                                 'contact_phone', 'description']]
+        self.description = '\n'.join(description_fields)
+        self.title = self.get_title()
+
         super().save(*args, **kwargs)
+
 
 class Car(Ads):
     car_brand = models.CharField(max_length=255)
@@ -147,6 +165,7 @@ class Car(Ads):
     def get_title(self):
         return f"{self.car_brand} {self.car_model} ({self.car_year})"
 
+
 class Realty(Ads):
     rooms_number = models.IntegerField()
     realty_deal = models.CharField(max_length=100)
@@ -154,9 +173,12 @@ class Realty(Ads):
     realty_square = models.FloatField()
     floor = models.IntegerField()
     total_floors = models.IntegerField()
+    realty_contacts = models.CharField(max_length=255)
+    realty_name = models.CharField(max_length=255)
 
     def get_title(self):
         return f"{self.rooms_number}-к. {self.realty_type}, {self.realty_square} м², {self.floor}/{self.total_floors} эт."
+
 
 class Job(Ads):
     job_title = models.CharField(max_length=255)
@@ -164,6 +186,7 @@ class Job(Ads):
     job_responsibilities = models.TextField()
     job_conditions = models.TextField()
     job_contacts = models.CharField(max_length=255)
+    job_name = models.CharField(max_length=255)
 
     def get_title(self):
         return self.job_title
