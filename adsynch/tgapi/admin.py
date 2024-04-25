@@ -13,7 +13,7 @@ class CarAdAdmin(admin.ModelAdmin):
 
 @admin.register(JobAd)
 class JobAdAdmin(admin.ModelAdmin):
-    list_display = ('ad_id', 'job_title')
+    list_display = ('job_title', 'ad_id')
     list_filter = ('job_title',)
     search_fields = ('job_title', 'job_requirements')
 

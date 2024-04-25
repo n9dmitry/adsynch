@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    username_tg = models.CharField(max_length=100, default='0')
     ad_id = models.CharField(max_length=100, default='0')
     photos = models.TextField(default='0')
     date_published = models.DateTimeField(default=timezone.now)
@@ -11,7 +12,6 @@ class Ads(models.Model):
     title = models.CharField(max_length=255, default='0')
     contact_name = models.CharField(max_length=255, default='0')
     contact_phone = models.CharField(max_length=20, default='0')
-    description = models.TextField(default='0')
     currency = models.CharField(max_length=5, default='0')
     price = models.IntegerField(default='0')
 
@@ -19,6 +19,7 @@ class Ads(models.Model):
         abstract = True
 
     # def set_info(self):
+    #     pass
     #     if not self.user_id:  # Если user_id не указан
     #         user = User.objects.create_user(username=f"user_{self.id}")
     #         self.user = user
@@ -48,7 +49,7 @@ class Ads(models.Model):
     #     self.description = '\n'.join(description_fields)
 
     def save(self, *args, **kwargs):
-        self.set_info()
+        # self.set_info()
         super().save(*args, **kwargs)
 
 
@@ -76,7 +77,6 @@ class CarAd(Ads):
 
 
 class RealtyAd(Ads):
-    rooms_number = models.IntegerField()
     realty_deal = models.CharField(max_length=100, default='0')
     realty_type = models.CharField(max_length=100, default='0')
     realty_square = models.FloatField()
