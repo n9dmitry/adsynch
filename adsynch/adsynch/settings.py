@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from pathlib import Path
 from decouple import config
+import os
 
 print("Значение переменной EMAIL_PASS из .env файла:", config('EMAIL_PASS'))
 
@@ -197,6 +198,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 GRAPPELLI_ADMIN_TITLE = "ООО Продвижение"

@@ -2,12 +2,13 @@ from django.urls import path
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import CarAdView, RealtyAdView, JobAdView
 
 urlpatterns = [
     # path("user_data/", views.bot_webhook),  # Обратите внимание на двоеточие после views
-    path("car_ad/", views.car_webhook),
-    path("realty_ad/", views.realty_webhook),
-    path("job_ad/", views.job_webhook),
+    path("car_ad/", CarAdView.as_view()),
+    path("realty_ad/", RealtyAdView.as_view()),
+    path("job_ad/", JobAdView.as_view()),
 
 
     # path("myads/", views.RealtyListAPIView.as_view()),  # Обратите внимание на двоеточие после views

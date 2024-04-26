@@ -7,6 +7,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from tgapi.models import CarAd, RealtyAd, JobAd
+from .models import Banner
 # from .forms import CustomPasswordResetForm
 
 
@@ -22,7 +23,8 @@ from transliterate import translit
 
 
 def index(request):
-    return render(request, 'main/index.html',)
+    bnr = Banner.objects.all()
+    return render(request, 'main/index.html', {'bnr': bnr})
 
 
 def register(request):
@@ -111,9 +113,14 @@ def logout_view(request):
 
 
 def my_ads_view(request):
-    cars = Car.objects.all()
-    realties = Realty.objects.all()
-    jobs = Job.objects.all()
+    cars = CarAd.objects.all()
+    realties = RealtyAd.objects.all()
+    jobs = JobAd.objects.all()
 
     return render(request, 'main/my_ads.html', {'cars': cars, 'realties': realties, 'jobs': jobs})
+
+# def main_banner(request):
+#     bnr = Banner.objects.all()
+#     print(bnr)
+#     return render(request, 'main/layout.html', {'bnr': bnr})
 
