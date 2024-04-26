@@ -5,4 +5,8 @@ django-environ
 djangorestframework
 django-cors-header
 django
-decouple
+python-decouple
+djangorestframework
+django-allauth
+transliterate
+django-ckeditor

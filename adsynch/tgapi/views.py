@@ -1,10 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import CarAd, JobAd, RealtyAd
+from .serializers import CarAdSerializer, JobAdSerializer, RealtyAdSerializer
 import os
 from django.shortcuts import render
 import json
@@ -12,9 +14,9 @@ from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
 
 
-
 class CarAdView(APIView):
     def post(self, request):
+        print("Received data:", request.data)
         serializer = CarAdSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,6 +33,7 @@ class RealtyAdView(APIView):
 
 class JobAdView(APIView):
     def post(self, request):
+        print("Received data:", request.data)
         serializer = JobAdSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
