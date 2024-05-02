@@ -91,10 +91,8 @@ class RealtyAd(Ads):
 
 class JobAd(Ads):
     job_title = models.CharField(max_length=255, default='0')
-    job_requirements = models.TextField()
-    job_responsibilities = models.TextField()
-    job_conditions = models.TextField()
+    job_description = models.TextField()
     job_currency = models.CharField(max_length=255, default='0')
-    job_price = models.FloatField(default='0')
+    job_price = models.IntegerField(default='0')
     job_contacts = models.CharField(max_length=255, default='0')
     job_name = models.CharField(max_length=255, default='0')
