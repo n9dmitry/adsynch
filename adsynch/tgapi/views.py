@@ -12,6 +12,10 @@ from django.shortcuts import render
 import json
 from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 
 class CarAdView(APIView):
@@ -23,13 +27,32 @@ class CarAdView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# class RealtyAdView(APIView):
+#     def post(self, request):
+#         logger.debug("Received data:", request.data)  # Логируем данные запроса
+#         serializer = RealtyAdSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         logger.error("Invalid data:", serializer.errors)  # Логируем ошибки валидации
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class RealtyAdView(APIView):
-    def post(self, request):
-        serializer = RealtyAdSerializer(data=request.data)
+    def post(self, request, *args, **kwargs):
+        logger.debug("Received data: %s", request.data)
+
+        dt = request.data.copy()
+
+        for key, value in dt.items():
+            if isinstance(value, str) and value.lower() == 'none':
+                dt[key] = None
+
+        serializer = RealtyAdSerializer(data=dt)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class JobAdView(APIView):
     def post(self, request):

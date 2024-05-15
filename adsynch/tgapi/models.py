@@ -4,16 +4,16 @@ from django.utils import timezone
 
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    username_tg = models.CharField(max_length=100, default='0')
-    ad_id = models.CharField(max_length=100, default='0')
-    photos = models.TextField(default='0')
+    username_tg = models.CharField(max_length=100, blank=True, null=True)
+    ad_id = models.CharField(max_length=100, blank=True, null=True)
+    photos = models.TextField(blank=True, null=True)
     date_published = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
-    title = models.CharField(max_length=255, default='0')
-    contact_name = models.CharField(max_length=255, default='0')
-    contact_phone = models.CharField(max_length=20, default='0')
-    currency = models.CharField(max_length=5, default='0')
-    price = models.IntegerField(default='0')
+    title = models.CharField(max_length=255, blank=True, null=True)
+    contact_name = models.CharField(max_length=255, blank=True, null=True)
+    contact_phone = models.CharField(max_length=20, blank=True, null=True)
+    currency = models.CharField(max_length=5, blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -77,16 +77,18 @@ class CarAd(Ads):
 
 
 class RealtyAd(Ads):
-    realty_deal = models.CharField(max_length=100, default='0')
-    realty_type = models.CharField(max_length=100, default='0')
-    realty_square = models.FloatField()
-    realty_rooms = models.CharField(max_length=100, default='0')
-    realty_floor = models.IntegerField()
-    realty_floors_total = models.IntegerField()
-    realty_currency = models.CharField(max_length=255, default='0')
-    realty_price = models.FloatField()
-    realty_contacts = models.CharField(max_length=255, default='0')
-    realty_name = models.CharField(max_length=255, default='0')
+    realty_deal = models.CharField(max_length=100, blank=True, null=True)
+    realty_type = models.CharField(max_length=100, blank=True, null=True)
+    realty_commercial_type = models.CharField(max_length=100, blank=True, null=True)
+    realty_square = models.FloatField(blank=True, null=True)
+    realty_location = models.CharField(max_length=255, blank=True, null=True)
+    realty_rooms = models.IntegerField(blank=True, null=True)
+    realty_floor = models.IntegerField(blank=True, null=True)
+    realty_floors_total = models.IntegerField(blank=True, null=True)
+    realty_currency = models.CharField(max_length=255, blank=True, null=True)
+    realty_price = models.FloatField(blank=True, null=True)
+    realty_contacts = models.CharField(max_length=255, blank=True, null=True)
+    realty_name = models.CharField(max_length=255, blank=True, null=True)
 
 
 class JobAd(Ads):
