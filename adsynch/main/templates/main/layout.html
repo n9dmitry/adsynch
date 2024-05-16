@@ -13,7 +13,212 @@
 
 <header class="full-screen-header container-fluid">
     <div class="container-fluid">
-        {% include 'main/navbar.html' %}
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img width="100" src="{%  static 'main/img/logo.png' %}" alt="Логотип">
+            </a>
+            <button class="btn btn-light ml-3" type="button">Разместить объявление</button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <form class="form-inline my-3 my-lg-0 ml-auto">
+                    <input class="form-control mr-3" type="search" placeholder="Поиск">
+                    <button class="btn btn-light" type="submit">Поиск</button>
+                </form>
+                <div class="dropdown">
+                    <button class="btn btn-light ml-2 dropdown-toggle" type="button" id="toggleCategories"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Все категории
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="toggleCategories">
+                        <a class="dropdown-item" href="#">Категория 1</a>
+                        <a class="dropdown-item" href="#">Категория 2</a>
+                        <a class="dropdown-item" href="#">Категория 3</a>
+                        <!-- Добавьте другие категории как ссылки внутри dropdown-menu -->
+                    </div>
+                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Помощь</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Контакты</a>
+                    </li>
+                    <li class="nav-item tg">
+                        <a class="nav-link telegram-link" href="#">
+                            <i class="fab fa-telegram telegram-icon"></i> Телеграм Канал
+                        </a>
+                    </li>
+                    <li class="nav-item tg">
+
+                        {% if user.is_authenticated %}
+                        <div class="user-menu">
+                            <a class="nav-link telegram-link" href="#" id="userDropdown">
+                                <i class="fab fa-telegram telegram-icon"></i> {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu" id="userMenu">
+                                <a class="dropdown-item" href="#">Мои объявления</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <a class="nav-link telegram-link" href="#" id="openModal">
+                            <i class="fab fa-telegram telegram-icon"></i> Вход
+                        </a>
+                        {% endif %}
+
+                        <div id="modal" class="modal">
+                            <div class="modal-content">
+                                {% if messages %}
+                                <div>
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% elif message.tags == 'success' %}
+                                            <div class="alert alert-success" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                <h2>Вход</h2>
+                                {% if user.is_authenticated %}
+                                    <p>Вы успешно вошли в систему как {{ user.username }}!</p>
+                                {% endif %}
+
+                                <!-- Форма логина и пароля -->
+                                <form id="login-form" action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Пароль:</label>
+                                        <input type="password" id="password" name="password" required>
+                                    </div>
+                                    <button type="submit" class="login-button">Войти</button>
+                                </form>
+
+                                <!-- Кнопки "Регистрация" и "Забыли пароль" -->
+                                <div class="additional-options">
+                                    <a href="/forgot-password">Напомнить пароль</a>
+                                </div>
+
+                                <!-- Кнопки для авторизации через социальные сети -->
+                                <a class="auth-button yandex-auth-button" href="{% provider_login_url 'yandex'%}">
+                                    <i class="fab fa-yandex"></i>Яндекс
+                                </a>
+                                <a class="auth-button vk-auth-button" href="{% provider_login_url 'vk'%}">
+                                    <i class="fab fa-vk"></i>ВКонтакте
+                                </a>
+                                <a class="auth-button google-auth-button" href="#">
+                                    <i class="fab fa-google"></i>Google
+                                </a>
+
+
+                                <div class="container">
+
+                                    <h2 class="mt-5">Регистрация</h2>
+
+
+
+                                    <form method="POST" action="{% url 'register' %}">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="fullName" class="form-label">Имя</label>
+                                            <input type="text" class="form-control" id="fullName" name="name"
+                                                   placeholder="Введите ваше имя" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="email"
+                                                   placeholder="name@example.com" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Пароль</label>
+                                            <input type="password" class="form-control" name="password1" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+                                            <input type="password" class="form-control" id="confirmPassword"
+                                                   name="password2" required>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{%  static 'main/img/lada.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Автомаркет</h1>
+                                <p>Найди авто своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{% static 'main/img/kv.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Твой Риэлтор</h1>
+                                <p>Найди дом своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{% static 'main/img/lada.png' %}" class="d-block w-100" alt="Image">
+                        </div>
+                        <div class="col-md-6 ttlslider">
+                            <div class="carousel-caption">
+                                <h1>Автомаркет</h1>
+                                <p>Найди авто своей мечты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+        </div>
+
     </div>
 
     <div class="service">
@@ -47,12 +252,6 @@
 
 </header>
 {% block index %}
-{% endblock %}
-
-{% block cars %}
-{% endblock %}
-
-{% block jobs %}
 {% endblock %}
 
 <footer class="footer">
