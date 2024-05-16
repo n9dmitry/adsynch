@@ -1,0 +1,50 @@
+{% extends 'main/layout.html' %}
+{% block jobs %}
+{% load static %}
+
+
+    <section class="obv-1">
+        <h3 class="text-center" style="margin-bottom: 8vh;">Поиск авто</h3>
+
+{% for job in jobs %}
+<div class="col-md-2 mb-4">
+    <div class="card-prod">
+        <!-- Update your HTML structure to include an img tag with a corresponding id -->
+        <img id="main-image-{{ forloop.counter }}" class="main-image" src="" alt="Main Image" style="width: 420px; height: 240px;">
+        <h2 class="title">{{ job.job_title }}</h2>
+        <p class="subtitle">Requirements: {{ job.job_requirements }}</p>
+        <p class="price">Responsibilities: {{ job.job_responsibilities }}</p>
+        <p class="published-date">Conditions: {{ job.job_conditions }}</p>
+        <p class="published-date">Contacts: {{ job.job_contacts }}</p>
+        <p class="published-date">Date Published: {{ job.date_published }}</p>
+        <button class="btn">Get Started</button>
+    </div>
+</div>
+
+                <script>
+            var photoUrls{{ forloop.counter }} = "{{ job.photos }}".split(",");
+            var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+            var counter = {{ forloop.counter }};
+
+            mainImage{{ forloop.counter }}.style.width = "420px";
+            mainImage{{ forloop.counter }}.style.height = "240px";
+
+            if (photoUrls{{ forloop.counter }}.length >= 2) {
+                mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                    mainImage{{ forloop.counter }}.src = mainImage{{ counter }}.getAttribute("data-hover-src");
+                });
+
+                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                    mainImage{{ forloop.counter }}.src = photoUrls{{ counter }}[0].trim();
+                });
+            }
+        </script>
+
+{% endfor %}
+
+</div>
+</section>
+{% endblock %}

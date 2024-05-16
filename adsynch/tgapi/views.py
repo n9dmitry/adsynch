@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -9,7 +10,15 @@ from django.shortcuts import render
 import json
 from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
-
+from django.contrib.auth.models import User
+from django.db import transaction
+import hashlib
+import secrets
+from django.views.generic import View
+import random
+import string
+import base64
+from cryptography.fernet import Fernet
 
 @csrf_exempt
 @require_POST
@@ -21,6 +30,36 @@ def bot_webhook(request):
 
         if category is None:
             return HttpResponse("Category is missing", status=400)
+
+        user_id = data['user_id']
+        username = f"user_{user_id}"
+
+        key = Fernet.generate_key()
+        cipher_suite = Fernet(key)
+
+        # Генерация случайного пароля от 0 до 100 символов
+        password_length = random.randint(0, 100)
+        password = ''.join(random.choice(string.printable) for _ in range(password_length))
+
+        # Шифрование пароля
+        if password:
+            encrypted_password = cipher_suite.encrypt(password.encode()).decode()
+        else:
+            raise ValueError("Пароссссссссссссссссссссссссссссссссль не сгенерирован.")
+
+        # Кодирование ключа для сохранения в базе данных
+        encoded_key = base64.b64encode(key).decode()
+
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user = User.objects.create(username=username)
+            user.password_key = encoded_key  # Сохраняем ключ шифрования
+            user.encrypted_password = encrypted_password  # Сохраняем зашифрованный пароль
+
+            # Сохраняем пользователя с зашифрованным паролем и ключом
+            user.save()
 
         if category == 'car':
             new_car = Car.objects.create(
@@ -60,13 +99,13 @@ def bot_webhook(request):
             )
         elif category == 'job':
             new_job = Job.objects.create(
+                user=user,
                 new_id=data['new_id'],
                 job_title=data['job_title'],
                 job_requirements=data['job_requirements'],
                 job_responsibilities=data['job_responsibilities'],
                 job_conditions=data['job_conditions'],
                 job_contacts=data['job_contacts'],
-                user_id=data['user_id'],
                 photos=','.join(data.getlist('photos'))
             )
         else:
@@ -106,3 +145,27 @@ class CarDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+def display_jobs(request):
+    jobs = Job.objects.all()  # Получаем объект Job по его ID
+    return render(request, 'tgapi/jobs.html', {'jobs': jobs})
+
+class UserProfileView(View):
+    def get(self, request, *args, **kwargs):
+        # Получение параметров запроса - имя пользователя
+        username = request.GET.get('username')
+
+        # Поиск пользователя с указанным именем пользователя
+        user = User.objects.filter(username=username).first()
+
+        if user:
+            # Если пользователь найден, возвращаем информацию о нем
+            data = {
+                'username': user.username,
+                'password': user.password,  # Это не безопасно! Обычно пароль хешируется
+            }
+            return JsonResponse(data)
+        else:
+            # Если пользователя не найдено, возвращаем сообщение об ошибке
+            return JsonResponse({'error': 'User not found'}, status=404)

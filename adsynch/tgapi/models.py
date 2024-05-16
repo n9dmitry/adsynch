@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
 class Car(models.Model):
-    user_id = models.IntegerField(default=2)  # поле для хранения ID пользователя
+    user = models.IntegerField(default=2)  # поле для хранения ID пользователя
     new_id = models.IntegerField()
     car_brand = models.CharField(max_length=255)
     car_model = models.CharField(max_length=255)
@@ -28,22 +29,23 @@ class Car(models.Model):
     photos = models.TextField(blank=True)
     date_published = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        unique_together = ('user', 'new_id')
+
     def __str__(self):
-        return self.car_brand + " " + self.car_model
+        return self.job_title
+
     def save(self, *args, **kwargs):
-        if not self.user_id:  # Если user_id не указан
+        if not self.user:
             user = User.objects.create_user(username=f"user_{self.id}")
-            self.user_id = user.id
-        else:  # Если пользователь существует
-            try:
-                user = User.objects.get(id=self.user_id)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=f"user_{self.user_id}")
-        super(Car, self).save(*args, **kwargs)
+            self.user = user
+
+        super(Job, self).save(*args, **kwargs)
+
 
 class Job(models.Model):
-    user_id = models.IntegerField(default=2)
-    new_id = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    new_id = models.CharField(max_length=100, unique=True)
     job_title = models.CharField(max_length=255)
     job_requirements = models.TextField()
     job_responsibilities = models.TextField()
@@ -52,23 +54,21 @@ class Job(models.Model):
     photos = models.TextField()
     date_published = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        unique_together = ('user', 'new_id')
 
     def __str__(self):
         return self.job_title
 
     def save(self, *args, **kwargs):
-        if not self.user_id:  # Если user_id не указан
+        if not self.user:
             user = User.objects.create_user(username=f"user_{self.id}")
-            self.user_id = user.id
-        else:  # Если пользователь существует
-            try:
-                user = User.objects.get(id=self.user_id)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=f"user_{self.user_id}")
+            self.user = user
+
         super(Job, self).save(*args, **kwargs)
 
 class Realty(models.Model):
-    user_id = models.IntegerField(default=2)
+    user = models.IntegerField(default=2)
     new_id = models.CharField(max_length=100)
     realty_deal = models.CharField(max_length=100)
     realty_type = models.CharField(max_length=100)
@@ -76,17 +76,16 @@ class Realty(models.Model):
     photos = models.TextField()
     date_published = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        unique_together = ('user', 'new_id')
+
     def __str__(self):
-        return f"{self.realty_type} - {self.realty_deal}"
+        return self.job_title
 
     def save(self, *args, **kwargs):
-        if not self.user_id:  # Если user_id не указан
-            user = User.objects.create_user(username=f"user_{self.user_id}")
-            self.user_id = user.id
-        else:  # Если пользователь существует
-            try:
-                user = User.objects.get(id=self.user_id)
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=f"user_{self.user_id}")
-        super(Realty, self).save(*args, **kwargs)
+        if not self.user:
+            user = User.objects.create_user(username=f"user_{self.id}")
+            self.user = user
+
+        super(Job, self).save(*args, **kwargs)
 
