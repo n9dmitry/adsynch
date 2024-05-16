@@ -1,4 +1,12 @@
 django-allauth
 python-decouple
-asgirefef
+asgiref
 django-environ
+djangorestframework
+django-cors-header
+django
+python-decouple
+djangorestframework
+django-allauth
+transliterate
+django-ckeditor

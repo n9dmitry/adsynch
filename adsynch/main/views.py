@@ -5,6 +5,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
+from django.core.mail import send_mail
+from tgapi.models import CarAd, RealtyAd, JobAd
+from .models import Banner
+# from .forms import CustomPasswordResetForm
+
+
 
 # Импорты из проекта
 from .forms import RegistrationForm
@@ -16,9 +22,9 @@ from transliterate import translit
 
 
 
-
 def index(request):
-    return render(request, 'main/index.html',)
+    bnr = Banner.objects.all()
+    return render(request, 'main/index.html', {'bnr': bnr})
 
 
 def register(request):
@@ -81,13 +87,40 @@ def logout_view(request):
     auth_logout(request)
     return redirect('index')
 
-def forgot_password(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            form.save(request=request)
-            messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
-            return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
-    else:
-        form = PasswordResetForm()
-    return render(request, 'forgot_password.html', {'form': form})
+
+# def forgot_password(request):
+#     if request.method == 'POST':
+#         form = PasswordResetForm(request.POST)
+#         if form.is_valid():
+#             form.save(request=request)
+#             email = form.cleaned_data.get('email')  # Получаем адрес электронной почты из формы
+#             token = form.cleaned_data.get('token')  # Получаем токен из формы (если он нужен)
+#
+#             # Отправляем письмо с токеном на адрес электронной почты
+#             send_mail(
+#                 'Восстановление пароля',  # Тема письма
+#                 'Ваш токен для восстановления пароля: {}'.format(token),  # Текст письма
+#                 'your_email@example.com',  # Адрес отправителя
+#                 [email],  # Адреса получателей
+#                 fail_silently=False,  # Не игнорировать ошибки при отправке
+#             )
+#
+#             messages.success(request, 'Инструкции по сбросу пароля были отправлены на ваш адрес электронной почты.')
+#             return redirect('login')  # Перенаправление на страницу входа после отправки инструкций
+#     else:
+#         form = CustomPasswordResetForm()
+#     return render(request, 'main/forgot_password.html', {'form': form})
+
+
+def my_ads_view(request):
+    cars = CarAd.objects.all()
+    realties = RealtyAd.objects.all()
+    jobs = JobAd.objects.all()
+
+    return render(request, 'main/my_ads.html', {'cars': cars, 'realties': realties, 'jobs': jobs})
+
+# def main_banner(request):
+#     bnr = Banner.objects.all()
+#     print(bnr)
+#     return render(request, 'main/layout.html', {'bnr': bnr})
+

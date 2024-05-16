@@ -1,12 +1,84 @@
+<!-- my_ads.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мои объявления</title>
+    <style>
+        /* Стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        select {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        /* Стили для маркированных объявлений */
+        .active {
+            background-color: lightgreen;
+        }
+        .inactive {
+            background-color: lightgray;
+        }
+    </style>
 </head>
 <body>
-    <h1>мои объявления </h1>
-    <!-- Здесь можете разместить любое содержимое страницы -->
+    <h1>Мои объявления</h1>
+    <div>
+        <label for="category-select">Выберите категорию:</label>
+        <select id="category-select">
+            <option value="all">Все</option>
+            <option value="auto">Авто</option>
+            <option value="realty">Недвижимость</option>
+            <option value="job">Работа</option>
+        </select>
+    </div>
+
+    <div>
+        <h2>Активные объявления</h2>
+        <ul id="active-list">
+            {% for realty in realties %}
+            {% if realty.is_active %}
+            <li class="{{ realty.realty_deal }}">
+                <strong>{{ realty.realty_type }}</strong> - {{ realty.realty_deal }}<br>
+                User id: {{ realty.user_id }}<br>
+                New id: {{ realty.new_id }}<br>
+                Realty square: {{ realty.realty_square }}<br>
+                Photos: {{ realty.photos }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+<!--    <div>-->
+<!--        <h2>Неактивные объявления</h2>-->
+<!--        <ul id="inactive-list">-->
+<!--            {% for realty in realties %}-->
+<!--            {% if not realty.is_active %}-->
+<!--            <li class="{{ realty.realty_deal }}">-->
+<!--                <strong>{{ realty.realty_type }}</strong> - {{ realty.realty_deal }}<br>-->
+<!--                User id: {{ realty.user_id }}<br>-->
+<!--                New id: {{ realty.new_id }}<br>-->
+<!--                Realty square: {{ realty.realty_square }}<br>-->
+<!--                Photos: {{ realty.photos }}-->
+<!--            </li>-->
+<!--            {% endif %}-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--    </div>-->
 </body>
 </html>
