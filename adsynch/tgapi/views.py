@@ -13,14 +13,30 @@ import json
 from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
 import logging
+from django.contrib.auth.models import User
+
 
 logger = logging.getLogger(__name__)
 
+
+def get_or_create_user(data):
+    user_id = data['user_id']
+    username = f"user_{user_id}"
+    hex_password = 100
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = User.objects.create_user(username=username, password=hex_password)
+
+    return user
 
 
 class CarAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
+        user = get_or_create_user(request.data)
+
         serializer = CarAdSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -39,6 +55,7 @@ class CarAdView(APIView):
 class RealtyAdView(APIView):
     def post(self, request, *args, **kwargs):
         logger.debug("Received data: %s", request.data)
+        user = get_or_create_user(request.data)
 
         dt = request.data.copy()
 
@@ -57,6 +74,8 @@ class RealtyAdView(APIView):
 class JobAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
+        user = get_or_create_user(request.data)
+
         serializer = JobAdSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
