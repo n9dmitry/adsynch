@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 def get_or_create_user(data):
     user_id = data['user_id']
     username = f"user_{user_id}"
-    hex_password = 100
+    hex_password = '100'
 
     try:
         user = User.objects.get(username=username)
@@ -36,8 +36,10 @@ class CarAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
         user = get_or_create_user(request.data)
+        dt = request.data.copy()
+        dt['user'] = user.id
 
-        serializer = CarAdSerializer(data=request.data)
+        serializer = CarAdSerializer(data=dt)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -58,11 +60,11 @@ class RealtyAdView(APIView):
         user = get_or_create_user(request.data)
 
         dt = request.data.copy()
-
         for key, value in dt.items():
             if isinstance(value, str) and value.lower() == 'none':
                 dt[key] = None
 
+        dt['user'] = user.id
         serializer = RealtyAdSerializer(data=dt)
 
         if serializer.is_valid():
@@ -75,8 +77,11 @@ class JobAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
         user = get_or_create_user(request.data)
+        dt = request.data.copy()
 
-        serializer = JobAdSerializer(data=request.data)
+        dt['user'] = user.id
+
+        serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
