@@ -14,9 +14,20 @@ from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
 import logging
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
 
 logger = logging.getLogger(__name__)
+
+
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def check_user(request, username):
+    exists = User.objects.filter(username=username).exists()
+    return JsonResponse({'exists': exists})
 
 
 def get_or_create_user(data):
