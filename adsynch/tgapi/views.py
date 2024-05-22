@@ -5,7 +5,7 @@ from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import CarAd, JobAd, RealtyAd
+from .models import CarAd, JobAd, RealtyAd, UserProfileLink
 from .serializers import CarAdSerializer, JobAdSerializer, RealtyAdSerializer
 import os
 from django.shortcuts import render
@@ -16,9 +16,64 @@ import logging
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.utils.crypto import get_random_string
 
 
 logger = logging.getLogger(__name__)
+
+# генерация ссылки для входа через бота
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def generate_link(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+
+    # Генерация токена
+    token = get_random_string(length=32)
+
+    # Сохранение токена в БД
+    user_profile_link = UserProfileLink(username=username, token=token)
+    user_profile_link.save()
+
+    # Формирование ссылки
+    link = f"http://127.0.0.1:8000/api/profile/{token}/"
+
+    return JsonResponse({'link': link})
+
+
+def profile_view(request, token):
+    user_profile_link = get_object_or_404(UserProfileLink, token=token)
+
+    # Найти пользователя по username
+    user = get_object_or_404(User, username=user_profile_link.username)
+
+    # Аутентификация пользователя
+    user = authenticate(username=user.username)
+
+    if user is not None:
+        # Установить сессию для пользователя
+        login(request, user)
+
+        # Удалить токен из БД после успешной авторизации
+        user_profile_link.delete()
+
+        # Перенаправление на профиль пользователя или другую страницу
+        return redirect('/profile/')
+    else:
+        return HttpResponse('Invalid token', status=400)
+#
+#
+# # Функция для авторизации пользователя (примерная логика)
+# def authenticate_user(user_id):
+#     # Логика поиска и аутентификации пользователя
+#     return User.objects.get(id=user_id)
+
+
+
+
+
+
 
 
 

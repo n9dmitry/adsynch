@@ -2,6 +2,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
+class UserProfileLink(models.Model):
+    username = models.CharField(max_length=255)
+    token = models.CharField(max_length=32)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.username} - {self.token}"
+
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     username_tg = models.CharField(max_length=100, blank=True, null=True)

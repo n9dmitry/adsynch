@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import CarAdView, RealtyAdView, JobAdView, check_user
+from .views import CarAdView, RealtyAdView, JobAdView, check_user, generate_link, profile_view
 
 urlpatterns = [
     # path("user_data/", views.bot_webhook),  # Обратите внимание на двоеточие после views
@@ -10,6 +10,12 @@ urlpatterns = [
     path("realty_ad/", RealtyAdView.as_view()),
     path("job_ad/", JobAdView.as_view()),
     path('check_user/<str:username>/', check_user, name='check_user'),
+
+    # авторизация
+    path('generate_link/', views.generate_link, name='generate_link'),
+    path('profile/<str:token>/', views.profile_view, name='profile_view'),
+
+
 
     # path("myads/", views.RealtyListAPIView.as_view()),  # Обратите внимание на двоеточие после views
     # path('', views.display_cars, name='cars'),
