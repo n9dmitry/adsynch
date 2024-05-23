@@ -23,6 +23,20 @@ from django.contrib.auth import login, get_user_model
 
 logger = logging.getLogger(__name__)
 
+from django.http import JsonResponse
+
+
+@require_http_methods(["GET"])
+def my_ads(request):
+    username = request.GET.get('username')
+
+    if username:
+        ads_data = {'test': 'тест успешен'}  # Ваши реальные данные здесь
+        return JsonResponse(ads_data)
+
+    return JsonResponse({'error': 'Username not provided'}, status=400)
+
+
 # генерация ссылки для входа через бота
 
 @csrf_exempt
