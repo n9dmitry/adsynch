@@ -10,10 +10,8 @@ urlpatterns = [
     path("realty_ad/", RealtyAdView.as_view()),
     path("job_ad/", JobAdView.as_view()),
     path('check_user/<str:username>/', check_user, name='check_user'),
-
-    # авторизация
+    path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
     path('generate_link/', views.generate_link, name='generate_link'),
-    path('profile/<str:token>/', views.profile_view, name='profile_view'),
 
 
 
