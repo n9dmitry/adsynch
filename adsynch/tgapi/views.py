@@ -58,7 +58,7 @@ def check_user(request, username):
 def get_or_create_user(data):
     user_id = data['user_id']
     username = f"user_{user_id}"
-    hex_password = '100'
+    hex_password = get_random_string(length=32)
 
     try:
         user = User.objects.get(username=username)
