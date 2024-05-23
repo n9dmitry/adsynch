@@ -31,14 +31,10 @@ def generate_link(request):
     data = json.loads(request.body)
     username = data.get('username')
 
-    # Генерация токена
     token = get_random_string(length=32)
-
-    # Сохранение токена в БД
     user_profile_link = UserProfileLink(username=username, token=token)
     user_profile_link.save()
 
-    # Формирование ссылки
     link = f"http://127.0.0.1:8000/api/{username}/{token}/"
 
     return JsonResponse({'link': link})
@@ -46,26 +42,10 @@ def generate_link(request):
 
 def profile_view(request, username, token):
     user_profile_link = get_object_or_404(UserProfileLink, username=username, token=token)
-
-    # Найти пользователя по username
     user = get_object_or_404(User, username=user_profile_link.username)
-
-    # Вход пользователя без проверки пароля
     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-
-    # Удалить токен из БД после успешной авторизации
     user_profile_link.delete()
-
-    # Перенаправление на главную страницу после успешной авторизации
     return redirect('/')
-
-
-
-
-
-
-
-
 
 
 @csrf_exempt
