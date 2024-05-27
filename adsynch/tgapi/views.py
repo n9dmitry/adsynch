@@ -26,18 +26,50 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 
 
+# @require_http_methods(["GET"])
+# def my_ads(request):
+#     username = request.GET.get('username')
+#
+#     if username:
+#         ads_data = {'test': 'тест успешен'}  # Ваши реальные данные здесь
+#         return JsonResponse(ads_data)
+#
+#     return JsonResponse({'error': 'Username not provided'}, status=400)
+#
+#
+# # генерация ссылки для входа через бота
 @require_http_methods(["GET"])
-def my_ads(request):
-    username = request.GET.get('username')
+@api_view(['GET'])
+def my_ads(request, username):
+    if not username:
+        return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if username:
-        ads_data = {'test': 'тест успешен'}  # Ваши реальные данные здесь
-        return JsonResponse(ads_data)
+    user = get_object_or_404(User, username=username)
 
-    return JsonResponse({'error': 'Username not provided'}, status=400)
+    car_ads = CarAd.objects.filter(user=user)
+    realty_ads = RealtyAd.objects.filter(user=user)
+    job_ads = JobAd.objects.filter(user=user)
+
+    car_ads_serializer = CarAdSerializer(car_ads, many=True)
+    realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
+    job_ads_serializer = JobAdSerializer(job_ads, many=True)
+
+    ads_data = {
+        'car_ads': car_ads_serializer.data,
+        'realty_ads': realty_ads_serializer.data,
+        'job_ads': job_ads_serializer.data
+    }
+
+    return Response(ads_data, status=status.HTTP_200_OK)
+
+# @require_http_methods(["GET"])
+# def my_ads(request, username):
+#     if username:
+#         ads_data = {'test': 'тест успешен'}  # Здесь должна быть логика получения данных из базы данных
+#         return JsonResponse(ads_data)
+#     return JsonResponse({'error': 'Username not provided'}, status=400)
 
 
-# генерация ссылки для входа через бота
 
 @csrf_exempt
 @require_http_methods(["POST"])

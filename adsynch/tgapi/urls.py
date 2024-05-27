@@ -6,13 +6,13 @@ from .views import CarAdView, RealtyAdView, JobAdView, check_user, generate_link
 
 urlpatterns = [
     # path("user_data/", views.bot_webhook),  # Обратите внимание на двоеточие после views
-    path("car_ad/", CarAdView.as_view()),
-    path("realty_ad/", RealtyAdView.as_view()),
-    path("job_ad/", JobAdView.as_view()),
-    path('check_user/<str:username>/', check_user, name='check_user'),
-    path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
+    path("car_ad/", views.CarAdView.as_view()),
+    path("realty_ad/", views.RealtyAdView.as_view()),
+    path("job_ad/", views.JobAdView.as_view()),
+    path('myads/<str:username>/', views.my_ads, name='my_ads'),  # Переместите этот маршрут вверх
+    path('check_user/<str:username>/', views.check_user, name='check_user'),
+    path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),  # Этот маршрут должен быть ниже
     path('generate_link/', views.generate_link, name='generate_link'),
-    path("my_ads/", my_ads, name='my_ads')
     # path('', views.display_cars, name='cars'),
     # path('/<int:pk>', views.CarDetailView.as_view(), name='car_detail'),
 ]
