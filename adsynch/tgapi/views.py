@@ -51,29 +51,29 @@ from django.http import JsonResponse
 #     return render(request, 'myads_view.html', context)
 
 
-# @require_http_methods(["GET"])
-# @api_view(['GET'])
-# def my_ads(request, username):
-#     if not username:
-#         return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
-#
-#     user = get_object_or_404(User, username=username)
-#
-#     car_ads = CarAd.objects.filter(user=user)
-#     realty_ads = RealtyAd.objects.filter(user=user)
-#     job_ads = JobAd.objects.filter(user=user)
-#
-#     car_ads_serializer = CarAdSerializer(car_ads, many=True)
-#     realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
-#     job_ads_serializer = JobAdSerializer(job_ads, many=True)
-#
-#     ads_data = {
-#         'car_ads': car_ads_serializer.data,
-#         'realty_ads': realty_ads_serializer.data,
-#         'job_ads': job_ads_serializer.data
-#     }
-#
-#     return Response(ads_data, status=status.HTTP_200_OK)
+@require_http_methods(["GET"])
+@api_view(['GET'])
+def my_ads(request, username):
+    if not username:
+        return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = get_object_or_404(User, username=username)
+
+    car_ads = CarAd.objects.filter(user=user)
+    realty_ads = RealtyAd.objects.filter(user=user)
+    job_ads = JobAd.objects.filter(user=user)
+
+    car_ads_serializer = CarAdSerializer(car_ads, many=True)
+    realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
+    job_ads_serializer = JobAdSerializer(job_ads, many=True)
+
+    ads_data = {
+        'car_ads': car_ads_serializer.data,
+        'realty_ads': realty_ads_serializer.data,
+        'job_ads': job_ads_serializer.data
+    }
+
+    return Response(ads_data, status=status.HTTP_200_OK)
 
 
 
