@@ -19,6 +19,7 @@ from django.views.decorators.http import require_http_methods
 from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
+from django.contrib.auth.decorators import login_required
 
 
 logger = logging.getLogger(__name__)
@@ -26,48 +27,53 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 
 
-# @require_http_methods(["GET"])
-# def my_ads(request):
-#     username = request.GET.get('username')
+
+# @login_required
+# def myads_view(request):
+#     user = request.user
+#     car_ads = CarAd.objects.filter(user=user)
+#     realty_ads = RealtyAd.objects.filter(user=user)
+#     job_ads = JobAd.objects.filter(user=user)
 #
-#     if username:
-#         ads_data = {'test': 'тест успешен'}  # Ваши реальные данные здесь
-#         return JsonResponse(ads_data)
+#     active_ads = []
+#     inactive_ads = []
 #
-#     return JsonResponse({'error': 'Username not provided'}, status=400)
+#     for ad in list(car_ads) + list(realty_ads) + list(job_ads):
+#         if ad.is_active:
+#             active_ads.append(ad)
+#         else:
+#             inactive_ads.append(ad)
 #
-#
-# # генерация ссылки для входа через бота
-@require_http_methods(["GET"])
-@api_view(['GET'])
-def my_ads(request, username):
-    if not username:
-        return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
+#     context = {
+#         'active_ads': active_ads,
+#         'inactive_ads': inactive_ads
+#     }
+#     return render(request, 'myads_view.html', context)
 
-    user = get_object_or_404(User, username=username)
-
-    car_ads = CarAd.objects.filter(user=user)
-    realty_ads = RealtyAd.objects.filter(user=user)
-    job_ads = JobAd.objects.filter(user=user)
-
-    car_ads_serializer = CarAdSerializer(car_ads, many=True)
-    realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
-    job_ads_serializer = JobAdSerializer(job_ads, many=True)
-
-    ads_data = {
-        'car_ads': car_ads_serializer.data,
-        'realty_ads': realty_ads_serializer.data,
-        'job_ads': job_ads_serializer.data
-    }
-
-    return Response(ads_data, status=status.HTTP_200_OK)
 
 # @require_http_methods(["GET"])
+# @api_view(['GET'])
 # def my_ads(request, username):
-#     if username:
-#         ads_data = {'test': 'тест успешен'}  # Здесь должна быть логика получения данных из базы данных
-#         return JsonResponse(ads_data)
-#     return JsonResponse({'error': 'Username not provided'}, status=400)
+#     if not username:
+#         return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
+#
+#     user = get_object_or_404(User, username=username)
+#
+#     car_ads = CarAd.objects.filter(user=user)
+#     realty_ads = RealtyAd.objects.filter(user=user)
+#     job_ads = JobAd.objects.filter(user=user)
+#
+#     car_ads_serializer = CarAdSerializer(car_ads, many=True)
+#     realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
+#     job_ads_serializer = JobAdSerializer(job_ads, many=True)
+#
+#     ads_data = {
+#         'car_ads': car_ads_serializer.data,
+#         'realty_ads': realty_ads_serializer.data,
+#         'job_ads': job_ads_serializer.data
+#     }
+#
+#     return Response(ads_data, status=status.HTTP_200_OK)
 
 
 
