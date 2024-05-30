@@ -13,9 +13,9 @@ class CarAdAdmin(admin.ModelAdmin):
 
 @admin.register(JobAd)
 class JobAdAdmin(admin.ModelAdmin):
-    list_display = ('job_title', 'ad_id')
-    list_filter = ('job_title',)
-    search_fields = ('job_title', 'job_requirements')
+    list_display = ('title', 'ad_id')
+    list_filter = ('title',)
+    search_fields = ('title', 'job_requirements')
 
 @admin.register(RealtyAd)
 class RealtyAdAdmin(admin.ModelAdmin):
