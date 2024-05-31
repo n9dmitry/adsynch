@@ -168,11 +168,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-PASSWORD_HASHERS = [
-    'main.hashers.Base64PasswordHasher',
-    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',  # Добавьте другие хешеры по необходимости
-]
-
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_THUMBNAIL_SIZE = (300, 300)

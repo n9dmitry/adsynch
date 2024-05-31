@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
-from tgapi.models import CarAd, RealtyAd, JobAd
+from tgapi.models import CarAd, RealtyAd, JobAd, Ads
 from .models import Banner
 # from .forms import CustomPasswordResetForm
 
@@ -19,13 +19,20 @@ import uuid
 from transliterate import translit
 
 
-
-
-
 def index(request):
-    bnr = Banner.objects.all()
-    return render(request, 'main/index.html', {'bnr': bnr})
+    car_ad = CarAd.objects.all()
+    realty_ad = RealtyAd.objects.all()
+    job_ad = JobAd.objects.all()
 
+    return render(request, 'main/index.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad})
+
+
+def products(request):
+    car_ad = CarAd.objects.all()
+    realty_ad = RealtyAd.objects.all()
+    job_ad = JobAd.objects.all()
+
+    return render(request, 'main/products.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad})
 
 def register(request):
     if request.method == 'POST':

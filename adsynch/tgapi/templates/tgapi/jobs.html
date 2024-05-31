@@ -1,50 +1,124 @@
-{% extends 'main/layout.html' %}
+{% extends 'main/layout2.html' %}
+
 {% block jobs %}
-{% load static %}
+    <div class="container mt-4 cars">
+        <div class="row">
+            <div class="col-md-9"> <!-- Make the main content wider towards the left -->
+                {% for job_ad in job_ads %}
+                    <div class="card mb-4"> <!-- Added margin bottom for spacing -->
+                        <div class="card-body" style="display: flex;">
+                            <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
+                                <img src="{{ job_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
+                            </div>
+                            <div style="flex: 2; padding: 0 20px;">
+                                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.job_title }}</a>
+                                <p class="card-text">
+                                    <strong>Категория:</strong> {{ job_ad.job_category }} <br>
+                                    <strong>Зарплата:</strong> {{ job_ad.price }} <br>
+                                <p style="font-size:12px;">Дата публикации: {{ job_ad.date_published }} </p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+                        console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
 
+                        var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
 
-    <section class="obv-1">
-        <h3 class="text-center" style="margin-bottom: 8vh;">Поиск авто</h3>
+                        if (photoUrls{{ forloop.counter }}.length >= 1) {
+                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
 
-{% for job in jobs %}
-<div class="col-md-2 mb-4">
-    <div class="card-prod">
-        <!-- Update your HTML structure to include an img tag with a corresponding id -->
-        <img id="main-image-{{ forloop.counter }}" class="main-image" src="" alt="Main Image" style="width: 420px; height: 240px;">
-        <h2 class="title">{{ job.job_title }}</h2>
-        <p class="subtitle">Requirements: {{ job.job_requirements }}</p>
-        <p class="price">Responsibilities: {{ job.job_responsibilities }}</p>
-        <p class="published-date">Conditions: {{ job.job_conditions }}</p>
-        <p class="published-date">Contacts: {{ job.job_contacts }}</p>
-        <p class="published-date">Date Published: {{ job.date_published }}</p>
-        <button class="btn">Get Started</button>
-    </div>
+                            if (photoUrls{{ forloop.counter }}.length >= 2) {
+                                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                                    mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
+                                });
+
+                                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                                });
+                            }
+                        }
+                    </script>
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <!-- Sidebar with sorting and filters -->
+<div id="sidebar" class="p-3">
+    <h5 class="mb-3">Сортировка</h5>
+    <form method="get" id="category-form">
+        <div class="form-group">
+            <label for="category-select" class="form-label">Выберите категорию:</label>
+            <select class="form-select" id="category-select" name="category">
+                <option value="">Все категории</option>
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="min-price" class="form-label">Минимальная цена:</label>
+            <input type="number" id="min-price" name="min_price" class="form-control" placeholder="Минимальная цена">
+        </div>
+        <div class="form-group">
+            <label for="max-price" class="form-label">Максимальная цена:</label>
+            <input type="number" id="max-price" name="max_price" class="form-control" placeholder="Максимальная цена">
+        </div>
+    </form>
+    <button type="button" id="apply-filters-btn" class="btn btn-primary">Применить фильтры</button>
 </div>
 
-                <script>
-            var photoUrls{{ forloop.counter }} = "{{ job.photos }}".split(",");
-            var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-            var counter = {{ forloop.counter }};
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('category-select');
+        const minPriceInput = document.getElementById('min-price');
+        const maxPriceInput = document.getElementById('max-price');
+        const applyFiltersBtn = document.getElementById('apply-filters-btn');
 
-            mainImage{{ forloop.counter }}.style.width = "420px";
-            mainImage{{ forloop.counter }}.style.height = "240px";
+        applyFiltersBtn.addEventListener('click', function() {
+            applyFilters();
+        });
 
-            if (photoUrls{{ forloop.counter }}.length >= 2) {
-                mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+        function applyFilters() {
+            const selectedCategory = categorySelect.value;
+            const minPrice = minPriceInput.value;
+            const maxPrice = maxPriceInput.value;
+            const currentUrl = window.location.href;
+            const url = new URL(currentUrl);
 
-                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
-                    mainImage{{ forloop.counter }}.src = mainImage{{ counter }}.getAttribute("data-hover-src");
-                });
-
-                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
-                    mainImage{{ forloop.counter }}.src = photoUrls{{ counter }}[0].trim();
-                });
+            if (selectedCategory) {
+                url.searchParams.set('category', selectedCategory);
+            } else {
+                url.searchParams.delete('category');
             }
-        </script>
 
-{% endfor %}
+            if (minPrice) {
+                url.searchParams.set('min_price', minPrice);
+            } else {
+                url.searchParams.delete('min_price');
+            }
 
-</div>
-</section>
+            if (maxPrice) {
+                url.searchParams.set('max_price', maxPrice);
+            } else {
+                url.searchParams.delete('max_price');
+            }
+
+            window.location.href = url.toString();
+        }
+    });
+</script>
+            </div>
+        </div>
+    </div>
+    <script>
+        function applyFilter() {
+            document.querySelector('form').submit();
+        }
+    </script>
+    <script>
+        $("#priceRange").slider({});
+    </script>
 {% endblock %}
