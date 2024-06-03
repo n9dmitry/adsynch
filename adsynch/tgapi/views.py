@@ -168,6 +168,8 @@ class JobAdView(APIView):
         dt = request.data.copy()
 
         dt['user'] = user.id
+        if 'is_active' in dt:
+            dt['is_active'] = 'True'
 
         serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():

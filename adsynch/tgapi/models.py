@@ -30,8 +30,9 @@ class Ads(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
+        print(f"Saving Ads: {self.is_active}")
         super().save(*args, **kwargs)
-
+        print(f"Saved Ads: {self.is_active}")
 
 class CarAd(Ads):
     car_brand = models.CharField(max_length=255, default='0')
@@ -73,8 +74,7 @@ class RealtyAd(Ads):
 
 class JobAd(Ads):
     job_category = models.CharField(max_length=255, default='0')
-    job_title = models.CharField(max_length=255, default='0')
-
+    # job_title = models.CharField(max_length=255, default='0')
     # job_description = models.TextField()
     # job_currency = models.CharField(max_length=255, default='0')
     # job_price = models.IntegerField(default='0')
