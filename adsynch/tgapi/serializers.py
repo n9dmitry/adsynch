@@ -7,6 +7,7 @@ class CarAdSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarAd
         fields = '__all__'
+        # fields = кастомные
 
 class RealtyAdSerializer(serializers.ModelSerializer):
 
@@ -20,7 +21,13 @@ class RealtyAdSerializer(serializers.ModelSerializer):
     class Meta:
         model = RealtyAd
         fields = '__all__'
-
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
+        instance = self.Meta.model(**validated_data)
+        if user is not None:
+            instance.user = user
+        instance.save()
+        return instance
 
 class JobAdSerializer(serializers.ModelSerializer):
     class Meta:

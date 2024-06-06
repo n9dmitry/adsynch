@@ -5,7 +5,7 @@ from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import CarAd, JobAd, RealtyAd
+from .models import CarAd, JobAd, RealtyAd, UserProfileLink
 from .serializers import CarAdSerializer, JobAdSerializer, RealtyAdSerializer
 import os
 from django.shortcuts import render
@@ -13,15 +13,121 @@ import json
 from django.core.exceptions import ValidationError
 from django.views.generic import DetailView
 import logging
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.utils.crypto import get_random_string
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, get_user_model
+from django.contrib.auth.decorators import login_required
+
 
 logger = logging.getLogger(__name__)
 
+from django.http import JsonResponse
+
+
+
+# @login_required
+# def myads_view(request):
+#     user = request.user
+#     car_ads = CarAd.objects.filter(user=user)
+#     realty_ads = RealtyAd.objects.filter(user=user)
+#     job_ads = JobAd.objects.filter(user=user)
+#
+#     active_ads = []
+#     inactive_ads = []
+#
+#     for ad in list(car_ads) + list(realty_ads) + list(job_ads):
+#         if ad.is_active:
+#             active_ads.append(ad)
+#         else:
+#             inactive_ads.append(ad)
+#
+#     context = {
+#         'active_ads': active_ads,
+#         'inactive_ads': inactive_ads
+#     }
+#     return render(request, 'myads_view.html', context)
+
+
+@require_http_methods(["GET"])
+@api_view(['GET'])
+def my_ads(request, username):
+    if not username:
+        return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = get_object_or_404(User, username=username)
+
+    car_ads = CarAd.objects.filter(user=user)
+    realty_ads = RealtyAd.objects.filter(user=user)
+    job_ads = JobAd.objects.filter(user=user)
+
+    car_ads_serializer = CarAdSerializer(car_ads, many=True)
+    realty_ads_serializer = RealtyAdSerializer(realty_ads, many=True)
+    job_ads_serializer = JobAdSerializer(job_ads, many=True)
+
+    ads_data = {
+        'car_ads': car_ads_serializer.data,
+        'realty_ads': realty_ads_serializer.data,
+        'job_ads': job_ads_serializer.data
+    }
+
+    return Response(ads_data, status=status.HTTP_200_OK)
+
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def generate_link(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+
+    token = get_random_string(length=32)
+    user_profile_link = UserProfileLink(username=username, token=token)
+    user_profile_link.save()
+
+    link = f"http://127.0.0.1:8000/api/{username}/{token}/"
+
+    return JsonResponse({'link': link})
+
+
+def profile_view(request, username, token):
+    user_profile_link = get_object_or_404(UserProfileLink, username=username, token=token)
+    user = get_object_or_404(User, username=user_profile_link.username)
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    user_profile_link.delete()
+    return redirect('/')
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def check_user(request, username):
+    exists = User.objects.filter(username=username).exists()
+    return JsonResponse({'exists': exists})
+
+
+def get_or_create_user(data):
+    user_id = data['user_id']
+    username = f"user_{user_id}"
+    hex_password = get_random_string(length=32)
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = User.objects.create_user(username=username, password=hex_password)
+
+    return user
 
 
 class CarAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
-        serializer = CarAdSerializer(data=request.data)
+        user = get_or_create_user(request.data)
+        dt = request.data.copy()
+        dt['user'] = user.id
+
+        serializer = CarAdSerializer(data=dt)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -39,13 +145,14 @@ class CarAdView(APIView):
 class RealtyAdView(APIView):
     def post(self, request, *args, **kwargs):
         logger.debug("Received data: %s", request.data)
+        user = get_or_create_user(request.data)
 
         dt = request.data.copy()
-
         for key, value in dt.items():
             if isinstance(value, str) and value.lower() == 'none':
                 dt[key] = None
 
+        dt['user'] = user.id
         serializer = RealtyAdSerializer(data=dt)
 
         if serializer.is_valid():
@@ -57,7 +164,14 @@ class RealtyAdView(APIView):
 class JobAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
-        serializer = JobAdSerializer(data=request.data)
+        user = get_or_create_user(request.data)
+        dt = request.data.copy()
+
+        dt['user'] = user.id
+        if 'is_active' in dt:
+            dt['is_active'] = 'True'
+
+        serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
