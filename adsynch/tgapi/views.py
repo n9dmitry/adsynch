@@ -160,15 +160,31 @@ class JobAdView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CarAdDetailView(DetailView):
+class ViewCountMixin:
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        self.model.objects.filter(pk=obj.pk).update(views=F('views') + 1)
+        obj.refresh_from_db()
+        return obj
+
+class CarAdDetailView(DetailView, ViewCountMixin):
     model = CarAd
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
 
+class JobAdDetailView(DetailView, ViewCountMixin):
+    model = JobAd
+    template_name = 'tgapi/jobs_detail.html'
+    context_object_name = 'job_ad'
+
+class RealtyAdDetailView(DetailView, ViewCountMixin):
+    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
+    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
+    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
+
 
 def cars(request):
     car_ads = CarAd.objects.all()
-
     # Получение уникальных марок авто и передача их в шаблон
     car_brands = CarAd.objects.values_list('car_brand', flat=True).distinct()
 
@@ -201,13 +217,6 @@ def cars(request):
         'price_to': price_to
     })
 
-
-class JobAdDetailView(DetailView):
-    model = JobAd
-    template_name = 'tgapi/jobs_detail.html'
-    context_object_name = 'job_ad'
-
-
 def jobs(request):
     selected_category = request.GET.get('category', None)
     min_price = request.GET.get('min_price')
@@ -227,13 +236,6 @@ def jobs(request):
         job_ads = job_ads.filter(price__lte=max_price)
 
     return render(request, 'tgapi/jobs.html', {'job_ads': job_ads, 'categories': categories})
-
-
-class RealtyAdDetailView(DetailView):
-    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
-    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
-    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
-
 
 def realtys(request):
     selected_realty_type = request.GET.get('realty_type', None)

@@ -10,10 +10,10 @@ urlpatterns = [
     path("realty_ad/", RealtyAdView.as_view()),
     path("job_ad/", JobAdView.as_view()),
     path('cars', views.cars, name='cars'),
-    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='carad-detail'),
     path('jobs', views.jobs, name='jobs'),
-    path('jobs/<int:pk>/', views.JobAdDetailView.as_view(), name='jobs-detail'),
     path('realty', views.realtys, name='realty'),
+    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='carad-detail'),
+    path('jobs/<int:pk>/', views.JobAdDetailView.as_view(), name='jobs-detail'),
     path('realty_ad/<int:pk>/', views.RealtyAdDetailView.as_view(), name='realty_detail'),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
