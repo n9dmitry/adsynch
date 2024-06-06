@@ -1,0 +1,12 @@
+{% extends 'main/layout2.html' %}
+{% load static %}
+
+{% block blog %}
+    <div class="container mt-5">
+        <h1>{{ article.title }}</h1>
+        <p class="text-muted">Автор: {{ article.author }}</p>
+        <p class="text-muted">Опубликовано: {{ article.created_at }}</p>
+        <img src="{{ article.cover_image.url }}" class="img-fluid mb-3" alt="Cover Image">
+        <p>{{ article.content|safe }}</p>
+    </div>
+{% endblock %}

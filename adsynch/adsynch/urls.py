@@ -7,8 +7,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('api/', include('tgapi.urls')),  # Добавьте эту строку
-    path('cars', include('tgapi.urls')),  # Добавьте эту строку
-
+    path('ads/', include('tgapi.urls')),  # Добавьте эту строку
+    path('articles/', include('blog.urls')),  # Добавьте эту строку
+    path('', include('tgapi.urls')),  # Добавьте эту строку
 ]
 
 

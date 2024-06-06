@@ -1,9 +1,10 @@
 {% extends 'main/layout2.html' %}
-{% block cars %}
+
+{% block realty %}
 {% load static %}
 
 <div class="container advs">
-    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.title }}</h1>
+    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ realty_ad.title }}</h1>
     <div class="row">
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -34,43 +35,33 @@
             </div>
         </div>
         <div class="col-md-6">
-            <p>Имя продавца: {{ car_ad.contact_name }}</p>
-            <a href="tel:{{ car_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
-            <a href="https://t.me/{{ car_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
-            <h3 class="mt-5">Цена:{{ car_ad.price }} {{ car_ad.currency }}</h3>
+            <p>Имя продавца: {{ realty_ad.contact_name }}</p>
+            <a href="tel:{{ realty_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
+            <a href="https://t.me/{{ realty_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
+            <h3 class="mt-5">Цена:{{ realty_ad.price }}</h3>
+            <div class="data-marker">
+                <h4>О недвижимости</h4>
+                <div class="row">
+                    <div class="col-md-5">
+                        <p>Тип Сделки: {{ realty_ad.realty_deal }}</p>
+                        <p>Тип недвижимости: {{ realty_ad.realty_type }}</p>
+                        <p>Общая площадь: {{ realty_ad.realty_square }}</p>
+                    </div>
+                    <div class="col-md-5">
+                        <p>Местоположение: {{ realty_ad.realty_location }}</p>
+                        <p>Количество комнат: {{ realty_ad.realty_rooms }}</p>
+                        <p>Этаж: {{ realty_ad.realty_floor }}</p>
+                        <p>Всего этажей: {{ realty_ad.realty_floors_total }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container p-3">
-
-                    <div class="data-marker">
-                <h4>Об авто</h4>
-<div class="row">
-        <div class="col-md-5">
-            <p>Год выпуска: {{ car_ad.car_year }}</p>
-            <p>Тип кузова: {{ car_ad.car_body_type }}</p>
-            <p>Объем двигателя: {{ car_ad.car_engine_volume }}</p>
-            <p>Мощность: {{ car_ad.car_power }}</p>
-            <p>Тип двигателя: {{ car_ad.car_engine_type }}</p>
-            <p>Цвет: {{ car_ad.car_color }}</p>
-            <p>Тип трансмиссии: {{ car_ad.car_transmission_type }}</p>
-            <p>Пробег: {{ car_ad.car_mileage }}</p>
-        </div>
-        <div class="col-md-5">
-            <p>Статус документов: {{ car_ad.car_document_status }}</p>
-            <p>Количество владельцев: {{ car_ad.car_owners }}</p>
-            <p>Растаможен: {{ car_ad.car_customs_cleared }}</p>
-            <p>Состояние: {{ car_ad.car_condition }}</p>
-            <p>Цена: {{ car_ad.car_price }}</p>
-            <p>Местоположение: {{ car_ad.car_location }}</p>
-            <p>Имя контактного лица: {{ car_ad.car_name }}</p>
-        </div>
-    </div>
-            </div>
-
         <h3>Описание</h3>
         <p>
-            {{ car_ad.description }}
+            {{ realty_ad.description }}
         </p>
     </div>
 </div>

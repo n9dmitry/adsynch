@@ -37,7 +37,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main',
     'tgapi',
+    'blog',
     'rest_framework',
+    'ckeditor',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

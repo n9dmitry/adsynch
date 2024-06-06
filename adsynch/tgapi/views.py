@@ -168,6 +168,8 @@ class JobAdView(APIView):
         dt = request.data.copy()
 
         dt['user'] = user.id
+        if 'is_active' in dt:
+            dt['is_active'] = 'True'
 
         serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():
@@ -398,3 +400,106 @@ class JobAdView(APIView):
 #     realtys = Realty.objects.all()
 #     realty_data = list('json', realtys.values())
 #     return JsonResponse(realty_data, safe=False)
+
+
+def cars(request):
+    car_ads = CarAd.objects.all()
+
+    # Получение уникальных марок авто и передача их в шаблон
+    car_brands = CarAd.objects.values_list('car_brand', flat=True).distinct()
+
+    selected_brand = request.GET.get('car_brand')
+    selected_model = request.GET.get('car_model')
+    price_from = request.GET.get('price_from')
+    price_to = request.GET.get('price_to')
+
+    # Если выбрана марка, фильтровать по выбранной марке и ее моделям
+    if selected_brand:
+        car_ads = car_ads.filter(car_brand=selected_brand)
+        # Получение уникальных моделей для выбранной марки
+        car_models = CarAd.objects.filter(car_brand=selected_brand).values_list('car_model', flat=True).distinct()
+    else:
+        car_models = []
+
+    # Фильтрация по диапазону цен
+    if price_from:
+        car_ads = car_ads.filter(price__gte=price_from)
+    if price_to:
+        car_ads = car_ads.filter(price__lte=price_to)
+
+    return render(request, 'tgapi/cars.html', {
+        'car_ads': car_ads,
+        'car_brands': car_brands,
+        'selected_brand': selected_brand,
+        'car_models': car_models,
+        'selected_model': selected_model,
+        'price_from': price_from,
+        'price_to': price_to
+    })
+
+
+
+class CarAdDetailView(DetailView):
+    model = CarAd
+    template_name = 'tgapi/car_detail.html'
+    context_object_name = 'car_ad'
+
+
+
+# Допустим, вам нужно передавать выбранную категорию в параметрах запроса (GET запрос)
+def jobs(request):
+    selected_category = request.GET.get('category', None)
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    job_ads = JobAd.objects.filter(is_active=True)
+
+    categories = JobAd.objects.values_list('category', flat=True).distinct()
+
+    if selected_category:
+        job_ads = job_ads.filter(category=selected_category)
+
+    if min_price is not None:
+        job_ads = job_ads.filter(price__gte=min_price)
+
+    if max_price is not None:
+        job_ads = job_ads.filter(price__lte=max_price)
+
+    return render(request, 'tgapi/jobs.html', {'job_ads': job_ads, 'categories': categories})
+
+class JobAdDetailView(DetailView):
+    model = JobAd
+    template_name = 'tgapi/jobs_detail.html'
+    context_object_name = 'job_ad'
+
+
+from django.db.models import F
+
+def realtys(request):
+    selected_realty_type = request.GET.get('realty_type', None)
+    selected_realty_deal = request.GET.get('realty_deal', None)
+    sort_by = request.GET.get('sort_by', None)
+
+    realty_ads = RealtyAd.objects.all()
+
+    realty_types = RealtyAd.objects.values_list('realty_type', flat=True).distinct()
+    realty_deals = RealtyAd.objects.values_list('realty_deal', flat=True).distinct()
+
+    if selected_realty_type:
+        realty_ads = realty_ads.filter(realty_type=selected_realty_type)
+
+    if selected_realty_deal:
+        realty_ads = realty_ads.filter(realty_deal=selected_realty_deal)
+
+    if sort_by == 'date_published':
+        realty_ads = realty_ads.order_by('-date_published')
+    elif sort_by == '-date_published':
+        realty_ads = realty_ads.order_by('date_published')
+
+    return render(request, 'tgapi/realty.html', {'realty_ads': realty_ads, 'realty_types': realty_types, 'realty_deals': realty_deals})
+
+
+class RealtyAdDetailView(DetailView):
+    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
+    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
+    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне

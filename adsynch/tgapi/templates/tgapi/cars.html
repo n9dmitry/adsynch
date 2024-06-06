@@ -1,0 +1,109 @@
+{% extends 'main/layout2.html' %}
+{% block cars %}
+
+<div class="container mt-4 cars">
+    <div class="row">
+
+        <div class="col-md-9"> <!-- Make the main content wider towards the left -->
+
+            {% for car_ad in car_ads %}
+            <div class="card mb-4"> <!-- Added margin bottom for spacing -->
+                <div class="card-body" style="display: flex;">
+                    <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
+                        <img id="main-image-{{ forloop.counter }}" style="width: 100%; height: 120px; object-fit: cover;">
+                    </div>
+                    <div style="flex: 2; padding: 0 20px;">
+                        <a href="{% url 'carad-detail' pk=car_ad.pk %}"><h5 class="card-title">{{ car_ad.car_brand }} {{ car_ad.car_model }}</h5></a>
+                        <p class="card-text">
+                            <strong>Год выпуска:</strong> {{ car_ad.car_year }}<br>
+                            <strong>Цена:</strong> {{ car_ad.car_price }} {{ car_currency }}<br>
+                            <strong>Местоположение:</strong> {{ car_ad.car_location }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+                console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
+
+                var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+
+                if (photoUrls{{ forloop.counter }}.length >= 1) {
+                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+
+                    if (photoUrls{{ forloop.counter }}.length >= 2) {
+                        mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                            mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
+                        });
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                        });
+                    }
+                }
+            </script>
+            {% endfor %}
+
+        </div>
+
+<div class="col-md-3">
+    <!-- Sidebar with sorting and filters -->
+    <div id="sidebar">
+        <h5>Сортировка</h5>
+
+<form method="get">
+    <select class="form-control mb-3" name="car_brand" onchange="applyFilter()">
+        <option value="">Выбрать марку</option>
+        {% for brand in car_brands %}
+            <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
+        {% endfor %}
+    </select>
+
+    {% if selected_brand %}
+        <select class="form-control mb-3" name="car_model" onchange="applyFilter()">
+            <option value="">Выбрать модель</option>
+
+            {% for model in car_models %}
+                <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+</form>
+
+        <select class="form-control mb-3" name="sort_by_car_year">
+            <option value="?sort_by=car_year">По году выпуска</option>
+        </select>
+
+<form>
+<div class="form-row align-items-center">
+<div class="col-auto">
+<label for="priceFrom">От:</label>
+<input type="text" id="priceFrom" class="form-control" />
+</div>
+<div class="col-auto">
+<label for="priceTo">До:</label>
+<input type="text" id="priceTo" class="form-control" />
+</div>
+</div>
+<div id="priceRange"></div>
+</form>
+
+    </div>
+</div>
+    </div>
+</div>
+
+<script>
+    function applyFilter() {
+        document.querySelector('form').submit();
+    }
+</script>
+
+<script>
+$("#priceRange").slider({});
+</script>
+
+{% endblock %}
