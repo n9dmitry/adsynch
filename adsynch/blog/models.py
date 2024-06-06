@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = RichTextField()
+    cover_image = models.ImageField(upload_to='media/', null=True, blank=True)
     author = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
