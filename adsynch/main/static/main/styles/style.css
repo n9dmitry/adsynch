@@ -76,15 +76,6 @@ header {
     z-index: 1;
 }
 
-.header-top::before,
-.header-top::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 13vh;
-    background-color: red;
-}
 
     .header-top::before {
         left: 0;

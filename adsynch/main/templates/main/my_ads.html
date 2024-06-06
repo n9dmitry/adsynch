@@ -1,53 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Ads</title>
-</head>
-<body>
+
+{% extends 'main/layout2.html' %}
+
+                {% block blog %}
+
+  <div class="container mt-4 cars">
     <h1>Активные объявления</h1>
-    <h2>Автомобили</h2>
-    <ul>
-        {% for ad in active_car_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
 
-    <h2>Недвижимость</h2>
-    <ul>
-        {% for ad in active_realty_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Автомобили</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in active_car_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Недвижимость</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in active_realty_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Работа</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in active_job_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <h2>Работа</h2>
-    <ul>
-        {% for ad in active_job_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
+    <h1 class="mt-4">Неактивные объявления</h1>
 
-    <h1>Неактивные объявления</h1>
-    <h2>Автомобили</h2>
-    <ul>
-        {% for ad in inactive_car_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Автомобили</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in inactive_car_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Недвижимость</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in inactive_realty_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Работа</h5>
+            <ul class="list-group list-group-flush">
+              {% for ad in inactive_job_ads %}
+                <li class="list-group-item">{{ ad.title }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <h2>Недвижимость</h2>
-    <ul>
-        {% for ad in inactive_realty_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Работа</h2>
-    <ul>
-        {% for ad in inactive_job_ads %}
-            <li>{{ ad.title }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+                {% endblock %}
