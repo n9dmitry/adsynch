@@ -20,35 +20,23 @@ from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import F
 
 logger = logging.getLogger(__name__)
 
 from django.http import JsonResponse
 
 
-
-# @login_required
-# def myads_view(request):
-#     user = request.user
-#     car_ads = CarAd.objects.filter(user=user)
-#     realty_ads = RealtyAd.objects.filter(user=user)
-#     job_ads = JobAd.objects.filter(user=user)
+# def ad_detail(request, ad_id):
+#     ad = get_object_or_404(Ad, id=ad_id)
 #
-#     active_ads = []
-#     inactive_ads = []
+#     # Увеличение счётчика просмотров
+#     ad.views = F('views') + 1
+#     ad.save(update_fields=['views'])
 #
-#     for ad in list(car_ads) + list(realty_ads) + list(job_ads):
-#         if ad.is_active:
-#             active_ads.append(ad)
-#         else:
-#             inactive_ads.append(ad)
+#     ad.refresh_from_db()  # Обновление объекта после сохранения
 #
-#     context = {
-#         'active_ads': active_ads,
-#         'inactive_ads': inactive_ads
-#     }
-#     return render(request, 'myads_view.html', context)
+#     return render(request, 'ad_detail.html', {'ad': ad})
 
 
 @require_http_methods(["GET"])
@@ -74,7 +62,6 @@ def my_ads(request, username):
     }
 
     return Response(ads_data, status=status.HTTP_200_OK)
-
 
 
 @csrf_exempt
@@ -126,6 +113,7 @@ class CarAdView(APIView):
         user = get_or_create_user(request.data)
         dt = request.data.copy()
         dt['user'] = user.id
+        dt['is_active'] = 'True'
 
         serializer = CarAdSerializer(data=dt)
         if serializer.is_valid():
@@ -133,15 +121,7 @@ class CarAdView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class RealtyAdView(APIView):
-#     def post(self, request):
-#         logger.debug("Received data:", request.data)  # Логируем данные запроса
-#         serializer = RealtyAdSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         logger.error("Invalid data:", serializer.errors)  # Логируем ошибки валидации
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class RealtyAdView(APIView):
     def post(self, request, *args, **kwargs):
         logger.debug("Received data: %s", request.data)
@@ -153,6 +133,8 @@ class RealtyAdView(APIView):
                 dt[key] = None
 
         dt['user'] = user.id
+        dt['is_active'] = 'True'
+
         serializer = RealtyAdSerializer(data=dt)
 
         if serializer.is_valid():
@@ -161,6 +143,7 @@ class RealtyAdView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class JobAdView(APIView):
     def post(self, request):
         print("Received data:", request.data)
@@ -168,8 +151,7 @@ class JobAdView(APIView):
         dt = request.data.copy()
 
         dt['user'] = user.id
-        if 'is_active' in dt:
-            dt['is_active'] = 'True'
+        dt['is_active'] = 'True'
 
         serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():
@@ -178,233 +160,31 @@ class JobAdView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ViewCountMixin:
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        self.model.objects.filter(pk=obj.pk).update(views=F('views') + 1)
+        obj.refresh_from_db()
+        return obj
 
+class CarAdDetailView(DetailView, ViewCountMixin):
+    model = CarAd
+    template_name = 'tgapi/car_detail.html'
+    context_object_name = 'car_ad'
 
+class JobAdDetailView(DetailView, ViewCountMixin):
+    model = JobAd
+    template_name = 'tgapi/jobs_detail.html'
+    context_object_name = 'job_ad'
 
-
-
-
-
-
-
-
-
-
-
-# @csrf_exempt
-# @require_POST
-# def bot_webhook(request):
-#     if request.method == 'POST':
-#         data = request.POST
-#
-#         category = data.get('category')
-#
-#         if category is None:
-#             return HttpResponse("Category is missing", status=400)
-#
-#         if category == 'car':
-#             ad = CarAd(
-#                 ad_id=data.get('ad_id'),
-#                 car_brand=data.get('car_brand'),
-#                 car_model=data.get('car_model'),
-#                 car_year=data.get('car_year'),
-#                 # car_body_type=data.get('car_body_type'),
-#                 # car_engine_type=data.get('car_engine_type'),
-#                 # car_engine_volume=data.get('car_engine_volume'),
-#                 # car_power=data.get('car_power'),
-#                 # car_transmission_type=data.get('car_transmission_type'),
-#                 # car_color=data.get('car_color'),
-#                 # car_mileage=data.get('car_mileage'),
-#                 # car_document_status=data.get('car_document_status'),
-#                 # car_owners=data.get('car_owners'),
-#                 # car_customs_cleared=data.get('car_customs_cleared'),
-#                 # car_condition=data.get('car_condition'),
-#                 # car_description=data.get('car_description'),
-#                 # car_currency=data.get('currency'),  # Передаем значение валюты
-#                 # car_price=data.get('car_price'),  # Передаем цену
-#                 # car_location=data.get('car_location'),
-#                 # seller_name=data.get('seller_name'),
-#                 # seller_phone=data.get('seller_phone'),
-#                 # username=data.get('username'),
-#                 # user_id=data.get('user_id'),
-#                 # photos=','.join(data.getlist('photos'))
-#             )
-#             ad.title = f"{ad.car_brand} {ad.car_model} ({ad.car_year})"  # Устанавливаем title
-#             ad.save()  # Сохраняем модель
-#
-#         elif category == 'realty':
-#             ad = RealtyAd(
-#                 ad_id=data.get('ad_id'),
-#                 realty_deal=data.get('realty_deal'),
-#                 # realty_type=data.get('realty_type'),
-#                 # realty_square=data.get('realty_square'),
-#                 # realty_rooms=data.get('realty_rooms'),
-#                 # realty_floors_total=data.get('realty_floors_total'),
-#                 # realty_floor=data.get('realty_floor'),
-#                 # realty_currency=data.get('currency'),  # Передаем значение валюты
-#                 # realty_price=data.get('realty_price'),  # Передаем цену
-#                 # realty_location=data.get('realty_location'),
-#                 # realty_contacts=data.get('realty_contacts'),
-#                 # realty_name=data.get('realty_name'),
-#                 # user_id=data.get('user_id'),
-#                 # photos=','.join(data.getlist('photos'))
-#             )
-#             ad.title = ad.realty_deal  # Устанавливаем title
-#             ad.save()  # Сохраняем модель
-#
-#         elif category == 'job':
-#             ad = JobAd(
-#                 ad_id=data.get('ad_id'),
-#                 job_title=data.get('job_title'),
-#                 # job_requirements=data.get('job_requirements'),
-#                 # job_responsibilities=data.get('job_responsibilities'),
-#                 # job_conditions=data.get('job_conditions'),
-#                 # job_contacts=data.get('job_contacts'),
-#                 # job_currency=data.get('currency'),  # Передаем значение валюты
-#                 # job_price=data.get('job_price'),  # Передаем цену
-#                 # job_name=data.get('job_name'),
-#                 # user_id=data.get('user_id'),
-#                 # photos=','.join(data.getlist('photos'))
-#             )
-#             ad.title = ad.job_title  # Устанавливаем title
-#             ad.save()  # Сохраняем модель
-#
-#         else:
-#             return HttpResponse("Unsupported category", status=400)
-#
-#         return HttpResponse("Data received successfully", status=200)
-#
-#     else:
-#         return HttpResponse("Method not allowed", status=405)
-
-# def display_cars(request):
-#     car_brands = Car.objects.values_list('car_brand', flat=True).distinct()
-#     car_models = Car.objects.values_list('car_model', flat=True).distinct()
-#     car_years = Car.objects.values_list('car_year', flat=True).distinct()
-#
-#     selected_brand = request.GET.get('car_brand')
-#     selected_model = request.GET.get('car_model')
-#     selected_year = request.GET.get('car_year')
-#
-#     filtered_cars = Car.objects.all()
-#
-#     if selected_brand:
-#         filtered_cars = filtered_cars.filter(car_brand=selected_brand)
-#     if selected_model:
-#         filtered_cars = filtered_cars.filter(car_model=selected_model)
-#     if selected_year:
-#         filtered_cars = filtered_cars.filter(car_year=selected_year)
-#
-#     all_cars = Car.objects.all().order_by('date_published')
-#
-#     return render(request, 'tgapi/adv.html', {'cars': all_cars, 'filtered_cars': filtered_cars, 'car_brands': car_brands, 'car_years': car_years, 'car_models': car_models})
-#
-# class CarDetailView(DetailView):
-#     model = CarAd
-#     template_name = 'tgapi/car_detail.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
-#
-#
-#
-# class RealtyListAPIView(APIView):
-#     def get(self, request):
-#         realty_data = self.get_realty_data()
-#         job_data = self.get_job_data()
-#         car_data = self.get_car_data()
-#
-#         # Merge data from different categories
-#         merged_data = realty_data + job_data + car_data
-#         print(merged_data)
-#         return Response(merged_data)
-#
-#     def get_realty_data(self):
-#         realties = Realty.objects.all()
-#         realty_data = []
-#
-#         for realty in realties:
-#             realty_data.append({
-#                 'type': realty.realty_type,
-#                 'user_id': realty.user_id,
-#                 'ad_id': realty.ad_id,
-#                 'deal': realty.realty_deal,
-#                 'square': realty.realty_square,
-#                 'photos': realty.photos,
-#                 'date_published': realty.date_published.strftime('%Y-%m-%d %H:%M:%S')
-#             })
-#
-#         return realty_data
-#
-#     def get_job_data(self):
-#         jobs = Job.objects.all()
-#         job_data = []
-#
-#         for job in jobs:
-#             job_data.append({
-#                 'type': 'job',
-#                 'user_id': job.user_id,
-#                 'ad_id': job.ad_id,
-#                 'title': job.job_title,
-#                 'requirements': job.job_requirements,
-#                 'responsibilities': job.job_responsibilities,
-#                 'conditions': job.job_conditions,
-#                 'contacts': job.job_contacts,
-#                 'photos': job.photos,
-#                 'is_active': job.is_active
-#             })
-#
-#         return job_data
-#
-#     def get_car_data(self):
-#         cars = Car.objects.all()
-#         car_data = []
-#
-#         for car in cars:
-#             car_data.append({
-#                 'type': 'car',
-#                 'user_id': car.user_id,
-#                 'ad_id': car.ad_id,
-#                 'brand': car.car_brand,
-#                 'model': car.car_model,
-#                 'year': car.car_year,
-#                 'body_type': car.car_body_type,
-#                 'engine_type': car.car_engine_type,
-#                 'engine_volume': car.car_engine_volume,
-#                 'power': car.car_power,
-#                 'transmission_type': car.car_transmission_type,
-#                 'color': car.car_color,
-#                 'mileage': car.car_mileage,
-#                 'document_status': car.car_document_status,
-#                 'owners': car.car_owners,
-#                 'customs_cleared': car.car_customs_cleared,
-#                 'condition': car.car_condition,
-#                 'description': car.car_description,
-#                 'currency': car.currency,
-#                 'price': car.car_price,
-#                 'location': car.car_location,
-#                 'seller_name': car.seller_name,
-#                 'seller_phone': car.seller_phone,
-#                 'photos': car.photos,
-#                 'date_published': car.date_published.strftime('%Y-%m-%d %H:%M:%S'),
-#                 'is_active': car.is_active
-#             })
-#
-#         return car_data
-
-
-
-# @api_view(['GET'])
-# def realty_list(request):
-#     realtys = Realty.objects.all()
-#     realty_data = list('json', realtys.values())
-#     return JsonResponse(realty_data, safe=False)
+class RealtyAdDetailView(DetailView, ViewCountMixin):
+    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
+    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
+    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
 
 
 def cars(request):
     car_ads = CarAd.objects.all()
-
     # Получение уникальных марок авто и передача их в шаблон
     car_brands = CarAd.objects.values_list('car_brand', flat=True).distinct()
 
@@ -437,16 +217,6 @@ def cars(request):
         'price_to': price_to
     })
 
-
-
-class CarAdDetailView(DetailView):
-    model = CarAd
-    template_name = 'tgapi/car_detail.html'
-    context_object_name = 'car_ad'
-
-
-
-# Допустим, вам нужно передавать выбранную категорию в параметрах запроса (GET запрос)
 def jobs(request):
     selected_category = request.GET.get('category', None)
     min_price = request.GET.get('min_price')
@@ -466,14 +236,6 @@ def jobs(request):
         job_ads = job_ads.filter(price__lte=max_price)
 
     return render(request, 'tgapi/jobs.html', {'job_ads': job_ads, 'categories': categories})
-
-class JobAdDetailView(DetailView):
-    model = JobAd
-    template_name = 'tgapi/jobs_detail.html'
-    context_object_name = 'job_ad'
-
-
-from django.db.models import F
 
 def realtys(request):
     selected_realty_type = request.GET.get('realty_type', None)
@@ -496,10 +258,5 @@ def realtys(request):
     elif sort_by == '-date_published':
         realty_ads = realty_ads.order_by('date_published')
 
-    return render(request, 'tgapi/realty.html', {'realty_ads': realty_ads, 'realty_types': realty_types, 'realty_deals': realty_deals})
-
-
-class RealtyAdDetailView(DetailView):
-    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
-    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
-    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
+    return render(request, 'tgapi/realty.html',
+                  {'realty_ads': realty_ads, 'realty_types': realty_types, 'realty_deals': realty_deals})
