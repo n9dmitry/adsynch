@@ -25,6 +25,7 @@ class Ads(models.Model):
     price = models.IntegerField(blank=True, null=True)
     description = models.TextField(max_length=400, blank=True, null=True)
     category = models.CharField(max_length=15, blank=True, null=True)
+    views = models.PositiveIntegerField(default=0)  # Поле для счётчика просмотров
 
     class Meta:
         abstract = True
