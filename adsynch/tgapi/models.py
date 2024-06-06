@@ -73,7 +73,7 @@ class RealtyAd(Ads):
 
 
 class JobAd(Ads):
-    job_category = models.CharField(max_length=255, default='0')
+    job_category = models.CharField(max_length=255, blank=True, null=True)
     # job_title = models.CharField(max_length=255, default='0')
     # job_description = models.TextField()
     # job_currency = models.CharField(max_length=255, default='0')

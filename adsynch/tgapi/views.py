@@ -126,6 +126,7 @@ class CarAdView(APIView):
         user = get_or_create_user(request.data)
         dt = request.data.copy()
         dt['user'] = user.id
+        dt['is_active'] = 'True'
 
         serializer = CarAdSerializer(data=dt)
         if serializer.is_valid():
@@ -153,6 +154,8 @@ class RealtyAdView(APIView):
                 dt[key] = None
 
         dt['user'] = user.id
+        dt['is_active'] = 'True'
+
         serializer = RealtyAdSerializer(data=dt)
 
         if serializer.is_valid():
@@ -168,8 +171,7 @@ class JobAdView(APIView):
         dt = request.data.copy()
 
         dt['user'] = user.id
-        if 'is_active' in dt:
-            dt['is_active'] = 'True'
+        dt['is_active'] = 'True'
 
         serializer = JobAdSerializer(data=dt)
         if serializer.is_valid():
