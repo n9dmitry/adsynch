@@ -51,7 +51,6 @@ class CarAd(Ads):
     car_customs_cleared = models.TextField()
     car_condition = models.CharField(max_length=255, default='0')
     # car_description = models.TextField()
-    # car_currency = models.CharField(max_length=255, default='0')
     car_price = models.FloatField(default='0')
     car_location = models.CharField(max_length=255, default='0')
     car_name = models.CharField(max_length=255, default='0')
