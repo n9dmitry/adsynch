@@ -75,7 +75,6 @@ def generate_link(request):
     user_profile_link.save()
 
     link = f"http://127.0.0.1:8000/api/{username}/{token}/"
-
     return JsonResponse({'link': link})
 
 
@@ -87,12 +86,20 @@ def profile_view(request, username, token):
     return redirect('/')
 
 
+# @csrf_exempt
+# @require_http_methods(["GET"])
+# def check_user(request, username):
+#     exists = User.objects.filter(username=username).exists()
+#     print(JsonResponse({'exists': exists}))
+#     return JsonResponse({'exists': exists})
+
 @csrf_exempt
 @require_http_methods(["GET"])
 def check_user(request, username):
+    print("Received request for username:", username)
     exists = User.objects.filter(username=username).exists()
+    print("User exists:", exists)  # Отладочный вывод результата запроса к базе данных
     return JsonResponse({'exists': exists})
-
 
 def get_or_create_user(data):
     user_id = data['user_id']
@@ -260,3 +267,4 @@ def realtys(request):
 
     return render(request, 'tgapi/realty.html',
                   {'realty_ads': realty_ads, 'realty_types': realty_types, 'realty_deals': realty_deals})
+
