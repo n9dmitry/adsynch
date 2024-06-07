@@ -1,0 +1,15 @@
+.fa-check-square {
+	color: #d24a43;
+}
+
+.fa-at{
+	color: #d24a43;
+
+}
+
+.fa-car, .fa-city, .fa-briefcase, .fa-telegram {
+	color: #000;
+	 width: 24px;
+    height: 24px;
+    display: inline-block;
+}

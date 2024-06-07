@@ -25,6 +25,7 @@ class Ads(models.Model):
     price = models.IntegerField(blank=True, null=True)
     description = models.TextField(max_length=400, blank=True, null=True)
     category = models.CharField(max_length=15, blank=True, null=True)
+    views = models.PositiveIntegerField(default=0)  # Поле для счётчика просмотров
 
     class Meta:
         abstract = True
@@ -50,7 +51,6 @@ class CarAd(Ads):
     car_customs_cleared = models.TextField()
     car_condition = models.CharField(max_length=255, default='0')
     # car_description = models.TextField()
-    # car_currency = models.CharField(max_length=255, default='0')
     car_price = models.FloatField(default='0')
     car_location = models.CharField(max_length=255, default='0')
     car_name = models.CharField(max_length=255, default='0')
@@ -73,7 +73,7 @@ class RealtyAd(Ads):
 
 
 class JobAd(Ads):
-    job_category = models.CharField(max_length=255, default='0')
+    job_category = models.CharField(max_length=255, blank=True, null=True)
     # job_title = models.CharField(max_length=255, default='0')
     # job_description = models.TextField()
     # job_currency = models.CharField(max_length=255, default='0')
