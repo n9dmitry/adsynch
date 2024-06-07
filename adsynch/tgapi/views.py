@@ -174,17 +174,17 @@ class ViewCountMixin:
         obj.refresh_from_db()
         return obj
 
-class CarAdDetailView(DetailView, ViewCountMixin):
+class CarAdDetailView(ViewCountMixin, DetailView):
     model = CarAd
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
 
-class JobAdDetailView(DetailView, ViewCountMixin):
+class JobAdDetailView(ViewCountMixin, DetailView):
     model = JobAd
     template_name = 'tgapi/jobs_detail.html'
     context_object_name = 'job_ad'
 
-class RealtyAdDetailView(DetailView, ViewCountMixin):
+class RealtyAdDetailView(ViewCountMixin, DetailView):
     model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
     template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
     context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
