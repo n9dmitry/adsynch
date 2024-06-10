@@ -8,7 +8,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from tgapi.models import CarAd, RealtyAd, JobAd, Ads
 from blog.models import Article
-from .models import AboutPage
+from .models import AboutPage, ServicesPage
 # from .forms import CustomPasswordResetForm
 from django.contrib.auth.decorators import login_required
 
@@ -31,7 +31,8 @@ def index(request):
 
 
 def services(request):
-    return render(request, 'main/services.html')
+    services_pages = ServicesPage.objects.all()
+    return render(request, 'main/services.html', {'services_pages': services_pages})
 
 def about(request):
     about_pages = AboutPage.objects.all()

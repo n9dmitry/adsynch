@@ -19,3 +19,10 @@ class AboutPage(models.Model):
 
     def __str__(self):
         return self.title
+
+class ServicesPage(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Название услуги')
+    description = models.TextField(verbose_name='Описание услуги')
+
+    def __str__(self):
+        return self.title
