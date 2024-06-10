@@ -1,0 +1,20 @@
+{% extends 'main/layout2.html' %}
+{% load static %}
+{% block about %}
+                    <section class="about-section" style="margin-top:5vh;margin-bottom:15vh;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="about-img">
+          <img src="{%  static 'main/img/logo.png' %}" alt="Image" class="img-fluid">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h2>О нас</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla volutpat ex ac ante hendrerit.</p>
+        <p>Sed ac efficitur mauris. Integer nec mi eget ipsum.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
