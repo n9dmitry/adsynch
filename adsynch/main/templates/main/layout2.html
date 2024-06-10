@@ -18,18 +18,15 @@
                 <a class="link d-none d-lg-block"><i class="fas fa-at"></i> admin@admin.ru</a>
             </div>
 <div class="col-lg-6">
-    <div class="dropdown">
-        <a class="btn dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle"></i>
-        </a>
-        <a class="nav-link telegram-link" href="#" id="userDropdown">
-            <i class="fab fa-telegram telegram-icon"></i> {{ user.username }}
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item" href="#">Мои объявления</a></li>
-            <li><a class="dropdown-item" href="#">Выход</a></li>
-        </ul>
-    </div>
+<div class="dropdown">
+    <a class=" d-flex" href="#" style="padding-bottom:5px; text-decoration: none;" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-user-circle" style="margin-top:5px;"></i><h5 style="color: #fff; margin-left:15px;">{{ user.username }}</h5>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+        <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
+        <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton" >Выход</a></li>
+    </ul>
+</div>
 </div>
         </div>
         </div>
@@ -49,10 +46,10 @@
                     <a class="nav-link" href=".">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">О нас</a>
+                    <a class="nav-link" href="/about">О нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Услуги</a>
+                    <a class="nav-link" href="/services">Услуги</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/articles">Блог</a>
@@ -81,6 +78,13 @@
 
                 {% block blog %}
 {% endblock %}
+
+                    {% block about %}
+{% endblock %}
+
+                        {% block services %}
+{% endblock %}
+
 
 <footer class="footer-section">
         <div class="container">

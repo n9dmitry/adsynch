@@ -7,6 +7,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from tgapi.models import CarAd, RealtyAd, JobAd, Ads
+from blog.models import Article
 from .models import Banner
 # from .forms import CustomPasswordResetForm
 from django.contrib.auth.decorators import login_required
@@ -24,8 +25,16 @@ def index(request):
     car_ad = CarAd.objects.all()
     realty_ad = RealtyAd.objects.all()
     job_ad = JobAd.objects.all()
+    published_articles = Article.objects.filter(published=True)
 
-    return render(request, 'main/index.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad})
+    return render(request, 'main/index.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad, 'published_articles': published_articles})
+
+
+def services(request):
+    return render(request, 'main/services.html')
+
+def about(request):
+    return render(request, 'main/about.html')
 
 
 def products(request):
