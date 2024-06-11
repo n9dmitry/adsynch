@@ -20,7 +20,7 @@
         <div class="card-product text-left">
             <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">
             <div class="prod-text">
-                <a href=""><h3>{{ job_ad.title }}</h3></a>
+                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
                 <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
                 <p>{{ job_ad.car_location }}</p>
             </div>
