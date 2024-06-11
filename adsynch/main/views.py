@@ -8,7 +8,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from tgapi.models import CarAd, RealtyAd, JobAd, Ads
 from blog.models import Article
-from .models import Banner
+from .models import AboutPage, ServicesPage
 # from .forms import CustomPasswordResetForm
 from django.contrib.auth.decorators import login_required
 
@@ -31,10 +31,12 @@ def index(request):
 
 
 def services(request):
-    return render(request, 'main/services.html')
+    services_pages = ServicesPage.objects.all()
+    return render(request, 'main/services.html', {'services_pages': services_pages})
 
 def about(request):
-    return render(request, 'main/about.html')
+    about_pages = AboutPage.objects.all()
+    return render(request, 'main/about.html', {'about_pages': about_pages})
 
 
 def products(request):
@@ -127,27 +129,4 @@ def logout_view(request):
 #     else:
 #         form = CustomPasswordResetForm()
 #     return render(request, 'main/forgot_password.html', {'form': form})
-
-@login_required
-def my_ads_view(request):
-    user = request.user
-    car_ads = CarAd.objects.filter(user=user)
-    realty_ads = RealtyAd.objects.filter(user=user)
-    job_ads = JobAd.objects.filter(user=user)
-
-    context = {
-        'active_car_ads': car_ads.filter(is_active=True),
-        'inactive_car_ads': car_ads.filter(is_active=False),
-        'active_realty_ads': realty_ads.filter(is_active=True),
-        'inactive_realty_ads': realty_ads.filter(is_active=False),
-        'active_job_ads': job_ads.filter(is_active=True),
-        'inactive_job_ads': job_ads.filter(is_active=False),
-    }
-
-    return render(request, 'main/my_ads.html', context)
-
-# def main_banner(request):
-#     bnr = Banner.objects.all()
-#     print(bnr)
-#     return render(request, 'main/layout.html', {'bnr': bnr})
 
