@@ -31,8 +31,9 @@ def index(request):
 
 
 def services(request):
-    services_pages = ServicesPage.objects.all()
-    return render(request, 'main/services.html', {'services_pages': services_pages})
+    service_pages = ServicesPage.objects.all()
+    print(service_pages)  # Добавим вывод в консоль для проверки данных
+    return render(request, 'main/services.html', {'service_pages': service_pages})
 
 def about(request):
     about_pages = AboutPage.objects.all()
