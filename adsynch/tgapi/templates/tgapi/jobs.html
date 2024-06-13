@@ -11,7 +11,7 @@
                                 <img src="{{ job_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
                             </div>
                             <div style="flex: 2; padding: 0 20px;">
-                                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.job_title }}</a>
+                                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
                                 <p class="card-text">
                                     <strong>Категория:</strong> {{ job_ad.job_category }} <br>
                                     <strong>Зарплата:</strong> {{ job_ad.price }} <br>

@@ -7,15 +7,14 @@
 
 
 
-    <section class="partner">
-        <h3 class="text-center"> Наши партнеры </h3>
-        <div class="partners">
-        <img src="https://img.icons8.com/ios-filled/50/bmw.png" alt="Partner 1" class="partner-logo">
-        <img src="https://img.icons8.com/ios-filled/50/jeep.png" alt="Partner 2" class="partner-logo">
-        <img src="https://img.icons8.com/ios-filled/50/volkswagen.png" alt="Partner 3" class="partner-logo">
+<div class="container-fluid banner">
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
         </div>
+    </div>
+</div>
 
-    </section>
 
 <section class="blog">
         <h3 class="text-center">Блог</h3>
@@ -30,9 +29,13 @@
         </div>
 </section>
 
-    <section class="banner">
-        <img src="img/banner.webp" alt="Рекламный баннер">
-    </section>
+<div class="container-fluid banner">
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
