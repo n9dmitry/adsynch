@@ -31,7 +31,6 @@ def index(request):
 
 def services(request):
     service_pages = ServicesPage.objects.all()
-    print(service_pages)  # Добавим вывод в консоль для проверки данных
     return render(request, 'main/services.html', {'service_pages': service_pages})
 
 def about(request):
@@ -48,27 +47,18 @@ def my_items(request, username):
         inactive_realty_ads = RealtyAd.objects.filter(is_active=False, user__username=username)
         active_job_ads = JobAd.objects.filter(is_active=True, user__username=username)
         inactive_job_ads = JobAd.objects.filter(is_active=False, user__username=username)
+        context = {
+            'active_car_ads': active_car_ads,
+            'inactive_car_ads': inactive_car_ads,
+            'active_realty_ads': active_realty_ads,
+            'inactive_realty_ads': inactive_realty_ads,
+            'active_job_ads': active_job_ads,
+            'inactive_job_ads': inactive_job_ads,
+        }
     else:
-        active_car_ads = CarAd.objects.filter(is_active=True)
-        inactive_car_ads = CarAd.objects.filter(is_active=False)
-        active_realty_ads = RealtyAd.objects.filter(is_active=True)
-        inactive_realty_ads = RealtyAd.objects.filter(is_active=False)
-        active_job_ads = JobAd.objects.filter(is_active=True)
-        inactive_job_ads = JobAd.objects.filter(is_active=False)
+        return render(request, 'error_page.html', {'message': 'Username is required'})
 
-    context = {
-        'active_car_ads': active_car_ads,
-        'inactive_car_ads': inactive_car_ads,
-        'active_realty_ads': active_realty_ads,
-        'inactive_realty_ads': inactive_realty_ads,
-        'active_job_ads': active_job_ads,
-        'inactive_job_ads': inactive_job_ads,
-    }
-    print(username)
-    return render(request, 'my_items.html', context, {'username': username})
-
-
-
+    return render(request, 'main/my_items.html', context)
 
 def products(request):
     car_ad = CarAd.objects.all()
@@ -106,7 +96,6 @@ def register(request):
 
     else:
         form = RegistrationForm()
-        print('3')
     return render(request, 'main/index.html', {'form': form})
 
 def login_view(request):

@@ -22,10 +22,12 @@
     <a class=" d-flex" href="#" style="padding-bottom:5px; text-decoration: none;" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fas fa-user-circle" style="margin-top:5px;"></i><h5 style="color: #fff; margin-left:15px;">{{ user.username }}</h5>
     </a>
+    {% if user.is_authenticated %}
     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
         <li><a class="dropdown-item" href="{% url 'my_items' username=user.username %}">Мои объявления</a></li>
         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton" >Выход</a></li>
     </ul>
+    {% endif %}
 </div>
 </div>
         </div>
