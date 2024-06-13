@@ -18,6 +18,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('about', views.about, name='about'),
     path('services', views.services, name='services'),
+    path('contact', views.contacts, name='contact'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

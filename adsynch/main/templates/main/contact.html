@@ -1,0 +1,35 @@
+{% extends 'main/layout2.html' %}
+{% block contact %}
+{% load static %}
+
+<div class="container mt-4 contact">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Свяжитесь с нами</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Имя:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Введите ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Введите ваш email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Сообщение:</label>
+                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger">Отправить</button>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <h2>Контактная информация</h2>
+            <p><strong>Телефон:</strong> +7 (123) 456-7890</p>
+            <p><strong>Адрес:</strong> г. Москва, ул. Примерная, д. 123</p>
+            <p><strong>Telegram:</strong> @example_telegram</p>
+            <p><strong>Email:</strong> info@example.com</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

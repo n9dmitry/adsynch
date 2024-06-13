@@ -55,10 +55,10 @@
                     <a class="nav-link" href="/articles">Блог</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Контакты</a>
+                    <a class="nav-link" href="/contact">Контакты</a>
                 </li>
             </ul>
-            <button class="btn btn-danger mr-2"><i class="fas fa-plus"></i>Добавить объявление</button>
+            <a href="https://t.me/selbie_bot" class="btn btn-danger mr-2"><i class="fas fa-plus"></i>Добавить объявление</a>
         </div>
     </nav>
 </header>
@@ -83,6 +83,9 @@
 {% endblock %}
 
                         {% block services %}
+{% endblock %}
+
+                            {% block contact %}
 {% endblock %}
 
 
@@ -132,7 +135,6 @@
                             </div>
                             <div class="footer-social-icon">
                                 <a href="#"><i class="fab fa-telegram-plane"></i></a>
-                                <a href="#"><i class="fab fa-vk"></i></a>
                             </div>
                         </div>
                     </div>
@@ -142,20 +144,22 @@
                                 <h3>Меню</h3>
                             </div>
                             <ul>
-                                <li><a href="#">Объявления</a></li>
+                                <li><a href="#">Главная</a></li>
                                 <li><a href="#">О Нас</a></li>
+                                <li><a href="#">Услуги</a></li>
+                                <li><a href="#">Блог</a></li>
                                 <li><a href="#">Контакты</a></li>
-                                <li><a href="#">Работа</a></li>
                             </ul>
                         </div>
                     </div>
+
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
                         <div class="footer-widget">
                             <div class="footer-widget-heading">
                                 <h3>Разместить объявление</h3>
                             </div>
                             <div class="footer-text mb-25">
-<img width="150" src="img/qr.webp" style="border: 1px solid; padding: 15px;">
+<img width="150" src="{%  static 'main/img/qr.webp' %}" style="border: 1px solid; padding: 15px;">
                         </div>
                     </div>
                 </div>

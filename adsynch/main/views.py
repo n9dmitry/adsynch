@@ -34,6 +34,9 @@ def services(request):
     services_pages = ServicesPage.objects.all()
     return render(request, 'main/services.html', {'services_pages': services_pages})
 
+def contacts(request):
+    return render(request, 'main/contact.html')
+
 def about(request):
     about_pages = AboutPage.objects.all()
     return render(request, 'main/about.html', {'about_pages': about_pages})
