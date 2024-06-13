@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                {% for about_page in about_pages %}
+                {% for about_page in about_pages|slice:1 %}
 
                 <div class="about-img">
                     <img src="{{ about_page.image.url }}" alt="logo" class="img-fluid">

@@ -23,7 +23,7 @@
         <i class="fas fa-user-circle" style="margin-top:5px;"></i><h5 style="color: #fff; margin-left:15px;">{{ user.username }}</h5>
     </a>
     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-        <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
+        <li><a class="dropdown-item" href="{% url 'my_items' username=user.username %}">Мои объявления</a></li>
         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton" >Выход</a></li>
     </ul>
 </div>

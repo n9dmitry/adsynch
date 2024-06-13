@@ -1,24 +1,23 @@
-# Стандартные Django-импорты
+import uuid
+from transliterate import translit
+
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
-from tgapi.models import CarAd, RealtyAd, JobAd, Ads
+
+from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+
+from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
 from .models import AboutPage, ServicesPage
 # from .forms import CustomPasswordResetForm
-from django.contrib.auth.decorators import login_required
 
-
-
-# Импорты из проекта
-from .forms import RegistrationForm
-# Внешние библиотеки
 import uuid
 from transliterate import translit
+
 
 
 def index(request):
@@ -38,6 +37,37 @@ def services(request):
 def about(request):
     about_pages = AboutPage.objects.all()
     return render(request, 'main/about.html', {'about_pages': about_pages})
+
+@login_required
+def my_items(request, username):
+
+    if username:
+        active_car_ads = CarAd.objects.filter(is_active=True, user__username=username)
+        inactive_car_ads = CarAd.objects.filter(is_active=False, user__username=username)
+        active_realty_ads = RealtyAd.objects.filter(is_active=True, user__username=username)
+        inactive_realty_ads = RealtyAd.objects.filter(is_active=False, user__username=username)
+        active_job_ads = JobAd.objects.filter(is_active=True, user__username=username)
+        inactive_job_ads = JobAd.objects.filter(is_active=False, user__username=username)
+    else:
+        active_car_ads = CarAd.objects.filter(is_active=True)
+        inactive_car_ads = CarAd.objects.filter(is_active=False)
+        active_realty_ads = RealtyAd.objects.filter(is_active=True)
+        inactive_realty_ads = RealtyAd.objects.filter(is_active=False)
+        active_job_ads = JobAd.objects.filter(is_active=True)
+        inactive_job_ads = JobAd.objects.filter(is_active=False)
+
+    context = {
+        'active_car_ads': active_car_ads,
+        'inactive_car_ads': inactive_car_ads,
+        'active_realty_ads': active_realty_ads,
+        'inactive_realty_ads': inactive_realty_ads,
+        'active_job_ads': active_job_ads,
+        'inactive_job_ads': inactive_job_ads,
+    }
+    print(username)
+    return render(request, 'my_items.html', context, {'username': username})
+
+
 
 
 def products(request):
@@ -107,7 +137,7 @@ def logout_view(request):
     auth_logout(request)
     return redirect('index')
 
-
+# понадобится при регистрации
 # def forgot_password(request):
 #     if request.method == 'POST':
 #         form = PasswordResetForm(request.POST)
