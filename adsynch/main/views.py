@@ -12,16 +12,23 @@ from django.contrib.auth.models import User
 
 from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
-from .models import AboutPage, ServicesPage
+from .models import AboutPage, ServicesPage, Bnr
 # from .forms import CustomPasswordResetForm
 
 import uuid
 from transliterate import translit
 
 
-
-
-
+# def bnr_list(request):
+#     banners = Bnr.objects.all()
+#     if position == 'top':
+#         banners = Bnr.objects.filter(position='top')
+#     elif position == 'center':
+#         banners = Bnr.objects.filter(position='center')
+#     elif position == 'bottom':
+#         banners = Bnr.objects.filter(position='bottom')
+#
+#     return render(request, 'main/index.html', {'banners': banners})
 
 
 
@@ -31,8 +38,21 @@ def index(request):
     job_ad = JobAd.objects.all()
     published_articles = Article.objects.filter(published=True)
 
-    return render(request, 'main/index.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad, 'published_articles': published_articles})
+    banners_top = Bnr.objects.filter(position='top')
+    banners_center = Bnr.objects.filter(position='center')
+    banners_bottom = Bnr.objects.filter(position='bottom')
 
+    context = {
+        'car_ad': car_ad,
+        'realty_ad': realty_ad,
+        'job_ad': job_ad,
+        'published_articles': published_articles,
+        'banners_top': banners_top,
+        'banners_center': banners_center,
+        'banners_bottom': banners_bottom,
+    }
+
+    return render(request, 'main/index.html', context)
 
 def services(request):
     service_pages = ServicesPage.objects.all()
