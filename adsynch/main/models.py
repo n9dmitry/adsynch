@@ -1,5 +1,14 @@
 from django.db import models
 
+
+class Bnr(models.Model):
+    image = models.ImageField(upload_to='media/', blank=True)
+    top_position = models.boolField(blank=True)
+    alt_text = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.get_position_display()} баннер"
+
 class UserProfile(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -8,12 +17,8 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.name
 
-# class Banner(models.Model):
-#     name = models.CharField(max_length=100, blank=True)
-#     image = models.ImageField(upload_to='static/media')
-
 class AboutPage(models.Model):
-    image = models.ImageField(upload_to='about_images/')
+    image = models.ImageField(upload_to='media/')
     title = models.CharField(max_length=200, default="О нас")
     description = models.TextField()
 

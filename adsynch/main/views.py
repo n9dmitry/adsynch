@@ -20,6 +20,11 @@ from transliterate import translit
 
 
 
+
+
+
+
+
 def index(request):
     car_ad = CarAd.objects.all()
     realty_ad = RealtyAd.objects.all()
