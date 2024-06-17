@@ -21,22 +21,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
+from .forms import CarAdFilterForm, RealtyAdFilterForm, JobAdFilterForm
+
 
 logger = logging.getLogger(__name__)
 
 from django.http import JsonResponse
 
-
-# def ad_detail(request, ad_id):
-#     ad = get_object_or_404(Ad, id=ad_id)
-#
-#     # Увеличение счётчика просмотров
-#     ad.views = F('views') + 1
-#     ad.save(update_fields=['views'])
-#
-#     ad.refresh_from_db()  # Обновление объекта после сохранения
-#
-#     return render(request, 'ad_detail.html', {'ad': ad})
 
 
 @require_http_methods(["GET"])

@@ -19,18 +19,6 @@ import uuid
 from transliterate import translit
 
 
-# def bnr_list(request):
-#     banners = Bnr.objects.all()
-#     if position == 'top':
-#         banners = Bnr.objects.filter(position='top')
-#     elif position == 'center':
-#         banners = Bnr.objects.filter(position='center')
-#     elif position == 'bottom':
-#         banners = Bnr.objects.filter(position='bottom')
-#
-#     return render(request, 'main/index.html', {'banners': banners})
-
-
 
 def index(request):
     car_ad = CarAd.objects.all()
