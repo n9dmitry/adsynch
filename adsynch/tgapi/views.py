@@ -21,7 +21,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
-from .forms import CarAdFilterForm, RealtyAdFilterForm, JobAdFilterForm
 
 
 logger = logging.getLogger(__name__)
