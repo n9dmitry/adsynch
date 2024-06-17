@@ -52,5 +52,20 @@
     </div>
 </div>
 
+<div class="container-fluid banner">
+    <div class="row">
+        {% if banners_bottom.exists %}  <!-- Проверяем, существует ли хотя бы один баннер -->
+        <div class="col-12">
+            {% with banner=banners_bottom.first %}  <!-- Извлекаем первый баннер из QuerySet -->
+            <img src="{{ banner.image.url }}" class="img-fluid" alt="Advertisement Image">
+            {% endwith %}
+        </div>
+        {% else %}
+        <div class="col-12">
+            <p>No banners available.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

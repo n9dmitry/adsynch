@@ -42,6 +42,14 @@ def index(request):
     banners_center = Bnr.objects.filter(position='center')
     banners_bottom = Bnr.objects.filter(position='bottom')
 
+    # Получение топ-4 объявлений по просмотрам для каждой категории
+    top_car_ads = CarAd.objects.order_by('-views')[:4]
+    top_realty_ads = RealtyAd.objects.order_by('-views')[:4]
+    top_job_ads = JobAd.objects.order_by('-views')[:4]
+
+    # Объединение всех объявлений в один список
+    recommendation_listing = list(top_car_ads) + list(top_realty_ads) + list(top_job_ads)
+
     context = {
         'car_ad': car_ad,
         'realty_ad': realty_ad,
@@ -50,6 +58,7 @@ def index(request):
         'banners_top': banners_top,
         'banners_center': banners_center,
         'banners_bottom': banners_bottom,
+        'recommendation_listing': recommendation_listing,  # Добавляем топ-12 объявлений в контекст
     }
 
     return render(request, 'main/index.html', context)
