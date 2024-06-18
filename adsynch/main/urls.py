@@ -19,6 +19,7 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('services', views.services, name='services'),
     path('contact', views.contacts, name='contact'),
+    path('my_ads/', views.my_ads_view, name='my_ads'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

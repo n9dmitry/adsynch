@@ -133,3 +133,20 @@ def logout_view(request):
 #         form = CustomPasswordResetForm()
 #     return render(request, 'main/forgot_password.html', {'form': form})
 
+@login_required
+def my_ads_view(request):
+    user = request.user
+    car_ads = CarAd.objects.filter(user=user)
+    realty_ads = RealtyAd.objects.filter(user=user)
+    job_ads = JobAd.objects.filter(user=user)
+
+    context = {
+        'active_car_ads': car_ads.filter(is_active=True),
+        'inactive_car_ads': car_ads.filter(is_active=False),
+        'active_realty_ads': realty_ads.filter(is_active=True),
+        'inactive_realty_ads': realty_ads.filter(is_active=False),
+        'active_job_ads': job_ads.filter(is_active=True),
+        'inactive_job_ads': job_ads.filter(is_active=False),
+    }
+
+    return render(request, 'main/my_ads.html', context)
