@@ -21,12 +21,28 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
+from django_filters.views import FilterView
 
 
 logger = logging.getLogger(__name__)
 
 from django.http import JsonResponse
 
+from .filters import CarAdFilter
+
+
+class CarAdListView(FilterView):
+    model = CarAd
+    template_name = 'tgapi/cars_test.html'  # Убедитесь, что путь правильный
+    context_object_name = 'car_ads'
+    filterset_class = CarAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
 
 
 @require_http_methods(["GET"])
