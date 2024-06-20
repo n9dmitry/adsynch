@@ -3,7 +3,6 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 # from .views import forgot_password
-from .views import my_items
 from django.contrib.auth import views as auth_views
 
 
@@ -17,9 +16,10 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    path('about/', views.about, name='about'),
-    path('services/', views.services, name='services'),
-    path('my_items/<str:username>/', views.my_items, name='my_items'),
+    path('about', views.about, name='about'),
+    path('services', views.services, name='services'),
+    path('contact', views.contacts, name='contact'),
+    path('my_ads/', views.my_ads_view, name='my_ads'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

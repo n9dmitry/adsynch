@@ -233,33 +233,37 @@ color:#d24a43;
     padding: 3vh;
     margin-top: 5vh;
 }
-    
-    .card-blog {
-        background-color: #fff;
-        border-radius: 5px;
-        padding: 20px;
-        width: 200px;
-        margin-left: 5vh;
-        margin-top: 2vh;
-    }
-    
-    .card-blog img {
+.card-blog {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    width: 320px;
+    margin-left: 5vh;
+    margin-top: 2vh;
+}
+
+.card-blog img {
     border-radius: 5px;
     width: 100%;
     object-fit: cover;
-    }
-    
-    .card-blog h3 {
-        font-size: 1.2em;
-        color: #333;
-        margin-bottom: 10px;
-        margin-top: 1vh;
-    }
-    
-    .card-blog p {
-        color: #666;
-    }
+}
 
+.card-blog h3 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 1vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-blog p {
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .partner {
     padding: 5vh;
     margin-top: 5vh;
@@ -543,6 +547,64 @@ a{
   color:steelblue;
 }
 
-.about-section {
+.contact {
+padding-bottom:15px;
+margin-bottom:10px;
+}
 
+
+.searchBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:  translate(-50%,50%);
+    background: #2f3640;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+
+}
+
+.searchBox:hover > .searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+.searchBox:hover > .searchButton {
+  background: white;
+  color : #2f3640;
+}
+
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2f3640;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.searchInput {
+    border:none;
+    background: none;
+    outline:none;
+    float:left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+
+}
+
+@media screen and (max-width: 620px) {
+.searchBox:hover > .searchInput {
+    width: 150px;
+    padding: 0 6px;
+}
 }

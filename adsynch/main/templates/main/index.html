@@ -6,22 +6,81 @@
 {% include 'main/products.html' %}
 
 
+
 <div class="container-fluid banner">
     <div class="row">
-        {% if banners_top.exists %}  <!-- Проверяем, существует ли хотя бы один баннер -->
         <div class="col-12">
-            {% with banner=banners_top.first %}  <!-- Извлекаем первый баннер из QuerySet -->
-            <img src="{{ banner.image.url }}" class="img-fluid" alt="Advertisement Image">
-            {% endwith %}
+            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
         </div>
-        {% else %}
-        <div class="col-12">
-            <p>No banners available.</p>
-        </div>
-        {% endif %}
     </div>
 </div>
 
+<section class="blog">
+        <h3 class="text-center">Авто</h3>
+    <div class="row justify-content-center">
+    {% for car_ad in car_ad|slice:5 %}
+        <div class="card-product text-left">
+            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">
+            <div class="prod-text">
+                <a href=""><h3>{{ car_ad.title }}</h3></a>
+                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>
+                <p>{{ car_ad.car_location }}</p>
+            </div>
+        </div>
+    {% endfor %}
+        </div>
+</section>
+
+<div class="container-fluid banner">
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+        </div>
+    </div>
+</div>
+
+<section class="blog">
+        <h3 class="text-center">Недвижимость</h3>
+    <div class="row justify-content-center">
+    {% for realty_ad in realty_ad|slice:5 %}
+        <div class="card-product text-left">
+            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">
+            <div class="prod-text">
+                <a href=""><h3>{{ realty_ad.title }}</h3></a>
+                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>
+                <p>{{ realty_ad.car_location }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+        </div>
+</section>
+
+
+
+<section class="blog">
+        <h3 class="text-center">Работа</h3>
+    <div class="row justify-content-center">
+    {% for job_ad in job_ad|slice:5 %}
+        <div class="card-product text-left">
+            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">
+            <div class="prod-text">
+                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
+                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
+                <p>{{ job_ad.car_location }}</p>
+            </div>
+        </div>
+    {% endfor %}
+        </div>
+</section>
+
+<div class="container-fluid banner">
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+        </div>
+    </div>
+</div>
 
 <section class="blog">
         <h3 class="text-center">Блог</h3>
@@ -36,36 +95,6 @@
         </div>
 </section>
 
-<div class="container-fluid banner">
-    <div class="row">
-        {% if banners_center.exists %}  <!-- Проверяем, существует ли хотя бы один баннер -->
-        <div class="col-12">
-            {% with banner=banners_center.first %}  <!-- Извлекаем первый баннер из QuerySet -->
-            <img src="{{ banner.image.url }}" class="img-fluid" alt="Advertisement Image">
-            {% endwith %}
-        </div>
-        {% else %}
-        <div class="col-12">
-            <p>No banners available.</p>
-        </div>
-        {% endif %}
-    </div>
-</div>
 
-<div class="container-fluid banner">
-    <div class="row">
-        {% if banners_bottom.exists %}  <!-- Проверяем, существует ли хотя бы один баннер -->
-        <div class="col-12">
-            {% with banner=banners_bottom.first %}  <!-- Извлекаем первый баннер из QuerySet -->
-            <img src="{{ banner.image.url }}" class="img-fluid" alt="Advertisement Image">
-            {% endwith %}
-        </div>
-        {% else %}
-        <div class="col-12">
-            <p>No banners available.</p>
-        </div>
-        {% endif %}
-    </div>
-</div>
 
 {% endblock %}

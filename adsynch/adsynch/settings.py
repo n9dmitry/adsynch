@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'main',
     'tgapi',
     'blog',
+    'search',
     'rest_framework',
     'ckeditor',
     'allauth',
