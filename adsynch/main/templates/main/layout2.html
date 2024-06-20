@@ -31,15 +31,13 @@
 </div>
 
             <div class="col-lg-6">
+<form action="{% url 'search_results' %}" method="get">
         <div class="searchBox">
 
-            <input class="searchInput"type="text" name="" placeholder="Search">
-            <button class="searchButton" href="#">
-                <i class="material-icons">
-                    search
-                </i>
-            </button>
+            <input class="searchInput"type="text" name="q" placeholder="Введите запрос..." value="{{ query }}">
+              <button type="submit">Искать</button>
         </div>
+</form>
 
 </div>
 
