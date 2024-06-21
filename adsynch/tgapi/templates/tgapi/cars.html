@@ -7,18 +7,18 @@
 
         <div class="col-md-9"> <!-- Make the main content wider towards the left -->
 
-            {% for car_ad in car_ads %}
+            {% for ad in car_ads %}
             <div class="card mb-4"> <!-- Added margin bottom for spacing -->
                 <div class="card-body" style="display: flex;">
                     <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
                         <img id="main-image-{{ forloop.counter }}" style="width: 100%; height: 120px; object-fit: cover;">
                     </div>
                     <div style="flex: 2; padding: 0 20px;">
-                        <a href="{% url 'carad-detail' pk=car_ad.pk %}"><h5 class="card-title">{{ car_ad.car_brand }} {{ car_ad.car_model }}</h5></a>
+                        <a href="{% url 'carad-detail' pk=ad.pk %}"><h5 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}</h5></a>
                         <p class="card-text">
-                            <strong>Год выпуска:</strong> {{ car_ad.car_year }}<br>
-                            <strong>Цена:</strong> {{ car_ad.car_price }} {{ car_currency }}<br>
-                            <strong>Местоположение:</strong> {{ car_ad.car_location }}
+                            <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
+                            <strong>Цена:</strong> {{ ad.car_price }} {{ currency }}<br>
+                            <strong>Местоположение:</strong> {{ ad.car_location }}
                         </p>
                     </div>
                 </div>
@@ -47,7 +47,9 @@
                     }
                 }
             </script>
-            {% endfor %}
+                    {% empty %}
+            <li>No car ads found.</li>
+        {% endfor %}
 
         </div>
 

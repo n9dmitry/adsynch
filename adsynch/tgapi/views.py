@@ -33,7 +33,7 @@ from .filters import CarAdFilter
 
 class CarAdListView(FilterView):
     model = CarAd
-    template_name = 'tgapi/cars_test.html'  # Убедитесь, что путь правильный
+    template_name = 'tgapi/cars.html'  # Убедитесь, что путь правильный
     context_object_name = 'car_ads'
     filterset_class = CarAdFilter
 
