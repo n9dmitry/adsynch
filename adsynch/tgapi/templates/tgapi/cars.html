@@ -57,72 +57,59 @@
     <div id="sidebar">
         <h5>Сортировка</h5>
 
-    <form method="get">
-        <!-- Поля для фильтров -->
+        <!-- Move this div block above all the form fields -->
         <div>
-            <label for="id_brand">Brand:</label>
-            <input type="text" name="brand" id="id_brand" value="{{ request.GET.brand }}">
+            <select onchange="window.location=this.value">
+                <option value="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=car_price">Сортировка по цене (дешевые)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=-car_price">Сортировка по цене (дорогие)</option>
+            </select>
         </div>
-        <div>
-            <label for="id_model">Model:</label>
-            <input type="text" name="model" id="id_model" value="{{ request.GET.model }}">
-        </div>
-        <div>
-            <label for="id_price_min">Price Min:</label>
-            <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}">
-        </div>
-        <div>
-            <label for="id_price_max">Price Max:</label>
-            <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}">
-        </div>
-        <div>
-            <label for="id_mileage_min">Mileage Min:</label>
-            <input type="number" name="mileage_min" id="id_mileage_min" value="{{ request.GET.mileage_min }}">
-        </div>
-        <div>
-            <label for="id_mileage_max">Mileage Max:</label>
-            <input type="number" name="mileage_max" id="id_mileage_max" value="{{ request.GET.mileage_max }}">
-        </div>
-        <div>
-            <label for="id_year_min">Year Min:</label>
-            <input type="number" name="year_min" id="id_year_min" value="{{ request.GET.year_min }}">
-        </div>
-        <div>
-            <label for="id_year_max">Year Max:</label>
-            <input type="number" name="year_max" id="id_year_max" value="{{ request.GET.year_max }}">
-        </div>
-        <div>
-            <label for="id_condition">Condition:</label>
-            <input type="text" name="condition" id="id_condition" value="{{ request.GET.condition }}">
-        </div>
-        <button type="submit">Filter</button>
-    </form>
 
-    <!-- Ссылки для сортировки -->
-    <div>
-        <a href="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</a>
-        <a href="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</a>
-        <a href="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</a>
-        <a href="?{{ request.GET.urlencode }}&order_by=car_price">Сортировка по цене (дешевые)</a>
-        <a href="?{{ request.GET.urlencode }}&order_by=-car_price">Сортировка по цене (дорогие)</a>
+        <form method="get">
+            <!-- Поля для фильтров -->
+            <div class="form-group">
+                <label for="id_brand">Brand:</label>
+                <input type="text" name="brand" id="id_brand" value="{{ request.GET.brand }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_model">Model:</label>
+                <input type="text" name="model" id="id_model" value="{{ request.GET.model }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_price_min">Price Min:</label>
+                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_price_max">Price Max:</label>
+                <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_mileage_min">Mileage Min:</label>
+                <input type="number" name="mileage_min" id="id_mileage_min" value="{{ request.GET.mileage_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_mileage_max">Mileage Max:</label>
+                <input type="number" name="mileage_max" id="id_mileage_max" value="{{ request.GET.mileage_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_year_min">Year Min:</label>
+                <input type="number" name="year_min" id="id_year_min" value="{{ request.GET.year_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_year_max">Year Max:</label>
+                <input type="number" name="year_max" id="id_year_max" value="{{ request.GET.year_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_condition">Condition:</label>
+                <input type="text" name="condition" id="id_condition" value="{{ request.GET.condition }}" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-danger">Filter</button>
+        </form>
     </div>
-
-    <!-- Список объявлений -->
-    <ul>
-        {% for ad in car_ads %}
-            <li>
-                <h2>{{ ad.title }}</h2>
-                <p>Price: {{ ad.car_price }}</p>
-                <p>Year: {{ ad.car_year }}</p>
-                <p>Brand: {{ ad.car_brand }}</p>
-                <p>Model: {{ ad.car_model }}</p>
-                <p>Views: {{ ad.views }}</p>
-                <p>Condition: {{ ad.car_condition }}</p>
-                <!-- Другие поля модели CarAd -->
-            </li>
-        {% empty %}
-            <li>No car ads found.</li>
-        {% endfor %}
-    </ul>
-
+</div>
+        </div>
+    </div>
 {% endblock %}
