@@ -12,38 +12,38 @@
 </head>
 <body>
 
-    <div class="header-top">
-        <div class="container">
+   <div class="header-top">
+    <div class="container">
         <div class="row">
-            <div class="col-lg-6 ">
-                <a class="link d-none d-lg-block"><i class="fas fa-at"></i> admin@admin.ru</a>
+            <div class="col-lg-6 mb-3 mb-lg-0" style="margin-top: 7px;">
+                <!-- content of the first column -->
+                <form action="{% url 'search_results' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-danger" name="q" placeholder="Введите запрос..." value="{{ query }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger">Искать</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-<div class="col-lg-6">
-<div class="dropdown">
-    <a class=" d-flex" href="#" style="padding-bottom:5px; text-decoration: none;" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-user-circle" style="margin-top:5px;"></i><h5 style="color: #fff; margin-left:15px;">{{ user.username }}</h5>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-        <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
-        <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton" >Выход</a></li>
-    </ul>
-</div>
-</div>
 
-            <div class="col-lg-6">
-<form action="{% url 'search_results' %}" method="get">
-        <div class="searchBox">
-
-            <input class="searchInput"type="text" name="q" placeholder="Введите запрос..." value="{{ query }}">
-              <button type="submit">Искать</button>
-        </div>
-</form>
-
+<div class="col-lg-6 d-flex justify-content-end">
+    <!-- content of the second column positioned to the right -->
+    <div class="dropdown" style="margin-top: 10px;">
+        <a class="d-flex" href="#" style="padding-bottom: 5px; text-decoration: none;" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle" style="margin-top: 5px;"></i>
+            <h5 style="color: #fff; margin-left: 15px;">{{ user.username }}</h5>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
+        </ul>
+    </div>
 </div>
 
-        </div>
         </div>
     </div>
+</div>
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -157,11 +157,11 @@
                                 <h3>Меню</h3>
                             </div>
                             <ul>
-                                <li><a href="#">Главная</a></li>
-                                <li><a href="#">О Нас</a></li>
-                                <li><a href="#">Услуги</a></li>
-                                <li><a href="#">Блог</a></li>
-                                <li><a href="#">Контакты</a></li>
+                                <li><a href=".">Главная</a></li>
+                                <li><a href="/about">О Нас</a></li>
+                                <li><a href="/services">Услуги</a></li>
+                                <li><a href="/articles">Блог</a></li>
+                                <li><a href="/contacts">Контакты</a></li>
                             </ul>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                                 <h3>Разместить объявление</h3>
                             </div>
                             <div class="footer-text mb-25">
-<img width="150" src="{%  static 'main/img/qr.webp' %}" style="border: 1px solid; padding: 15px;">
+<img width="150" src="{%  static 'main/img/qrcode.svg' %}" style="border: 1px solid; padding: 15px;">
                         </div>
                     </div>
                 </div>
