@@ -22,13 +22,13 @@ from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django_filters.views import FilterView
-
+from .filters import CarAdFilter, RealtyAdFilter, JobAdFilter
 
 logger = logging.getLogger(__name__)
 
 from django.http import JsonResponse
 
-from .filters import CarAdFilter
+
 
 
 class CarAdListView(FilterView):
@@ -58,7 +58,7 @@ class RealtyAdListView(FilterView):
         return queryset
 
 class JobAdListView(FilterView):
-    model = CarAd
+    model = JobAd
     template_name = 'tgapi/jobs.html'  # Убедитесь, что путь правильный
     context_object_name = 'job_ads'
     filterset_class = JobAdFilter

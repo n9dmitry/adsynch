@@ -23,6 +23,13 @@ class CarAdFilter(django_filters.FilterSet):
 class RealtyAdFilter(django_filters.FilterSet):
     price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
     price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
+    realty_deal = django_filters.CharFilter(field_name="realty_deal")
+    realty_type = django_filters.CharFilter(field_name="realty_type")
+    realty_commercial_type = django_filters.CharFilter(field_name="realty_commercial_type")
+    realty_square_min = django_filters.NumberFilter(field_name="realty_square", lookup_expr='gte')
+    realty_square_max = django_filters.NumberFilter(field_name="realty_square", lookup_expr='lte')
+    realty_rooms_min = django_filters.NumberFilter(field_name="realty_rooms", lookup_expr='gte')
+    realty_rooms_max = django_filters.NumberFilter(field_name="realty_rooms", lookup_expr='lte')
 
     class Meta:
         model = RealtyAd
@@ -33,7 +40,8 @@ class RealtyAdFilter(django_filters.FilterSet):
 class JobAdFilter(django_filters.FilterSet):
     price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
     price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
+    job_category = django_filters.CharFilter(field_name="job_category")
 
     class Meta:
         model = JobAd
-        fields = ['price_min', ]
+        fields = ['price_min', 'price_max', 'job_category']

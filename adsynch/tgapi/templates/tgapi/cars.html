@@ -73,39 +73,39 @@
         <form method="get">
             <!-- Поля для фильтров -->
             <div class="form-group">
-                <label for="id_brand">Brand:</label>
+                <label for="id_brand">Бренд:</label>
                 <input type="text" name="brand" id="id_brand" value="{{ request.GET.brand }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_model">Model:</label>
+                <label for="id_model">Модель:</label>
                 <input type="text" name="model" id="id_model" value="{{ request.GET.model }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_price_min">Price Min:</label>
+                <label for="id_price_min">Цена Min:</label>
                 <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_price_max">Price Max:</label>
+                <label for="id_price_max">Цена Max:</label>
                 <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_mileage_min">Mileage Min:</label>
+                <label for="id_mileage_min">Пробег Min:</label>
                 <input type="number" name="mileage_min" id="id_mileage_min" value="{{ request.GET.mileage_min }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_mileage_max">Mileage Max:</label>
+                <label for="id_mileage_max">Пробег Max:</label>
                 <input type="number" name="mileage_max" id="id_mileage_max" value="{{ request.GET.mileage_max }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_year_min">Year Min:</label>
+                <label for="id_year_min">Год Min:</label>
                 <input type="number" name="year_min" id="id_year_min" value="{{ request.GET.year_min }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_year_max">Year Max:</label>
+                <label for="id_year_max">Год Max:</label>
                 <input type="number" name="year_max" id="id_year_max" value="{{ request.GET.year_max }}" class="form-control">
             </div>
             <div class="form-group">
-                <label for="id_condition">Condition:</label>
+                <label for="id_condition">Состояние:</label>
                 <input type="text" name="condition" id="id_condition" value="{{ request.GET.condition }}" class="form-control">
             </div>
             <button type="submit" class="btn btn-danger">Filter</button>
