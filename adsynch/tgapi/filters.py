@@ -1,5 +1,6 @@
 import django_filters
-from .models import CarAd
+from .models import CarAd, RealtyAd, JobAd
+
 
 class CarAdFilter(django_filters.FilterSet):
     price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
@@ -14,4 +15,25 @@ class CarAdFilter(django_filters.FilterSet):
 
     class Meta:
         model = CarAd
-        fields = ['price_min', 'price_max', 'year_min', 'year_max', 'mileage_min', 'mileage_max', 'brand', 'model', 'condition']
+        fields = ['price_min', 'price_max', 'year_min', 'year_max', 'mileage_min', 'mileage_max', 'brand', 'model',
+                  'condition']
+
+
+# Пытаюсь сделать остальные категории
+class RealtyAdFilter(django_filters.FilterSet):
+    price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
+    price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
+
+    class Meta:
+        model = RealtyAd
+        fields = ['price_min', 'price_max', 'realty_deal', 'realty_type', 'realty_commercial_type', 'realty_square_min', 'realty_square_max',
+                  'realty_rooms_min', 'realty_rooms_max']
+
+
+class JobAdFilter(django_filters.FilterSet):
+    price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
+    price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
+
+    class Meta:
+        model = JobAd
+        fields = ['price_min', ]

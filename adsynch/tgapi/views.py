@@ -44,6 +44,32 @@ class CarAdListView(FilterView):
             queryset = queryset.order_by(order_by)
         return queryset
 
+class RealtyAdListView(FilterView):
+    model = RealtyAd
+    template_name = 'tgapi/realty.html'  # Убедитесь, что путь правильный
+    context_object_name = 'realty_ads'
+    filterset_class = RealtyAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
+
+class JobAdListView(FilterView):
+    model = CarAd
+    template_name = 'tgapi/jobs.html'  # Убедитесь, что путь правильный
+    context_object_name = 'job_ads'
+    filterset_class = JobAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
+
 
 @require_http_methods(["GET"])
 @api_view(['GET'])
