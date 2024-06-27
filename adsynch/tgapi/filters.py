@@ -9,8 +9,8 @@ class CarAdFilter(django_filters.FilterSet):
     year_max = django_filters.NumberFilter(field_name="car_year", lookup_expr='lte')
     mileage_min = django_filters.NumberFilter(field_name="car_mileage", lookup_expr='gte')
     mileage_max = django_filters.NumberFilter(field_name="car_mileage", lookup_expr='lte')
-    brand = django_filters.CharFilter(field_name="car_brand", lookup_expr='icontains')
-    model = django_filters.CharFilter(field_name="car_model", lookup_expr='icontains')
+    brand = django_filters.ModelChoiceFilter(queryset=CarAd.objects.values_list('car_brand', flat=True).distinct())
+    model = django_filters.ModelChoiceFilter(queryset=CarAd.objects.values_list('car_model', flat=True).distinct())
     condition = django_filters.CharFilter(field_name="car_condition", lookup_expr='icontains')
 
     class Meta:
