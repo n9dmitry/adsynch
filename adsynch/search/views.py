@@ -9,8 +9,14 @@ def search_view(request):
 
     if query and len(query) >= 3:
         car_ads = CarAd.objects.filter(title__icontains=query)
+        for ad in car_ads:
+            ad.category = "car"
         realty_ads = RealtyAd.objects.filter(title__icontains=query)
+        for ad in realty_ads:
+            ad.category = "realty"
         job_ads = JobAd.objects.filter(title__icontains=query)
+        for ad in job_ads:
+            ad.category = "job"
 
         # Combine the querysets into a single list of results
         results = list(car_ads) + list(realty_ads) + list(job_ads)
