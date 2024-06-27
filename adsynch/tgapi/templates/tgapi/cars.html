@@ -59,54 +59,23 @@
     <div id="sidebar" class="p-3 ">
         <h5 class="text-danger">Сортировка</h5>
         <div class="mb-3">
-    <select id="sortingSelect" class="form-select" onchange="updateSorting(this)">
-        <option value="">Выберите сортировку</option>
-        <option value="date_published">Новинки</option>
-        <option value="views">Сортировка по просмотрам (минимум)</option>
-        <option value="-views">Сортировка по просмотрам (максимум)</option>
-        <option value="car_price">Сортировка по цене (дешевые)</option>
-        <option value="-car_price">Сортировка по цене (дорогие)</option>
-    </select>
-</div>
-
-<script>
-    // Устанавливаем выбранное значение сортировки при загрузке страницы
-    document.addEventListener("DOMContentLoaded", function() {
-        var currentUrl = new URL(window.location.href);
-        var currentSorting = currentUrl.searchParams.get("order_by");
-        if (currentSorting) {
-            document.getElementById('sortingSelect').value = currentSorting;
-        }
-    });
-
-    function updateSorting(select) {
-        var currentUrl = new URL(window.location.href);
-        var selectedSorting = select.value;
-
-        if (selectedSorting) {
-            currentUrl.searchParams.set("order_by", selectedSorting);
-        } else {
-            currentUrl.searchParams.delete("order_by");
-        }
-
-        window.location.href = currentUrl.toString();
-    }
-</script>
+            <select onchange="window.location=this.value" class="form-select">
+                <option value="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=car_price">Сортировка по цене (дешевые)</option>
+                <option value="?{{ request.GET.urlencode }}&order_by=-car_price">Сортировка по цене (дорогие)</option>
+            </select>
+        </div>
         <form method="get">
             <!-- Поля для фильтров -->
-            <div id="car-ad-filter" class="form-group">
+            <div class="form-group">
                 <label for="id_brand">Бренд:</label>
-                <select name="brand" id="id_brand" class="form-control" onchange="updateModelField()">
-                    {% for choice in filter.form.brand.field.choices %}
-                        <option value="{{ choice.0 }}" {% if filter.data.brand == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
-                    {% endfor %}
-                </select>
+                <input type="text" name="brand" id="id_brand" value="{{ request.GET.brand }}" class="form-control">
             </div>
-            <div id="model-field" class="form-group" style="display: none;">
+            <div class="form-group">
                 <label for="id_model">Модель:</label>
-                <select name="model" id="id_model" class="form-control">
-                    <!-- Options will be populated by JavaScript -->
-                </select>
+                <input type="text" name="model" id="id_model" value="{{ request.GET.model }}" class="form-control">
             </div>
             <div class="form-group">
                 <label for="id_price_min">Цена Min:</label>
@@ -142,41 +111,4 @@
 </div>
         </div>
     </div>
-
-<script>
-    function updateModelField() {
-        var brandField = document.getElementById('id_brand');
-        var modelField = document.getElementById('model-field');
-        var modelSelect = document.getElementById('id_model');
-
-        if (brandField.value) {
-            modelField.style.display = 'block';
-
-            // Clear existing options
-            modelSelect.innerHTML = '';
-
-            // Fetch models based on selected brand
-            fetch(`/get-models/?brand=${brandField.value}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(model => {
-                        var option = document.createElement('option');
-                        option.value = model;
-                        option.textContent = model;
-                        modelSelect.appendChild(option);
-                    });
-                });
-        } else {
-            modelField.style.display = 'none';
-            modelSelect.innerHTML = '';
-        }
-    }
-
-
-
-    // Call the function on page load to set the initial state
-    document.addEventListener('DOMContentLoaded', function() {
-        updateModelField();
-    });
-</script>
 {% endblock %}

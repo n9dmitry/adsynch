@@ -16,9 +16,9 @@
                                     <strong>Категория:</strong> {{ job_ad.job_category }} <br>
                                     <strong>Зарплата:</strong> {{ job_ad.price }} <br>
                                 <p style="font-size:12px;">Дата публикации: {{ job_ad.date_published }} </p>
-                                            Просмотры: {{ job_ad.views }}</p>
+                                            <p>Просмотры: {{ job_ad.views }}</p>
 
-                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -46,94 +46,15 @@
                     </script>
                 {% endfor %}
             </div>
-            <div class="col-md-3">
                 <!-- Sidebar with sorting and filters -->
-<div id="sidebar" class="p-3">
-    <h5 class="mb-3">Сортировка</h5>
-    <form method="get" id="category-form">
-        <div class="form-group">
-            <label for="category-select" class="form-label">Выберите категорию:</label>
-            <select class="form-select" id="category-select" name="category">
-                <option value="">Все категории</option>
-                {% for category in categories %}
-                    <option value="{{ category }}">{{ category }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="min-price" class="form-label">Минимальная цена:</label>
-            <input type="number" id="min-price" name="min_price" class="form-control" placeholder="Минимальная цена">
-        </div>
-        <div class="form-group">
-            <label for="max-price" class="form-label">Максимальная цена:</label>
-            <input type="number" id="max-price" name="max_price" class="form-control" placeholder="Максимальная цена">
-        </div>
-    </form>
-    <button type="button" id="apply-filters-btn" class="btn btn-primary">Применить фильтры</button>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const categorySelect = document.getElementById('category-select');
-        const minPriceInput = document.getElementById('min-price');
-        const maxPriceInput = document.getElementById('max-price');
-        const applyFiltersBtn = document.getElementById('apply-filters-btn');
-
-        applyFiltersBtn.addEventListener('click', function() {
-            applyFilters();
-        });
-
-        function applyFilters() {
-            const selectedCategory = categorySelect.value;
-            const minPrice = minPriceInput.value;
-            const maxPrice = maxPriceInput.value;
-            const currentUrl = window.location.href;
-            const url = new URL(currentUrl);
-
-            if (selectedCategory) {
-                url.searchParams.set('category', selectedCategory);
-            } else {
-                url.searchParams.delete('category');
-            }
-
-            if (minPrice) {
-                url.searchParams.set('min_price', minPrice);
-            } else {
-                url.searchParams.delete('min_price');
-            }
-
-            if (maxPrice) {
-                url.searchParams.set('max_price', maxPrice);
-            } else {
-                url.searchParams.delete('max_price');
-            }
-
-            window.location.href = url.toString();
-        }
-    });
-</script>
-            </div>
-        </div>
-    </div>
-    <script>
-        function applyFilter() {
-            document.querySelector('form').submit();
-        }
-    </script>
-    <script>
-        $("#priceRange").slider({});
-    </script>
-
-
-
 <div class="col-md-3">
     <!-- Sidebar с сортировкой и фильтрами -->
-    <div id="sidebar">
-        <h5>Сортировка</h5>
+    <div id="sidebar" class="p-3  border-danger rounded">
+        <h5 class="text-danger">Сортировка</h5>
 
         <!-- Переместите этот div блок выше всех полей формы -->
-        <div>
-            <select onchange="window.location=this.value">
+        <div class="mb-3">
+            <select class="form-select" onchange="window.location=this.value">
                 <option value="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</option>
                 <option value="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</option>
                 <option value="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</option>
@@ -144,20 +65,26 @@
 
         <form method="get">
             <!-- Поля для фильтров -->
-            <div class="form-group">
-                <label for="id_price_min">Зарплата Min:</label>
-                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
+            <div class="form-group mb-3">
+                <label for="id_price_min" class="form-label ">Зарплата Min:</label>
+                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control ">
             </div>
-            <div class="form-group">
-                <label for="id_price_max">Зарплата Max:</label>
+            <div class="form-group mb-3">
+                <label for="id_price_max" class="form-label">Зарплата Max:</label>
                 <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="id_job_category">Категория:</label>
-                <input type="text" name="job_category" id="id_job_category" value="{{ request.GET.job_category }}" class="form-control">
+            <div class="form-group mb-3">
+                <label for="id_job_category" class="form-label">Категория:</label>
+                <input type="text" name="job_category" id="id_job_category" value="{{ request.GET.job_category }}" class="form-control ">
             </div>
             <button type="submit" class="btn btn-danger">Фильтр</button>
         </form>
     </div>
 </div>
+
+
+            </div>
+        </div>
+
+
 {% endblock %}

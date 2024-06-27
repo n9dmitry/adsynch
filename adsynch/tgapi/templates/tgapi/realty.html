@@ -43,52 +43,65 @@
                     </script>
                 {% endfor %}
             </div>
-            <div class="col-md-3">
-                <!-- Sidebar with sorting and filters -->
+
+
+           <div class="col-md-3">
 <div id="sidebar" class="p-3">
-    <h5 class="mb-3">Сортировка</h5>
-<form method="get" id="category-form">
-<div class="form-group">
-    <label for="realty-type-select" class="form-label">Тип недвижимости:</label>
-    <select id="realty-type-select" name="realty_type" class="form-control">
-        <option value="">Выберите тип недвижимости</option>
-        {% for realty_type in realty_types %}
-            <option value="{{ realty_type }}">{{ realty_type }}</option>
-        {% endfor %}
-    </select>
-</div>
+    <h5 class="mb-3 text-danger">Сортировка</h5>
 
-<div class="form-group">
-    <label for="realty-deal-select" class="form-label">Тип сделки:</label>
-    <select id="realty-deal-select" name="realty_deal" class="form-control">
-        <option value="">Выберите тип сделки</option>
-        {% for realty_deal in realty_deals %}
-            <option value="{{ realty_deal }}">{{ realty_deal }}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="form-group">
-    <label for="date-select" class="form-label">Дата публикации:</label>
-    <select id="date-select" name="sort_by" class="form-control">
-        <option value="">Не сортировать</option>
-        <option value="date_published">Сначала старые</option>
-        <option value="-date_published">Сначала новые</option>
-    </select>
-</div>
-
-    <div class="form-group">
-        <label for="min-price" class="form-label">Минимальная цена:</label>
-        <input type="number" id="min-price" name="min_price" class="form-control" placeholder="Минимальная цена">
+    <!-- Переместите этот div блок выше всех полей формы -->
+    <div class="mb-3">
+        <select class="form-select  " onchange="window.location=this.value">
+            <option value="?{{ request.GET.urlencode }}&order_by=-date_published" >Новинки</option>
+            <option value="?{{ request.GET.urlencode }}&order_by=views" class="">Сортировка по просмотрам (минимум)</option>
+            <option value="?{{ request.GET.urlencode }}&order_by=-views" class="">Сортировка по просмотрам (максимум)</option>
+            <option value="?{{ request.GET.urlencode }}&order_by=car_price" class="">Сортировка по цене (дешевые)</option>
+            <option value="?{{ request.GET.urlencode }}&order_by=-car_price" class="">Сортировка по цене (дорогие)</option>
+        </select>
     </div>
 
-    <div class="form-group">
-        <label for="max-price" class="form-label">Максимальная цена:</label>
-        <input type="number" id="max-price" name="max_price" class="form-control" placeholder="Максимальная цена">
-    </div>
-
-</form>
-    <button type="button" id="apply-filters-btn" class="btn btn-primary">Применить фильтры</button>
+    <form method="get">
+        <!-- Поля для фильтров -->
+        <div class="form-group mb-3">
+            <label for="id_price_min" class="">Цена Min:</label>
+            <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_price_max" class="">Цена Max:</label>
+            <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_deal" class="">Тип сделки:</label>
+            <input type="text" name="realty_deal" id="id_realty_deal" value="{{ request.GET.realty_deal }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_type" class="">Тип недвижимости:</label>
+            <input type="text" name="realty_type" id="id_realty_type" value="{{ request.GET.realty_type }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_commercial_type" class="">Тип коммерческой недвижимости:</label>
+            <input type="text" name="realty_commercial_type" id="id_realty_commercial_type" value="{{ request.GET.realty_commercial_type }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_square_min" class="">Площадь Min:</label>
+            <input type="number" name="realty_square_min" id="id_realty_square_min" value="{{ request.GET.realty_square_min }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_square_max" class="">Площадь Max:</label>
+            <input type="number" name="realty_square_max" id="id_realty_square_max" value="{{ request.GET.realty_square_max }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_rooms_min" class="">Комнат Min:</label>
+            <input type="number" name="realty_rooms_min" id="id_realty_rooms_min" value="{{ request.GET.realty_rooms_min }}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_realty_rooms_max" class="">Комнат Max:</label>
+            <input type="number" name="realty_rooms_max" id="id_realty_rooms_max" value="{{ request.GET.realty_rooms_max }}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-danger">Фильтр</button>
+    </form>
 </div>
+               </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -134,63 +147,6 @@
     </script>
 
 
-<div class="col-md-3">
-    <!-- Sidebar с сортировкой и фильтрами -->
-    <div id="sidebar">
-        <h5>Сортировка</h5>
-
-        <!-- Переместите этот div блок выше всех полей формы -->
-        <div>
-            <select onchange="window.location=this.value">
-                <option value="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=car_price">Сортировка по цене (дешевые)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=-car_price">Сортировка по цене (дорогие)</option>
-            </select>
-        </div>
-
-        <form method="get">
-            <!-- Поля для фильтров -->
-            <div class="form-group">
-                <label for="id_price_min">Цена Min:</label>
-                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_price_max">Цена Max:</label>
-                <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_deal">Тип сделки:</label>
-                <input type="text" name="realty_deal" id="id_realty_deal" value="{{ request.GET.realty_deal }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_type">Тип недвижимости:</label>
-                <input type="text" name="realty_type" id="id_realty_type" value="{{ request.GET.realty_type }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_commercial_type">Тип коммерческой недвижимости:</label>
-                <input type="text" name="realty_commercial_type" id="id_realty_commercial_type" value="{{ request.GET.realty_commercial_type }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_square_min">Площадь Min:</label>
-                <input type="number" name="realty_square_min" id="id_realty_square_min" value="{{ request.GET.realty_square_min }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_square_max">Площадь Max:</label>
-                <input type="number" name="realty_square_max" id="id_realty_square_max" value="{{ request.GET.realty_square_max }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_rooms_min">Комнат Min:</label>
-                <input type="number" name="realty_rooms_min" id="id_realty_rooms_min" value="{{ request.GET.realty_rooms_min }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="id_realty_rooms_max">Комнат Max:</label>
-                <input type="number" name="realty_rooms_max" id="id_realty_rooms_max" value="{{ request.GET.realty_rooms_max }}" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-danger">Фильтр</button>
-        </form>
-    </div>
-</div>
+<
 
 {% endblock %}
