@@ -11,6 +11,9 @@ class UserProfileLink(models.Model):
     def __str__(self):
         return f"{self.username} - {self.token}"
 
+
+
+
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     username_tg = models.CharField(max_length=100, blank=True, null=True)
