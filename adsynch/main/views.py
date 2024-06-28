@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 
 from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
+from .forms import RegistrationForm
 from .models import AboutPage, ServicesPage, Bnr
 # from .forms import CustomPasswordResetForm
 
