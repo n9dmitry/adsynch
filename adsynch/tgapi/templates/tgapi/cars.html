@@ -142,4 +142,38 @@
 </div>
         </div>
     </div>
+<script>
+    function updateModelField() {
+        var brandField = document.getElementById('id_brand');
+        var modelField = document.getElementById('model-field');
+        var modelSelect = document.getElementById('id_model');
+
+        if (brandField.value) {
+            modelField.style.display = 'block';
+
+            // Clear existing options
+            modelSelect.innerHTML = '';
+
+            // Fetch models based on selected brand
+            fetch(`/get-models/?brand=${brandField.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(model => {
+                        var option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                });
+        } else {
+            modelField.style.display = 'none';
+            modelSelect.innerHTML = '';
+        }
+    }
+
+    // Call the function on page load to set the initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateModelField();
+    });
+</script>
 {% endblock %}
