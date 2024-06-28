@@ -59,14 +59,39 @@
     <div id="sidebar" class="p-3 ">
         <h5 class="text-danger">Сортировка</h5>
         <div class="mb-3">
-            <select onchange="window.location=this.value" class="form-select">
-                <option value="?{{ request.GET.urlencode }}&order_by=-date_published">Новинки</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=views">Сортировка по просмотрам (минимум)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=-views">Сортировка по просмотрам (максимум)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=car_price">Сортировка по цене (дешевые)</option>
-                <option value="?{{ request.GET.urlencode }}&order_by=-car_price">Сортировка по цене (дорогие)</option>
-            </select>
-        </div>
+    <select id="sortingSelect" class="form-select" onchange="updateSorting(this)">
+        <option value="">Выберите сортировку</option>
+        <option value="date_published">Новинки</option>
+        <option value="views">Сортировка по просмотрам (минимум)</option>
+        <option value="-views">Сортировка по просмотрам (максимум)</option>
+        <option value="car_price">Сортировка по цене (дешевые)</option>
+        <option value="-car_price">Сортировка по цене (дорогие)</option>
+    </select>
+</div>
+
+<script>
+    // Устанавливаем выбранное значение сортировки при загрузке страницы
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentUrl = new URL(window.location.href);
+        var currentSorting = currentUrl.searchParams.get("order_by");
+        if (currentSorting) {
+            document.getElementById('sortingSelect').value = currentSorting;
+        }
+    });
+
+    function updateSorting(select) {
+        var currentUrl = new URL(window.location.href);
+        var selectedSorting = select.value;
+
+        if (selectedSorting) {
+            currentUrl.searchParams.set("order_by", selectedSorting);
+        } else {
+            currentUrl.searchParams.delete("order_by");
+        }
+
+        window.location.href = currentUrl.toString();
+    }
+</script>
         <form method="get">
             <!-- Поля для фильтров -->
 <div class="form-group">
