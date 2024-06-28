@@ -29,8 +29,6 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 
 
-
-
 class CarAdListView(FilterView):
     model = CarAd
     template_name = 'tgapi/cars.html'  # Убедитесь, что путь правильный
