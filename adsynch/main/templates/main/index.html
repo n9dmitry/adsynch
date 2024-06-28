@@ -10,7 +10,9 @@
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+                                        {% for banner in banners_top|slice:1 %}
+            <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
+        {% endfor %}
         </div>
     </div>
 </div>
@@ -34,7 +36,9 @@
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+                                       {% for banner in banners_center|slice:1 %}
+            <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
+        {% endfor %}
         </div>
     </div>
 </div>
@@ -77,7 +81,9 @@
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-            <img src="{% static 'main/img/banner.webp' %}" class="img-fluid" alt="Advertisement Image">
+                            {% for banner in banners_bottom|slice:1 %}
+            <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
+        {% endfor %}
         </div>
     </div>
 </div>
