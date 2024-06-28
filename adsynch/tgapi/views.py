@@ -45,8 +45,6 @@ class CarAdListView(FilterView):
         return queryset
 
 
-
-
 def get_models(request):
     brand = request.GET.get('brand')
     models = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
