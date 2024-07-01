@@ -72,8 +72,9 @@ class JobAdListView(FilterView):
         order_by = self.request.GET.get('order_by')
         if order_by:
             queryset = queryset.order_by(order_by)
+        # Фильтрация по статусу публикации
+        queryset = queryset.filter(is_published=True)
         return queryset
-
 
 @require_http_methods(["GET"])
 @api_view(['GET'])

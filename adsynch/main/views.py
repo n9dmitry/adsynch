@@ -183,6 +183,7 @@ def my_ads_view(request):
     realty_ads = RealtyAd.objects.filter(user=user)
     job_ads = JobAd.objects.filter(user=user)
 
+
     context = {
         'active_car_ads': car_ads.filter(is_active=True),
         'inactive_car_ads': car_ads.filter(is_active=False),
