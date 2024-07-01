@@ -1,18 +1,43 @@
- <h1>Search Results for "{{ query }}"</h1>
-    {% if results %}
-        <ul>
-            {% for result in results %}
-                <li>
-                    {% if result|length > 0 %}
-                        <h3>{{ result.title }}</h3>
-                        <p>{{ result.description }}</p>
-                        <!-- Добавьте другие поля, которые вы хотите отобразить -->
-                    {% else %}
-                        <p>No results found.</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found for "{{ query }}".</p>
+{% extends 'main/layout2.html' %}
+{% block search %}
+{% load static %}
+
+<h3 class="mt-4 p-1 text-center">Результаты поиска по "{{ query }}"</h3>
+<section class="container-fluid">
+{% if results %}
+    <div class="row">
+        {% for result in results %}
+            <div class="col-md-4 mb-4">
+                <div class="card-product text-left h-100">
+                    <div class="p-2">
+                        {% if result.category == "car" %}
+                            <span class="badge badge-success">Авто</span>
+                        {% elif result.category == "realty" %}
+                            <span class="badge badge-primary">Недвижимость</span>
+                        {% elif result.category == "job" %}
+                            <span class="badge badge-warning">Работа</span>
+                        {% endif %}
+                    </div>
+                    <div class="prod-text">
+<h5 class="card-title">
+    {% if result.category == "car" %}
+        <a href="{% url 'carad-detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
+    {% elif result.category == "realty" %}
+        <a href="{% url 'realty_detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
+    {% elif result.category == "job" %}
+        <a href="{% url 'jobs-detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
     {% endif %}
+</h5>
+                        <p>{{ result.price }} {{ result.currency }}</p>
+                        <p>{{ result.car_location }}</p>
+                        <p>{{ result.views }} views</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="mt-4">No results found for "{{ query }}".</p>
+{% endif %}
+    </section>
+{% endblock %}

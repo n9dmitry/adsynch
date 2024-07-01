@@ -1,4 +1,5 @@
 {% extends 'main/layout2.html' %}
+
 {% block cars %}
 
 <div class="container mt-4 cars">
@@ -6,22 +7,23 @@
 
         <div class="col-md-9"> <!-- Make the main content wider towards the left -->
 
-            {% for car_ad in car_ads %}
+            {% for ad in car_ads %}
             <div class="card mb-4"> <!-- Added margin bottom for spacing -->
                 <div class="card-body" style="display: flex;">
                     <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
                         <img id="main-image-{{ forloop.counter }}" style="width: 100%; height: 120px; object-fit: cover;">
                     </div>
                     <div style="flex: 2; padding: 0 20px;">
-                        <a href="{% url 'carad-detail' pk=car_ad.pk %}"><h5 class="card-title">{{ car_ad.car_brand }} {{ car_ad.car_model }}</h5></a>
+                        <a href="{% url 'carad-detail' pk=ad.pk %}"><h5 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}</h5></a>
                         <p class="card-text">
-                            <strong>Год выпуска:</strong> {{ car_ad.car_year }}<br>
-                            <strong>Цена:</strong> {{ car_ad.car_price }} {{ car_currency }}<br>
-                            <strong>Местоположение:</strong> {{ car_ad.car_location }}
+                            <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
+                            <strong>Цена:</strong> {{ ad.car_price }} {{ currency }}<br>
+                            <strong>Местоположение:</strong> {{ ad.car_location }}
                         </p>
                     </div>
                 </div>
             </div>
+
 
             <script>
                 var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
@@ -45,65 +47,133 @@
                     }
                 }
             </script>
-            {% endfor %}
+                    {% empty %}
+            <li>No car ads found.</li>
+        {% endfor %}
 
         </div>
 
+
 <div class="col-md-3">
     <!-- Sidebar with sorting and filters -->
-    <div id="sidebar">
-        <h5>Сортировка</h5>
-
-<form method="get">
-    <select class="form-control mb-3" name="car_brand" onchange="applyFilter()">
-        <option value="">Выбрать марку</option>
-        {% for brand in car_brands %}
-            <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
-        {% endfor %}
+    <div id="sidebar" class="p-3 ">
+        <h5 class="text-danger">Сортировка</h5>
+        <div class="mb-3">
+    <select id="sortingSelect" class="form-select" onchange="updateSorting(this)">
+        <option value="">Выберите сортировку</option>
+        <option value="date_published">Новинки</option>
+        <option value="views">Сортировка по просмотрам (минимум)</option>
+        <option value="-views">Сортировка по просмотрам (максимум)</option>
+        <option value="car_price">Сортировка по цене (дешевые)</option>
+        <option value="-car_price">Сортировка по цене (дорогие)</option>
     </select>
-
-    {% if selected_brand %}
-        <select class="form-control mb-3" name="car_model" onchange="applyFilter()">
-            <option value="">Выбрать модель</option>
-
-            {% for model in car_models %}
-                <option value="{{ model }}">{{ model }}</option>
-            {% endfor %}
-        </select>
-    {% endif %}
-</form>
-
-        <select class="form-control mb-3" name="sort_by_car_year">
-            <option value="?sort_by=car_year">По году выпуска</option>
-        </select>
-
-<form>
-<div class="form-row align-items-center">
-<div class="col-auto">
-<label for="priceFrom">От:</label>
-<input type="text" id="priceFrom" class="form-control" />
-</div>
-<div class="col-auto">
-<label for="priceTo">До:</label>
-<input type="text" id="priceTo" class="form-control" />
-</div>
-</div>
-<div id="priceRange"></div>
-</form>
-
-    </div>
-</div>
-    </div>
 </div>
 
 <script>
-    function applyFilter() {
-        document.querySelector('form').submit();
+    // Устанавливаем выбранное значение сортировки при загрузке страницы
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentUrl = new URL(window.location.href);
+        var currentSorting = currentUrl.searchParams.get("order_by");
+        if (currentSorting) {
+            document.getElementById('sortingSelect').value = currentSorting;
+        }
+    });
+
+    function updateSorting(select) {
+        var currentUrl = new URL(window.location.href);
+        var selectedSorting = select.value;
+
+        if (selectedSorting) {
+            currentUrl.searchParams.set("order_by", selectedSorting);
+        } else {
+            currentUrl.searchParams.delete("order_by");
+        }
+
+        window.location.href = currentUrl.toString();
     }
 </script>
-
+        <form method="get">
+            <!-- Поля для фильтров -->
+            <div id="car-ad-filter" class="form-group">
+                <label for="id_brand">Бренд:</label>
+                <select name="brand" id="id_brand" class="form-control" onchange="updateModelField()">
+                    {% for choice in filter.form.brand.field.choices %}
+                        <option value="{{ choice.0 }}" {% if filter.data.brand == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="model-field" class="form-group" style="display: none;">
+                <label for="id_model">Модель:</label>
+                <select name="model" id="id_model" class="form-control">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="id_price_min">Цена Min:</label>
+                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_price_max">Цена Max:</label>
+                <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_mileage_min">Пробег Min:</label>
+                <input type="number" name="mileage_min" id="id_mileage_min" value="{{ request.GET.mileage_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_mileage_max">Пробег Max:</label>
+                <input type="number" name="mileage_max" id="id_mileage_max" value="{{ request.GET.mileage_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_year_min">Год Min:</label>
+                <input type="number" name="year_min" id="id_year_min" value="{{ request.GET.year_min }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_year_max">Год Max:</label>
+                <input type="number" name="year_max" id="id_year_max" value="{{ request.GET.year_max }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_condition">Состояние:</label>
+                <input type="text" name="condition" id="id_condition" value="{{ request.GET.condition }}" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-danger">Filter</button>
+        </form>
+    </div>
+</div>
+        </div>
+    </div>
 <script>
-$("#priceRange").slider({});
-</script>
+    function updateModelField() {
+        var brandField = document.getElementById('id_brand');
+        var modelField = document.getElementById('model-field');
+        var modelSelect = document.getElementById('id_model');
 
+        if (brandField.value) {
+            modelField.style.display = 'block';
+
+            // Clear existing options
+            modelSelect.innerHTML = '';
+
+            // Fetch models based on selected brand
+            fetch(`/get-models/?brand=${brandField.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(model => {
+                        var option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                });
+        } else {
+            modelField.style.display = 'none';
+            modelSelect.innerHTML = '';
+        }
+    }
+
+    // Call the function on page load to set the initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateModelField();
+    });
+</script>
 {% endblock %}

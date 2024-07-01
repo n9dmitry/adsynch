@@ -1,24 +1,24 @@
-# Стандартные Django-импорты
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import PasswordResetForm
-from django.core.mail import send_mail
-from tgapi.models import CarAd, RealtyAd, JobAd, Ads
-from blog.models import Article
-from .models import AboutPage, ServicesPage
-# from .forms import CustomPasswordResetForm
-from django.contrib.auth.decorators import login_required
-
-
-
-# Импорты из проекта
-from .forms import RegistrationForm
-# Внешние библиотеки
 import uuid
 from transliterate import translit
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+
+from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+
+from tgapi.models import Ads, CarAd, JobAd, RealtyAd
+from blog.models import Article
+from .forms import RegistrationForm
+from .models import AboutPage, ServicesPage, Bnr
+# from .forms import CustomPasswordResetForm
+
+import uuid
+from transliterate import translit
+
 
 
 def index(request):
@@ -27,12 +27,34 @@ def index(request):
     job_ad = JobAd.objects.all()
     published_articles = Article.objects.filter(published=True)
 
-    return render(request, 'main/index.html', {'car_ad': car_ad, 'realty_ad': realty_ad, 'job_ad': job_ad, 'published_articles': published_articles})
+    banners_top = Bnr.objects.filter(position='top')
+    banners_center = Bnr.objects.filter(position='center')
+    banners_bottom = Bnr.objects.filter(position='bottom')
 
+    # Получение топ-4 объявлений по просмотрам для каждой категории
+    top_car_ads = CarAd.objects.order_by('-views')[:4]
+    top_realty_ads = RealtyAd.objects.order_by('-views')[:4]
+    top_job_ads = JobAd.objects.order_by('-views')[:4]
+
+    # Объединение всех объявлений в один список
+    recommendation_listing = list(top_car_ads) + list(top_realty_ads) + list(top_job_ads)
+
+    context = {
+        'car_ad': car_ad,
+        'realty_ad': realty_ad,
+        'job_ad': job_ad,
+        'published_articles': published_articles,
+        'banners_top': banners_top,
+        'banners_center': banners_center,
+        'banners_bottom': banners_bottom,
+        'recommendation_listing': recommendation_listing,  # Добавляем топ-12 объявлений в контекст
+    }
+
+    return render(request, 'main/index.html', context)
 
 def services(request):
-    services_pages = ServicesPage.objects.all()
-    return render(request, 'main/services.html', {'services_pages': services_pages})
+    service_pages = ServicesPage.objects.all()
+    return render(request, 'main/services.html', {'service_pages': service_pages})
 
 def contacts(request):
     return render(request, 'main/contact.html')
@@ -41,6 +63,28 @@ def about(request):
     about_pages = AboutPage.objects.all()
     return render(request, 'main/about.html', {'about_pages': about_pages})
 
+@login_required
+def my_items(request, username):
+
+    if username:
+        active_car_ads = CarAd.objects.filter(is_active=True, user__username=username)
+        inactive_car_ads = CarAd.objects.filter(is_active=False, user__username=username)
+        active_realty_ads = RealtyAd.objects.filter(is_active=True, user__username=username)
+        inactive_realty_ads = RealtyAd.objects.filter(is_active=False, user__username=username)
+        active_job_ads = JobAd.objects.filter(is_active=True, user__username=username)
+        inactive_job_ads = JobAd.objects.filter(is_active=False, user__username=username)
+        context = {
+            'active_car_ads': active_car_ads,
+            'inactive_car_ads': inactive_car_ads,
+            'active_realty_ads': active_realty_ads,
+            'inactive_realty_ads': inactive_realty_ads,
+            'active_job_ads': active_job_ads,
+            'inactive_job_ads': inactive_job_ads,
+        }
+    else:
+        return render(request, 'error_page.html', {'message': 'Username is required'})
+
+    return render(request, 'main/my_items.html', context)
 
 def products(request):
     car_ad = CarAd.objects.all()
@@ -78,7 +122,6 @@ def register(request):
 
     else:
         form = RegistrationForm()
-        print('3')
     return render(request, 'main/index.html', {'form': form})
 
 def login_view(request):
@@ -109,7 +152,7 @@ def logout_view(request):
     auth_logout(request)
     return redirect('index')
 
-
+# понадобится при регистрации
 # def forgot_password(request):
 #     if request.method == 'POST':
 #         form = PasswordResetForm(request.POST)

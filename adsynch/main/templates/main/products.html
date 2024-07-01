@@ -2,46 +2,73 @@
 
 <h3 class="text-center">Рекомендации</h3>
 
+<!--<h1>Recommendation Listing</h1>-->
+<!--<div class="recommendation-listing">-->
+<!--    {% for ad in recommendation_listing %}-->
+<!--        <div class="ad-card">-->
+<!--            <h2>{{ ad.title }}</h2>-->
+<!--            <p>{{ ad.views }} views</p>-->
+<!--            &lt;!&ndash; Другие поля, если необходимо &ndash;&gt;-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+
+
 <div class="row justify-content-center p-5">
-    {% for car_ad in car_ad|slice:5 %}
+    {% for ad in recommendation_listing %}
         <div class="card-product text-left">
             <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">
             <div class="prod-text">
-                <a href=""><h3>{{ car_ad.title }}</h3></a>
-                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>
-                <p>{{ car_ad.car_location }}</p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<div class="row justify-content-center p-5">
-    {% for job_ad in job_ad|slice:5 %}
-        <div class="card-product text-left">
-            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">
-            <div class="prod-text">
-                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
-                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
-                <p>{{ job_ad.car_location }}</p>
+                <a href=""><h3>{{ ad.title }}</h3></a>
+                <p>{{ ad.price }} {{ ad.currency }}</p>
+                <p>{{ ad.car_location }}</p>
+                <p>{{ ad.views }} views</p>
             </div>
         </div>
     {% endfor %}
 </div>
 
 
+<!--<div class="row justify-content-center p-5">-->
+<!--    {% for car_ad in car_ad|slice:5 %}-->
+<!--        <div class="card-product text-left">-->
+<!--            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">-->
+<!--            <div class="prod-text">-->
+<!--                <a href=""><h3>{{ car_ad.title }}</h3></a>-->
+<!--                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>-->
+<!--                <p>{{ car_ad.car_location }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
 
-<div class="row justify-content-center p-5">
-    {% for realty_ad in realty_ad|slice:5 %}
-        <div class="card-product text-left">
-            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">
-            <div class="prod-text">
-                <a href=""><h3>{{ realty_ad.title }}</h3></a>
-                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>
-                <p>{{ realty_ad.car_location }}</p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+<!--<div class="row justify-content-center p-5">-->
+<!--    {% for job_ad in job_ad|slice:5 %}-->
+<!--        <div class="card-product text-left">-->
+<!--            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">-->
+<!--            <div class="prod-text">-->
+<!--                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>-->
+<!--                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>-->
+<!--                <p>{{ job_ad.car_location }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+
+
+
+<!--<div class="row justify-content-center p-5">-->
+<!--    {% for realty_ad in realty_ad|slice:5 %}-->
+<!--        <div class="card-product text-left">-->
+<!--            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">-->
+<!--            <div class="prod-text">-->
+<!--                <a href=""><h3>{{ realty_ad.title }}</h3></a>-->
+<!--                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>-->
+<!--                <p>{{ realty_ad.car_location }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
 
 <script>
     {% for car_ad in car_ads %}

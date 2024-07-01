@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import AboutPage, ServicesPage
-#
-# class BannerAdmin(admin.ModelAdmin):
-#     list_display = ['name', 'image']
-#
-# admin.site.register(Banner, BannerAdmin)
+from .models import AboutPage, ServicesPage, Bnr
+
+class BnrAdmin(admin.ModelAdmin):
+    list_display = ('position',)
+
+admin.site.register(Bnr, BnrAdmin)
 
 
 class AboutPageAdmin(admin.ModelAdmin):

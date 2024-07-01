@@ -13,7 +13,7 @@ from pathlib import Path
 from decouple import config
 import os
 
-print("Значение переменной EMAIL_PASS из .env файла:", config('EMAIL_PASS'))
+print("Запускаю сайт! Ахалай махалай")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

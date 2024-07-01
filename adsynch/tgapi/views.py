@@ -21,22 +21,60 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
+from django_filters.views import FilterView
+from .filters import CarAdFilter, RealtyAdFilter, JobAdFilter
 
 logger = logging.getLogger(__name__)
 
 from django.http import JsonResponse
 
 
-# def ad_detail(request, ad_id):
-#     ad = get_object_or_404(Ad, id=ad_id)
-#
-#     # Увеличение счётчика просмотров
-#     ad.views = F('views') + 1
-#     ad.save(update_fields=['views'])
-#
-#     ad.refresh_from_db()  # Обновление объекта после сохранения
-#
-#     return render(request, 'ad_detail.html', {'ad': ad})
+class CarAdListView(FilterView):
+    model = CarAd
+    template_name = 'tgapi/cars.html'  # Убедитесь, что путь правильный
+    context_object_name = 'car_ads'
+    filterset_class = CarAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
+
+
+
+
+def get_models(request):
+    brand = request.GET.get('brand')
+    models = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
+    return JsonResponse(list(models), safe=False)
+
+class RealtyAdListView(FilterView):
+    model = RealtyAd
+    template_name = 'tgapi/realty.html'  # Убедитесь, что путь правильный
+    context_object_name = 'realty_ads'
+    filterset_class = RealtyAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
+
+class JobAdListView(FilterView):
+    model = JobAd
+    template_name = 'tgapi/jobs.html'  # Убедитесь, что путь правильный
+    context_object_name = 'job_ads'
+    filterset_class = JobAdFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            queryset = queryset.order_by(order_by)
+        return queryset
 
 
 @require_http_methods(["GET"])
