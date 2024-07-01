@@ -33,6 +33,8 @@ class Ads(models.Model):
     class Meta:
         abstract = True
 
+
+
     def save(self, *args, **kwargs):
         print(f"Saving Ads: {self.is_active}")
         super().save(*args, **kwargs)
