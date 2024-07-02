@@ -136,54 +136,37 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set selected sorting option on page load
-            var currentUrl = new URL(window.location.href);
-            var currentSorting = currentUrl.searchParams.get("order_by");
-            if (currentSorting) {
-                document.getElementById('sortingSelect').value = currentSorting;
-            }
-        });
+    function updateModelField() {
+        var brandField = document.getElementById('id_brand');
+        var modelField = document.getElementById('model-field');
+        var modelSelect = document.getElementById('id_model');
 
-        function updateSorting(select) {
-            var currentUrl = new URL(window.location.href);
-            var selectedSorting = select.value;
+        if (brandField.value) {
+            modelField.style.display = 'block';
 
-            if (selectedSorting) {
-                currentUrl.searchParams.set("order_by", selectedSorting);
-            } else {
-                currentUrl.searchParams.delete("order_by");
-            }
+            // Clear existing options
+            modelSelect.innerHTML = '';
 
-            window.location.href = currentUrl.toString();
-        }
-
-        function updateModelField() {
-            var brandField = document.getElementById('id_brand');
-            var modelField = document.getElementById('model-field');
-            var modelSelect = document.getElementById('id_model');
-
-            if (brandField.value) {
-                modelField.style.display = 'block';
-
-                // Clear existing options
-                modelSelect.innerHTML = '';
-
-                // Fetch models based on selected brand
-                fetch(`/get-models/?brand=${brandField.value}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(model => {
-                            var option = document.createElement('option');
-                            option.value = model;
-                            option.textContent = model;
-                            modelSelect.appendChild(option);
-                        });
+            // Fetch models based on selected brand
+            fetch(`/get-models/?brand=${brandField.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(model => {
+                        var option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
                     });
-            } else {
-                modelField.style.display = 'none';
-                modelSelect.innerHTML = '';
-            }
+                });
+        } else {
+            modelField.style.display = 'none';
+            modelSelect.innerHTML = '';
         }
+    }
+
+    // Call the function on page load to set the initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateModelField();
+    });
     </script>
 {% endblock %}

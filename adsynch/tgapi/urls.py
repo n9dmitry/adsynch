@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import CarAdView, RealtyAdView, JobAdView, my_ads, profile_view, check_user, generate_link, get_models
+from .views import CarAdView, RealtyAdView, JobAdView, my_ads, profile_view, check_user, generate_link, get_filter_car_models
 from .views import CarAdListView
 
 
@@ -20,7 +20,7 @@ urlpatterns = [
     path('check_user/<str:username>/', views.check_user, name='check_user'),
     path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
     path('generate_link/', views.generate_link, name='generate_link'),
-    path('get-models/', get_models, name='get_models'),
+    path('get-models/', get_filter_car_models, name='get_models'),
     # path('car_ads/', CarAdListView.as_view(), name='car_ad_list'),
 
 ]
