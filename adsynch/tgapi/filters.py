@@ -9,8 +9,14 @@ class CarAdFilter(django_filters.FilterSet):
     year_max = django_filters.NumberFilter(field_name="car_year", lookup_expr='lte')
     mileage_min = django_filters.NumberFilter(field_name="car_mileage", lookup_expr='gte')
     mileage_max = django_filters.NumberFilter(field_name="car_mileage", lookup_expr='lte')
-    brand = django_filters.ModelChoiceFilter(queryset=CarAd.objects.values_list('car_brand', flat=True).distinct())
-    model = django_filters.ModelChoiceFilter(queryset=CarAd.objects.none())
+    brand = django_filters.ChoiceFilter(
+        field_name="car_brand",
+        choices=[(brand, brand) for brand in CarAd.objects.values_list('car_brand', flat=True).distinct()]
+    )
+    model = django_filters.ChoiceFilter(
+        field_name="car_model",
+        choices=[]
+    )
     condition = django_filters.ModelChoiceFilter(field_name="car_condition",
                                                  queryset=CarAd.objects.values_list('car_condition',
                                                                                     flat=True).distinct())
@@ -23,9 +29,9 @@ class CarAdFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         if 'brand' in self.data and self.data['brand']:
             brand = self.data['brand']
-            self.filters['model'].queryset = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
-        else:
-            self.filters['model'].queryset = CarAd.objects.none()
+            self.filters['model'].extra.update({
+                'choices': [(model, model) for model in CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()]
+            })
 
 
 
