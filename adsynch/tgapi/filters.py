@@ -15,24 +15,31 @@ class CarAdFilter(django_filters.FilterSet):
     )
     model = django_filters.ChoiceFilter(
         field_name="car_model",
-        choices=[]
+        choices=[(car_model, car_model) for car_model in CarAd.objects.values_list('car_model', flat=True).distinct()]
     )
-    condition = django_filters.ModelChoiceFilter(field_name="car_condition",
-                                                 queryset=CarAd.objects.values_list('car_condition',
-                                                                                    flat=True).distinct())
+    # condition = django_filters.ModelChoiceFilter(field_name="car_condition",
+    #                                              queryset=CarAd.objects.values_list('car_condition',
+    #                                                                                 flat=True).distinct())
+
+    condition = django_filters.ChoiceFilter(
+        field_name="car_condition",
+        choices=[(car_condition, car_condition) for car_condition in
+                 CarAd.objects.values_list('car_condition', flat=True).distinct()]
+    )
 
     class Meta:
         model = CarAd
         fields = ['price_min', 'price_max', 'year_min', 'year_max', 'mileage_min', 'mileage_max', 'brand', 'model',
                   'condition']
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'brand' in self.data and self.data['brand']:
             brand = self.data['brand']
             self.filters['model'].extra.update({
-                'choices': [(model, model) for model in CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()]
+                'choices': [(model, model) for model in
+                            CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()]
             })
-
 
 
 # Пытаюсь сделать остальные категории
@@ -49,7 +56,8 @@ class RealtyAdFilter(django_filters.FilterSet):
 
     class Meta:
         model = RealtyAd
-        fields = ['price_min', 'price_max', 'realty_deal', 'realty_type', 'realty_commercial_type', 'realty_square_min', 'realty_square_max',
+        fields = ['price_min', 'price_max', 'realty_deal', 'realty_type', 'realty_commercial_type', 'realty_square_min',
+                  'realty_square_max',
                   'realty_rooms_min', 'realty_rooms_max']
 
 
