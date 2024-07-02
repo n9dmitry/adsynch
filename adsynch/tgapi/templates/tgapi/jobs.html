@@ -1,67 +1,79 @@
 {% extends 'main/layout2.html' %}
 
 {% block jobs %}
-    <div class="container mt-4 cars">
-        <div class="row">
-            <div class="col-md-9"> <!-- Make the main content wider towards the left -->
-                {% for job_ad in job_ads %}
-                    <div class="card mb-4"> <!-- Added margin bottom for spacing -->
-                        <div class="card-body" style="display: flex;">
-                            <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
-                                <img src="{{ job_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
-                            </div>
-                            <div style="flex: 2; padding: 0 20px;">
-                                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
-                                <p class="card-text">
-                                    <strong>Категория:</strong> {{ job_ad.job_category }} <br>
-                                    <strong>Зарплата:</strong> {{ job_ad.price }} <br>
-                                <p style="font-size:12px;">Дата публикации: {{ job_ad.date_published }} </p>
-                                            <p>Просмотры: {{ job_ad.views }}</p>
-
-
-                            </div>
-                        </div>
+<div class="container mt-4 cars">
+    <div class="row">
+        <div class="col-md-9"> <!-- Make the main content wider towards the left -->
+            {% for job_ad in job_ads %}
+            <div class="card mb-4"> <!-- Added margin bottom for spacing -->
+                <div class="card-body" style="display: flex;">
+                    <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
+                        <img src="{{ job_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
                     </div>
-                    <script>
-                        var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-                        console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
+                    <div style="flex: 2; padding: 0 20px;">
+                        <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
+                        <p class="card-text">
+                            <strong>Категория:</strong> {{ job_ad.job_category }} <br>
+                            <strong>Зарплата:</strong> {{ job_ad.price }} <br>
+                        <p style="font-size:12px;">Дата публикации: {{ job_ad.date_published }} </p>
+                        <p>Просмотры: {{ job_ad.views }}</p>
 
-                        var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
 
-                        if (photoUrls{{ forloop.counter }}.length >= 1) {
-                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-
-                            if (photoUrls{{ forloop.counter }}.length >= 2) {
-                                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
-
-                                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
-                                    mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
-                                });
-
-                                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
-                                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-                                });
-                            }
-                        }
-                    </script>
-                {% endfor %}
+                    </div>
+                </div>
             </div>
-                <!-- Sidebar with sorting and filters -->
-<div class="col-md-3">
-    <!-- Sidebar с сортировкой и фильтрами -->
-    <div id="sidebar" class="p-3  border-danger rounded">
-        <h5 class="text-danger">Сортировка</h5>
+            <script>
+                var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+                console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
 
-        <!-- Переместите этот div блок выше всех полей формы -->
-<div class="mb-3">
-    <select onchange="updateSorting2(this)" class="form-select">
-        <option value="">Выберите сортировку</option>
-        <option value="date_published">Новинки</option>
-        <option value="views">Сортировка по просмотрам (минимум)</option>
-        <option value="-views">Сортировка по просмотрам (максимум)</option>
-        <option value="car_price">Сортировка по цене (дешевые)</option>
-        <option value="-car_price">Сортировка по цене (дорогие)</option>
-    </select>
+                var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+
+                if (photoUrls{{ forloop.counter }}.length >= 1) {
+                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+
+                    if (photoUrls{{ forloop.counter }}.length >= 2) {
+                        mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                            mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
+                        });
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                        });
+                    }
+                }
+            </script>
+            {% endfor %}
+        </div>
+        <!-- Sidebar with sorting and filters -->
+        <div class="col-md-3">
+            <!-- Sidebar с сортировкой и фильтрами -->
+            <div id="sidebar" class="p-3  border-danger rounded">
+                <h5 class="text-danger">Сортировка</h5>
+
+                <!-- Переместите этот div блок выше всех полей формы -->
+                <div class="mb-3">
+                    <select onchange="updateSorting2(this)" class="form-select">
+                        <option value="">Выберите сортировку</option>
+                        <option value="date_published">Новинки</option>
+                        <option value="views">Сортировка по просмотрам (минимум)</option>
+                        <option value="-views">Сортировка по просмотрам (максимум)</option>
+                        <option value="car_price">Сортировка по цене (дешевые)</option>
+                        <option value="-car_price">Сортировка по цене (дорогие)</option>
+                    </select>
+                </div>
+
+
+                <form method="get">
+                    {{ filter.form.as_p }}
+                    <button type="submit" class="btn btn-danger">Фильтр</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
 </div>
 
 <script>
@@ -86,29 +98,4 @@
         window.location.href = currentUrl.toString();
     }
 </script>
-
-        <form method="get">
-            <!-- Поля для фильтров -->
-            <div class="form-group mb-3">
-                <label for="id_price_min" class="form-label ">Зарплата Min:</label>
-                <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control ">
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_price_max" class="form-label">Зарплата Max:</label>
-                <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_job_category" class="form-label">Категория:</label>
-                <input type="text" name="job_category" id="id_job_category" value="{{ request.GET.job_category }}" class="form-control ">
-            </div>
-            <button type="submit" class="btn btn-danger">Фильтр</button>
-        </form>
-    </div>
-</div>
-
-
-            </div>
-        </div>
-
-
 {% endblock %}

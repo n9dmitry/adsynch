@@ -41,15 +41,33 @@ class CarAdFilter(django_filters.FilterSet):
 
 # Пытаюсь сделать остальные категории
 class RealtyAdFilter(django_filters.FilterSet):
-    price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
-    price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
-    realty_deal = django_filters.CharFilter(field_name="realty_deal")
-    realty_type = django_filters.CharFilter(field_name="realty_type")
-    realty_commercial_type = django_filters.CharFilter(field_name="realty_commercial_type")
-    realty_square_min = django_filters.NumberFilter(field_name="realty_square", lookup_expr='gte')
-    realty_square_max = django_filters.NumberFilter(field_name="realty_square", lookup_expr='lte')
-    realty_rooms_min = django_filters.NumberFilter(field_name="realty_rooms", lookup_expr='gte')
-    realty_rooms_max = django_filters.NumberFilter(field_name="realty_rooms", lookup_expr='lte')
+    price_min = django_filters.NumberFilter(field_name="price", label="Цена Min", lookup_expr='gte')
+    price_max = django_filters.NumberFilter(field_name="price", label="Цена Max", lookup_expr='lte')
+    realty_deal = django_filters.ChoiceFilter(
+        field_name="realty_deal",
+        label="Тип сделки",
+        choices=[(realty_deal, realty_deal) for realty_deal in
+                 RealtyAd.objects.values_list('realty_deal', flat=True).distinct()]
+    )
+    realty_type = django_filters.ChoiceFilter(
+        field_name="realty_type",
+        label="Тип недвижимости",
+        choices=[(realty_type, realty_type) for realty_type in
+                 RealtyAd.objects.values_list('realty_type', flat=True).distinct()]
+    )
+    realty_commercial_type = django_filters.ChoiceFilter(
+        field_name="realty_commercial_type",
+        label="Тип коммерческой недвижимости",
+        choices=[(realty_commercial_type, realty_commercial_type) for realty_commercial_type in
+                 RealtyAd.objects.values_list('realty_commercial_type', flat=True).distinct()]
+    )
+    # realty_deal = django_filters.CharFilter(field_name="realty_deal")
+    # realty_type = django_filters.CharFilter(field_name="realty_type")
+    # realty_commercial_type = django_filters.CharFilter(field_name="realty_commercial_type")
+    realty_square_min = django_filters.NumberFilter(field_name="realty_square", label="Площадь Min", lookup_expr='gte')
+    realty_square_max = django_filters.NumberFilter(field_name="realty_square", label="Площадь Max", lookup_expr='lte')
+    realty_rooms_min = django_filters.NumberFilter(field_name="realty_rooms", label="Комнат Max", lookup_expr='gte')
+    realty_rooms_max = django_filters.NumberFilter(field_name="realty_rooms", label="Комнат Max", lookup_expr='lte')
 
     class Meta:
         model = RealtyAd
@@ -57,11 +75,25 @@ class RealtyAdFilter(django_filters.FilterSet):
                   'realty_square_max',
                   'realty_rooms_min', 'realty_rooms_max']
 
+    #     Тут надо будет переделать если коммерческий тип недвижимости
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if 'brand' in self.data and self.data['brand']:
+    #         brand = self.data['brand']
+    #         self.filters['model'].extra.update({
+    #             'choices': [(model, model) for model in
+    #                         CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()]
+    #         })
+
 
 class JobAdFilter(django_filters.FilterSet):
-    price_min = django_filters.NumberFilter(field_name="car_price", lookup_expr='gte')
-    price_max = django_filters.NumberFilter(field_name="car_price", lookup_expr='lte')
-    job_category = django_filters.CharFilter(field_name="job_category")
+    price_min = django_filters.NumberFilter(field_name="price", label="Зарплата от", lookup_expr='gte')
+    price_max = django_filters.NumberFilter(field_name="price", label="Зарплата до", lookup_expr='lte')
+    job_category = django_filters.ChoiceFilter(
+        field_name="job_category",
+        label="Категория",
+        choices=JobAd.objects.order_by().values_list('job_category', 'job_category').distinct()
+    )
 
     class Meta:
         model = JobAd

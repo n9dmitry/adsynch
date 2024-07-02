@@ -1,174 +1,136 @@
 {% extends 'main/layout2.html' %}
 
 {% block realty %}
-    <div class="container mt-4 cars">
-        <div class="row">
-            <div class="col-md-9"> <!-- Make the main content wider towards the left -->
-                {% for realty_ad in realty_ads|dictsort:'date_published' %}
-<div class="card mb-4"> <!-- Added margin bottom for spacing -->
-    <div class="card-body" style="display: flex;">
-        <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
-            <img src="{{ realty_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
+<div class="container mt-4 cars">
+    <div class="row">
+        <div class="col-md-9"> <!-- Make the main content wider towards the left -->
+            {% for realty_ad in realty_ads|dictsort:'date_published' %}
+            <div class="card mb-4"> <!-- Added margin bottom for spacing -->
+                <div class="card-body" style="display: flex;">
+                    <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
+                        <img src="{{ realty_ad.image_url }}" style="width: 100%; height: 120px; object-fit: cover;">
+                    </div>
+                    <div style="flex: 2; padding: 0 20px;">
+                        <a href="{% url 'realty_detail' pk=realty_ad.pk %}"><h4>{{ realty_ad.title }}</h4></a>
+                        <p class="card-text">
+                            <strong>{{ realty_ad.price }} {{ realty_ad.currency }} <br></strong>
+                        <p style="font-size:12px;">{{ realty_ad.date_published }} </p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+                console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
+
+                var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+
+                if (photoUrls{{ forloop.counter }}.length >= 1) {
+                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+
+                    if (photoUrls{{ forloop.counter }}.length >= 2) {
+                        mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
+                            mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
+                        });
+
+                        mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
+                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
+                        });
+                    }
+                }
+            </script>
+            {% endfor %}
         </div>
-        <div style="flex: 2; padding: 0 20px;">
-            <a href="{% url 'realty_detail' pk=realty_ad.pk %}"><h4>{{ realty_ad.title }}</h4> </a>
-            <p class="card-text">
-                <strong>{{ realty_ad.price }} {{ realty_ad.currency }} <br></strong>
-                <p style="font-size:12px;">{{ realty_ad.date_published }} </p>
-            </p>
-        </div>
+
+
+        <div class="col-md-3">
+            <div id="sidebar" class="p-3">
+                <h5 class="mb-3 text-danger">Сортировка</h5>
+
+                <!-- Переместите этот div блок выше всех полей формы -->
+                <div class="mb-3">
+                    <select onchange="updateSorting3(this)" class="form-select">
+                        <option value="">Выберите сортировку</option>
+                        <option value="date_published">Новинки</option>
+                        <option value="views">Сортировка по просмотрам (минимум)</option>
+                        <option value="-views">Сортировка по просмотрам (максимум)</option>
+                        <option value="car_price">Сортировка по цене (дешевые)</option>
+                        <option value="-car_price">Сортировка по цене (дорогие)</option>
+                    </select>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var currentUrl = new URL(window.location.href);
+                        var currentSorting = currentUrl.searchParams.get("order_by");
+                        if (currentSorting) {
+                             document.querySelector('.form-select').value = currentSorting;
+                        }
+                    });
+
+                    function updateSorting3(select) {
+                        var currentUrl = new URL(window.location.href);
+                        var selectedSorting = select.value;
+
+                        if (selectedSorting) {
+                            currentUrl.searchParams.set("order_by", selectedSorting);
+                        } else {
+                            currentUrl.searchParams.delete("order_by");
+                        }
+
+                        window.location.href = currentUrl.toString();
+                    }
+                </script>
+
+
+        <form method="get">
+            {{ filter.form.as_p }}
+            <button type="submit" class="btn btn-danger">Фильтр</button>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const dateSelect = document.getElementById('date-select');
+                const applyFiltersBtn = document.getElementById('apply-filters-btn');
+
+                applyFiltersBtn.addEventListener('click', function() {
+                    applyFilters();
+                });
+
+                function applyFilters() {
+                    const selectedSortBy = dateSelect.value;
+                    const currentUrl = window.location.href;
+                    const url = new URL(currentUrl);
+
+                    if (selectedSortBy) {
+                        url.searchParams.set('sort_by', selectedSortBy);
+                    }
+
+                    // Check if there are realty_ads based on applied filters
+                    const totalRealtyAds = {{ realty_ads|length }};
+                    if (totalRealtyAds === 0) {
+                        const noResultsMessage = document.createElement('p');
+                        noResultsMessage.innerText = 'Ничего не найдено, извините';
+                        document.querySelector('.cars').appendChild(noResultsMessage);
+                        return;
+                    }
+
+                    window.location.href = url.toString();
+                }
+            });
+        </script>
     </div>
 </div>
-                    <script>
-                        var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-                        console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
-
-                        var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-
-                        if (photoUrls{{ forloop.counter }}.length >= 1) {
-                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-
-                            if (photoUrls{{ forloop.counter }}.length >= 2) {
-                                mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
-
-                                mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
-                                    mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
-                                });
-
-                                mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
-                                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-                                });
-                            }
-                        }
-                    </script>
-                {% endfor %}
-            </div>
-
-
-           <div class="col-md-3">
-<div id="sidebar" class="p-3">
-    <h5 class="mb-3 text-danger">Сортировка</h5>
-
-    <!-- Переместите этот div блок выше всех полей формы -->
-<div class="mb-3">
-    <select onchange="updateSorting3(this)" class="form-select">
-        <option value="">Выберите сортировку</option>
-        <option value="date_published">Новинки</option>
-        <option value="views">Сортировка по просмотрам (минимум)</option>
-        <option value="-views">Сортировка по просмотрам (максимум)</option>
-        <option value="car_price">Сортировка по цене (дешевые)</option>
-        <option value="-car_price">Сортировка по цене (дорогие)</option>
-    </select>
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var currentUrl = new URL(window.location.href);
-        var currentSorting = currentUrl.searchParams.get("order_by");
-        if (currentSorting) {
-             document.querySelector('.form-select').value = currentSorting;
-        }
-    });
-
-    function updateSorting3(select) {
-        var currentUrl = new URL(window.location.href);
-        var selectedSorting = select.value;
-
-        if (selectedSorting) {
-            currentUrl.searchParams.set("order_by", selectedSorting);
-        } else {
-            currentUrl.searchParams.delete("order_by");
-        }
-
-        window.location.href = currentUrl.toString();
+    function applyFilter() {
+        document.querySelector('form').submit();
     }
 </script>
-
-    <form method="get">
-        <!-- Поля для фильтров -->
-        <div class="form-group mb-3">
-            <label for="id_price_min" class="">Цена Min:</label>
-            <input type="number" name="price_min" id="id_price_min" value="{{ request.GET.price_min }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_price_max" class="">Цена Max:</label>
-            <input type="number" name="price_max" id="id_price_max" value="{{ request.GET.price_max }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_deal" class="">Тип сделки:</label>
-            <input type="text" name="realty_deal" id="id_realty_deal" value="{{ request.GET.realty_deal }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_type" class="">Тип недвижимости:</label>
-            <input type="text" name="realty_type" id="id_realty_type" value="{{ request.GET.realty_type }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_commercial_type" class="">Тип коммерческой недвижимости:</label>
-            <input type="text" name="realty_commercial_type" id="id_realty_commercial_type" value="{{ request.GET.realty_commercial_type }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_square_min" class="">Площадь Min:</label>
-            <input type="number" name="realty_square_min" id="id_realty_square_min" value="{{ request.GET.realty_square_min }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_square_max" class="">Площадь Max:</label>
-            <input type="number" name="realty_square_max" id="id_realty_square_max" value="{{ request.GET.realty_square_max }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_rooms_min" class="">Комнат Min:</label>
-            <input type="number" name="realty_rooms_min" id="id_realty_rooms_min" value="{{ request.GET.realty_rooms_min }}" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="id_realty_rooms_max" class="">Комнат Max:</label>
-            <input type="number" name="realty_rooms_max" id="id_realty_rooms_max" value="{{ request.GET.realty_rooms_max }}" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-danger">Фильтр</button>
-    </form>
-</div>
-               </div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateSelect = document.getElementById('date-select');
-        const applyFiltersBtn = document.getElementById('apply-filters-btn');
-
-        applyFiltersBtn.addEventListener('click', function() {
-            applyFilters();
-        });
-
-        function applyFilters() {
-            const selectedSortBy = dateSelect.value;
-            const currentUrl = window.location.href;
-            const url = new URL(currentUrl);
-
-            if (selectedSortBy) {
-                url.searchParams.set('sort_by', selectedSortBy);
-            }
-
-            // Check if there are realty_ads based on applied filters
-            const totalRealtyAds = {{ realty_ads|length }};
-            if (totalRealtyAds === 0) {
-                const noResultsMessage = document.createElement('p');
-                noResultsMessage.innerText = 'Ничего не найдено, извините';
-                document.querySelector('.cars').appendChild(noResultsMessage);
-                return;
-            }
-
-            window.location.href = url.toString();
-        }
-    });
+    $("#priceRange").slider({});
 </script>
-            </div>
-        </div>
-    </div>
-    <script>
-        function applyFilter() {
-            document.querySelector('form').submit();
-        }
-    </script>
-    <script>
-        $("#priceRange").slider({});
-    </script>
 
 
 <
