@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="id_condition">Select Condition:</label>
+                            <label for="id_condition">Состояние:</label>
                             <select class="form-control" name="condition" id="id_condition">
                                 {% for choice in filter.form.condition.field.choices %}
                                     <option value="{{ choice.0 }}">{{ choice.1 }}</option>
