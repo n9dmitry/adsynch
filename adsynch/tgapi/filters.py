@@ -17,9 +17,6 @@ class CarAdFilter(django_filters.FilterSet):
         field_name="car_model",
         choices=[(car_model, car_model) for car_model in CarAd.objects.values_list('car_model', flat=True).distinct()]
     )
-    # condition = django_filters.ModelChoiceFilter(field_name="car_condition",
-    #                                              queryset=CarAd.objects.values_list('car_condition',
-    #                                                                                 flat=True).distinct())
 
     condition = django_filters.ChoiceFilter(
         field_name="car_condition",
