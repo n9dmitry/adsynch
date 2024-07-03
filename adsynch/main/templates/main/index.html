@@ -6,21 +6,20 @@
 {% include 'main/products.html' %}
 
 
-
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-                                        {% for banner in banners_top|slice:1 %}
+            {% for banner in banners_top|slice:1 %}
             <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <section class="blog">
-        <h3 class="text-center">Авто</h3>
+    <h3 class="text-center">Авто</h3>
     <div class="row justify-content-center">
-    {% for car_ad in car_ad|slice:5 %}
+        {% for car_ad in car_ad|slice:5 %}
         <div class="card-product text-left">
             <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">
             <div class="prod-text">
@@ -29,24 +28,24 @@
                 <p>{{ car_ad.car_location }}</p>
             </div>
         </div>
-    {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 </section>
 
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-                                       {% for banner in banners_center|slice:1 %}
+            {% for banner in banners_center|slice:1 %}
             <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <section class="blog">
-        <h3 class="text-center">Недвижимость</h3>
+    <h3 class="text-center">Недвижимость</h3>
     <div class="row justify-content-center">
-    {% for realty_ad in realty_ad|slice:5 %}
+        {% for realty_ad in realty_ad|slice:5 %}
         <div class="card-product text-left">
             <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">
             <div class="prod-text">
@@ -55,17 +54,16 @@
                 <p>{{ realty_ad.car_location }}</p>
             </div>
         </div>
-    {% endfor %}
-</div>
-        </div>
+        {% endfor %}
+    </div>
+    </div>
 </section>
 
 
-
 <section class="blog">
-        <h3 class="text-center">Работа</h3>
+    <h3 class="text-center">Работа</h3>
     <div class="row justify-content-center">
-    {% for job_ad in job_ad|slice:5 %}
+        {% for job_ad in job_ad|slice:5 %}
         <div class="card-product text-left">
             <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">
             <div class="prod-text">
@@ -74,22 +72,22 @@
                 <p>{{ job_ad.car_location }}</p>
             </div>
         </div>
-    {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 </section>
 
 <div class="container-fluid banner">
     <div class="row">
         <div class="col-12">
-                            {% for banner in banners_bottom|slice:1 %}
+            {% for banner in banners_bottom|slice:1 %}
             <img src="{{ banner.image.url }}" class="img-fluid" alt="{{ banner.alt_text }}">
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <section class="blog">
-        <h3 class="text-center">Блог</h3>
+    <h3 class="text-center">Блог</h3>
     <div class="row justify-content-center">
         {% for article in published_articles %}
         <div class="card-blog">
@@ -97,10 +95,9 @@
             <h3>{{ article.title }}</h3>
             <p>{{ article.content|slice:":150"|safe }}{% if article.content|length > 150 %}...{% endif %}</p>
         </div>
-{% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 </section>
-
 
 
 {% endblock %}

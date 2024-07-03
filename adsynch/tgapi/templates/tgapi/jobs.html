@@ -1,6 +1,7 @@
 {% extends 'main/layout2.html' %}
 
 {% block jobs %}
+
 <div class="container mt-4 cars">
     <div class="row">
         <div class="col-md-9"> <!-- Make the main content wider towards the left -->
@@ -22,52 +23,16 @@
                     </div>
                 </div>
             </div>
-            <script>
-                var photoUrls{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-                console.log("photoUrls{{ forloop.counter }}:", photoUrls{{ forloop.counter }});
-
-                var mainImage{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-
-                if (photoUrls{{ forloop.counter }}.length >= 1) {
-                    mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-
-                    if (photoUrls{{ forloop.counter }}.length >= 2) {
-                        mainImage{{ forloop.counter }}.setAttribute("data-hover-src", photoUrls{{ forloop.counter }}[1].trim());
-
-                        mainImage{{ forloop.counter }}.addEventListener('mouseover', function() {
-                            mainImage{{ forloop.counter }}.src = mainImage{{ forloop.counter }}.getAttribute("data-hover-src");
-                        });
-
-                        mainImage{{ forloop.counter }}.addEventListener('mouseout', function() {
-                            mainImage{{ forloop.counter }}.src = photoUrls{{ forloop.counter }}[0].trim();
-                        });
-                    }
-                }
-            </script>
             {% endfor %}
         </div>
         <!-- Sidebar with sorting and filters -->
         <div class="col-md-3">
             <!-- Sidebar с сортировкой и фильтрами -->
             <div id="sidebar" class="p-3  border-danger rounded">
-                <h5 class="text-danger">Сортировка</h5>
-
-                <!-- Переместите этот div блок выше всех полей формы -->
-                <div class="mb-3">
-                    <select onchange="updateSorting2(this)" class="form-select">
-                        <option value="">Выберите сортировку</option>
-                        <option value="date_published">Новинки</option>
-                        <option value="views">Сортировка по просмотрам (минимум)</option>
-                        <option value="-views">Сортировка по просмотрам (максимум)</option>
-                        <option value="car_price">Сортировка по цене (дешевые)</option>
-                        <option value="-car_price">Сортировка по цене (дорогие)</option>
-                    </select>
-                </div>
-
-
                 <form method="get">
                     {{ filter.form.as_p }}
                     <button type="submit" class="btn btn-danger">Фильтр</button>
+                    <a href="{% url 'jobs' %}" class="btn btn-secondary">Сбросить</a>
                 </form>
             </div>
         </div>
@@ -75,27 +40,4 @@
 
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var currentUrl = new URL(window.location.href);
-        var currentSorting = currentUrl.searchParams.get("order_by");
-        if (currentSorting) {
-            document.querySelector('.form-select').value = currentSorting;
-        }
-    });
-
-    function updateSorting2(select) {
-        var currentUrl = new URL(window.location.href);
-        var selectedSorting = select.value;
-
-        if (selectedSorting) {
-            currentUrl.searchParams.set("order_by", selectedSorting);
-        } else {
-            currentUrl.searchParams.delete("order_by");
-        }
-
-        window.location.href = currentUrl.toString();
-    }
-</script>
 {% endblock %}
