@@ -3,8 +3,8 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from .views import CarAdView, RealtyAdView, JobAdView, my_ads, profile_view, check_user, generate_link
-from .views import CarAdListView, get_filter_car_models, RealtyAdListView, JobAdListView
-
+from .views import CarAdListView, RealtyAdListView, JobAdListView, get_filter_car_models
+#
 
 urlpatterns = [
     path("car_ad/", CarAdView.as_view()),
