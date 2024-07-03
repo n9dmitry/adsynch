@@ -50,7 +50,9 @@ class CarAdFilter(BaseFilterSet, django_filters.FilterSet, ):
     mileage_min = django_filters.NumberFilter(field_name="car_mileage", label="Пробег Min", lookup_expr='gte')
     mileage_max = django_filters.NumberFilter(field_name="car_mileage", label="Пробег Min", lookup_expr='lte')
 
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form.fields['model'].disabled = True
 
     class Meta:
         model = CarAd

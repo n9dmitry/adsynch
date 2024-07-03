@@ -43,11 +43,10 @@ class CarAdListView(FilterView):
         return queryset
 
 
-def get_filter_car_models(request):
+def get_models(request):
     brand = request.GET.get('brand')
     models = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
-    return JsonResponse(list(models), safe=False)
-
+    return JsonResponse({'models': list(models)})
 class RealtyAdListView(FilterView):
     model = RealtyAd
     template_name = 'tgapi/realty.html'  # Убедитесь, что путь правильный
