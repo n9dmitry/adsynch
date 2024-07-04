@@ -75,4 +75,63 @@
         </p>
     </div>
 </div>
+
+
+<script>
+    var photoUrls = "{{ car_ad.photos }}".split(",");
+  var thumbnailsContainer = document.getElementById("thumbnails-container");
+
+  photoUrls.forEach(function(url, index) {
+    var imgElement = document.createElement("img");
+    imgElement.src = url.trim();
+    imgElement.alt = "Thumbnail " + (index + 1);
+    imgElement.className = "img-thumbnail mx-2";
+    imgElement.setAttribute("data-index", index); // Set data-index attribute
+    imgElement.addEventListener("click", function() {
+      changeImage(index); // Call changeImage function on click
+    var thumbnailsContainer = document.getElementById("thumbnails-container");
+
+    photoUrls.forEach(function(url, index) {
+        var imgElement = document.createElement("img");
+        imgElement.src = url.trim();
+        imgElement.alt = "Thumbnail " + (index + 1);
+        imgElement.className = "img-thumbnail mx-2";
+        imgElement.setAttribute("data-index", index); // Set data-index attribute
+        imgElement.addEventListener("click", function() {
+            changeImage(index); // Call changeImage function on click
+        });
+
+        // Set size for thumbnails
+        imgElement.width = 180;
+        imgElement.height = 90;
+
+        thumbnailsContainer.appendChild(imgElement);
+    });
+
+    thumbnailsContainer.appendChild(imgElement);
+  });
+    var mainImage = document.getElementById("main-image-1");
+
+  var mainImage = document.getElementById("main-image-1");
+    mainImage.width = 780;
+
+  function changeImage(index) {
+    if (photoUrls.length > index) {
+      mainImage.src = photoUrls[index].trim();
+      mainImage.alt = "Main Image";
+    function changeImage(index) {
+        if (photoUrls.length > index) {
+            mainImage.src = photoUrls[index].trim();
+            mainImage.alt = "Main Image";
+        }
+    }
+  }
+
+  // Set initial main image
+  changeImage(0);
+    // Set initial main image
+    changeImage(0);
+</script>
+
+
 {% endblock %}

@@ -36,3 +36,12 @@ class ServicesPage(models.Model):
 
     def __str__(self):
         return self.title
+
+class SliderImage(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='slider_images/')
+    caption = models.TextField(blank=True)
+    link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
