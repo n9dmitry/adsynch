@@ -28,27 +28,26 @@
 <div class="container mt-4 cars">
     <div class="row">
         <div class="col-md-9">
-            {% for ad in car_ads %}
-            <div class="card mb-4">
-                <div class="card-body card-body-flex">
-                    <div class="image-container">
-                        <img id="main-image-{{ forloop.counter }}" class="main-image">
+{% for ad in car_ads %}
+<div class="card mb-4">
+    <div class="card-body card-body-flex">
+                                        <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
+                       <img id="main-image-{{ forloop.counter }}" class="main-image" style="width: 100%; height: 120px; object-fit: cover;">
                     </div>
-                    <div class="text-container">
-                        <a href="{% url 'carad-detail' pk=ad.pk %}">
-                            <h5 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}</h5>
-                        </a>
-                        <p class="card-text">
-                            <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
-                            <strong>Цена:</strong> {{ ad.car_price }} {{ currency }}<br>
-                            <strong>Местоположение:</strong> {{ ad.car_location }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {% endfor %}
+        <div class="text-container">
+            <a href="{% url 'carad-detail' pk=ad.pk %}">
+                <h5 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}</h5>
+            </a>
+            <p class="card-text">
+                <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
+                <strong>Цена:</strong> {{ ad.car_price }} {{ currency }}<br>
+                <strong>Местоположение:</strong> {{ ad.car_location }}
+            </p>
         </div>
+    </div>
+</div>
+{% endfor %}
+                   </div>
 
         <div class="col-md-3">
             <div id="sidebar" class="p-3  border-danger rounded">
@@ -94,5 +93,29 @@
 
 </div>
 
+<script>
+    {% for car_ad in car_ads %}
+        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
+
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+
+        mainImageCar{{ forloop.counter }}.style.width = "420px";
+        mainImageCar{{ forloop.counter }}.style.height = "240px";
+
+        if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
+            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            });
+        }
+    {% endfor %}
+</script>
 
 {% endblock %}
