@@ -234,6 +234,6 @@ CELERY_IMPORTS = ('adsynch.tasks',)
 CELERY_BEAT_SCHEDULE = {
     'get-usd-rate-every-minute': {
         'task': 'adsynch.tasks.get_usd_rate',
-        'schedule': 5.0,  # Каждые 60 секунд
+        'schedule': 5.0,  # Регулярное повторение задач / в секунду
     },
 }

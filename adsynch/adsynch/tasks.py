@@ -1,11 +1,7 @@
-# adsynch/tasks.py
-# from __future__ import absolute_import, unicode_literals
-from xml import etree
-
-from celery import shared_task
 import requests
-from .celery import app
 import xml.etree.ElementTree as ET
+from celery import shared_task
+
 
 @shared_task
 def get_usd_rate():
@@ -15,6 +11,5 @@ def get_usd_rate():
     if usd_rate is not None:
         currency_value = usd_rate.find('Value').text
         return float(currency_value.replace(',', '.'))  # Преобразуем в числовое значение
-
     else:
-        raise ValueError('USD rate not found in the response')
+        raise ValueError('USD курс не найден')
