@@ -221,3 +221,19 @@ EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+#CELERY
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# Опционально: настройки для backend результатов (если нужно)
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# Опционально: настройки для автопоиска задач
+CELERY_IMPORTS = ('adsynch.tasks',)
+# Включение Celery beat
+CELERY_BEAT_SCHEDULE = {
+    'get-usd-rate-every-minute': {
+        'task': 'adsynch.tasks.get_usd_rate',
+        'schedule': 5.0,  # Каждые 60 секунд
+    },
+}
