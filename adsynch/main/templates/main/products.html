@@ -17,7 +17,7 @@
 <div class="row justify-content-between p-5">
     <div class="row">
         {% for ad in recommendation_listing|slice:25 %}
-            <div class="card-product text-left mb-2"> <!-- Added margin bottom -->
+            <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
                 <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
                 <div class="prod-text">
                     <a href="#"><h3>{{ ad.title|slice:":30"|safe }}{% if ad.title|length > 30 %}...{% endif %}</h3></a>

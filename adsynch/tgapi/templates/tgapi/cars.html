@@ -95,4 +95,29 @@
 </div>
 
 
+<script>
+    {% for car_ad in car_ads %}
+        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
+
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
+
+        mainImageCar{{ forloop.counter }}.style.width = "420px";
+        mainImageCar{{ forloop.counter }}.style.height = "240px";
+
+        if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
+            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            });
+        }
+    {% endfor %}
+</script>
+
 {% endblock %}
