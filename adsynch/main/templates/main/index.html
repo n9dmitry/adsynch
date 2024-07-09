@@ -21,9 +21,9 @@
     <div class="row justify-content-center">
         {% for car_ad in car_ad|slice:5 %}
         <div class="card-product text-left">
-            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">
+            <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">
             <div class="prod-text">
-                <a href=""><h3>{{ car_ad.title }}</h3></a>
+                <a href="#"><h3>{{ car_ad.title|slice:":30"|safe }}{% if car_ad.title|length > 30 %}...{% endif %}</h3></a>
                 <p>{{ car_ad.price }} {{ car_ad.currency }}</p>
                 <p>{{ car_ad.car_location }}</p>
             </div>
@@ -99,5 +99,87 @@
     </div>
 </section>
 
+<script>
+    {% for job_ad in job_ad|slice:5 %}
+        var photoUrlsJob{{ forloop.counter }} = "{{ job_ad.photos }}".split(",");
+        console.log("photoUrlsJob{{ forloop.counter }}:", photoUrlsJob{{ forloop.counter }});
+
+        var mainImageJob{{ forloop.counter }} = document.getElementById("main-image-job-{{ forloop.counter }}");
+
+        mainImageJob{{ forloop.counter }}.style.width = "420px";
+        mainImageJob{{ forloop.counter }}.style.height = "240px";
+
+        if (photoUrlsJob{{ forloop.counter }}.length >= 2) {
+            mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
+            mainImageJob{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsJob{{ forloop.counter }}[1].trim());
+
+            mainImageJob{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageJob{{ forloop.counter }}.src = mainImageJob{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageJob{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
+            });
+        }
+    {% endfor %}
+</script>
+
+<script>
+    {% for realty_ad in realty_ad|slice:5 %}
+        var photoUrlsRealty{{ forloop.counter }} = "{{ realty_ad.photos }}".split(",");
+        console.log("photoUrlsRealty{{ forloop.counter }}:", photoUrlsRealty{{ forloop.counter }});
+
+        var mainImageRealty{{ forloop.counter }} = document.getElementById("main-image-realty-{{ forloop.counter }}");
+
+        mainImageRealty{{ forloop.counter }}.style.width = "420px";
+        mainImageRealty{{ forloop.counter }}.style.height = "240px";
+
+        if (photoUrlsRealty{{ forloop.counter }}.length >= 2) {
+            mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
+            mainImageRealty{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsRealty{{ forloop.counter }}[1].trim());
+
+            mainImageRealty{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageRealty{{ forloop.counter }}.src = mainImageRealty{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageRealty{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
+            });
+        }
+    {% endfor %}
+</script>
+
+
+<script>
+    {% for car_ad in car_ad|slice:5 %}
+        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",").map(url => url.trim());
+        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
+
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");
+
+        mainImageCar{{ forloop.counter }}.style.width = "420px";
+        mainImageCar{{ forloop.counter }}.style.height = "240px";
+
+        if (photoUrlsCar{{ forloop.counter }}.length >= 1) {
+            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0];
+
+            if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
+                mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1]);
+
+                mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
+                    mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
+                });
+
+                mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+                    mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0];
+                });
+            }
+        }
+    {% endfor %}
+</script>
+
+
 
 {% endblock %}
+
+
