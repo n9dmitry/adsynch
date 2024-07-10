@@ -20,7 +20,7 @@
             <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
                 <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
                 <div class="prod-text">
-                    <a href="#"><h3>{{ ad.title|slice:":30"|safe }}{% if ad.title|length > 30 %}...{% endif %}</h3></a>
+                    <a href="#"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
                     <p>{{ ad.price }} {{ ad.currency }}</p>
                     <p>{{ ad.car_location }}</p>
 
@@ -90,8 +90,8 @@
 
         var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here
 
-        mainImageCar{{ forloop.counter }}.style.width = "420px";
-        mainImageCar{{ forloop.counter }}.style.height = "240px";
+        mainImageCar{{ forloop.counter }}.style.width = "260px";
+        mainImageCar{{ forloop.counter }}.style.height = "140px";
 
         if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
             mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();

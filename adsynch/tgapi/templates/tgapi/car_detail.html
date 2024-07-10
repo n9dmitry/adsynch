@@ -8,34 +8,30 @@
 <div class="container advs">
     <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.title }}</h1>
     <div class="row">
-        <div class="col-md-6">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="img1.jpg" class="d-block w-100" alt="...">
+           <div class="col-md-6">
+ <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for photo in car_ad.photos %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for photo in car_ad.photos %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="carousel-item">
-                        <img src="img2.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img3.jpg" class="d-block w-100" alt="...">
-                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
             </div>
-        </div>
         <div class="col-md-6">
             <p>Имя продавца: {{ car_ad.contact_name }}</p>
             <a href="tel:{{ car_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
@@ -80,61 +76,26 @@
 </div>
 
 
-<script>
-    var photoUrls = "{{ car_ad.photos }}".split(",");
-  var thumbnailsContainer = document.getElementById("thumbnails-container");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const photoUrls = "{{ car_ad.photos }}".split(",").map(url => url.trim());
+            const carouselItems = document.querySelectorAll(".carousel-item");
 
-  photoUrls.forEach(function(url, index) {
-    var imgElement = document.createElement("img");
-    imgElement.src = url.trim();
-    imgElement.alt = "Thumbnail " + (index + 1);
-    imgElement.className = "img-thumbnail mx-2";
-    imgElement.setAttribute("data-index", index); // Set data-index attribute
-    imgElement.addEventListener("click", function() {
-      changeImage(index); // Call changeImage function on click
-    var thumbnailsContainer = document.getElementById("thumbnails-container");
+            carouselItems.forEach((item, index) => {
+                if (photoUrls[index]) {
+                    item.querySelector("img").src = photoUrls[index];
+                } else {
+                    item.remove();
+                }
+            });
 
-    photoUrls.forEach(function(url, index) {
-        var imgElement = document.createElement("img");
-        imgElement.src = url.trim();
-        imgElement.alt = "Thumbnail " + (index + 1);
-        imgElement.className = "img-thumbnail mx-2";
-        imgElement.setAttribute("data-index", index); // Set data-index attribute
-        imgElement.addEventListener("click", function() {
-            changeImage(index); // Call changeImage function on click
+            // Убедимся, что индикаторы карусели и элементы карусели имеют одинаковое количество элементов
+            const carouselIndicators = document.querySelectorAll("#carouselExampleIndicators ol.carousel-indicators li");
+            if (carouselIndicators.length !== carouselItems.length) {
+                console.error("Количество индикаторов карусели не соответствует количеству элементов карусели.");
+            }
         });
-
-        // Set size for thumbnails
-        imgElement.width = 180;
-        imgElement.height = 90;
-
-        thumbnailsContainer.appendChild(imgElement);
-    });
-
-    thumbnailsContainer.appendChild(imgElement);
-  });
-    var mainImage = document.getElementById("main-image-1");
-
-  var mainImage = document.getElementById("main-image-1");
-    mainImage.width = 780;
-
-  function changeImage(index) {
-    if (photoUrls.length > index) {
-      mainImage.src = photoUrls[index].trim();
-      mainImage.alt = "Main Image";
-    function changeImage(index) {
-        if (photoUrls.length > index) {
-            mainImage.src = photoUrls[index].trim();
-            mainImage.alt = "Main Image";
-        }
-    }
-  }
-
-  // Set initial main image
-  changeImage(0);
-    // Set initial main image
-    changeImage(0);
-</script>
+    </script>
 
 
 {% endblock %}
