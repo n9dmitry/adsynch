@@ -8,18 +8,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main/styles/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main/styles/fa.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
 
-   <div class="header-top">
+<div class="header-top">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mb-3 mb-lg-0" style="margin-top: 7px;">
                 <!-- content of the first column -->
                 <form action="{% url 'search_results' %}" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control border-danger" name="q" placeholder="Введите запрос..." value="{{ query }}">
+                        <input type="text" class="form-control border-danger" name="q" placeholder="Введите запрос..."
+                               value="{{ query }}">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-danger">Искать</button>
                         </div>
@@ -27,26 +29,28 @@
                 </form>
             </div>
 
-<div class="col-lg-6 d-flex justify-content-end">
-    <!-- content второго столбца, расположенный справа -->
-    <div class="dropdown" style="margin-top: 10px;">
-        {% if user.is_authenticated %}
-            <a class="d-flex" href="#" style="padding-bottom: 5px; text-decoration: none;" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user-circle" style="margin-top: 5px;"></i>
-                <h5 style="color: #fff; margin-left: 15px;">{{ user.username }}</h5>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
-            </ul>
-        {% else %}
-            <a class="d-flex" href="https://t.me/autobotxyi2bot?text=/my_profile" style="padding-bottom: 5px; text-decoration: none;">
-                <i class="fas fa-user-circle" style="margin-top: 5px;"></i>
-                <h5 style="color: #fff; margin-left: 15px;">Войти</h5>
-            </a>
-        {% endif %}
-    </div>
-</div>
+            <div class="col-lg-6 d-flex justify-content-end">
+                <!-- content второго столбца, расположенный справа -->
+                <div class="dropdown" style="margin-top: 10px;">
+                    {% if user.is_authenticated %}
+                    <a class="d-flex" href="#" style="padding-bottom: 5px; text-decoration: none;" role="button"
+                       id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle" style="margin-top: 5px;"></i>
+                        <h5 style="color: #fff; margin-left: 15px;">{{ user.username }}</h5>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
+                    </ul>
+                    {% else %}
+                    <a class="d-flex" href="https://t.me/autobotxyi2bot?text=/my_profile"
+                       style="padding-bottom: 5px; text-decoration: none;">
+                        <i class="fas fa-user-circle" style="margin-top: 5px;"></i>
+                        <h5 style="color: #fff; margin-left: 15px;">Войти</h5>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
 
 
         </div>
@@ -58,13 +62,14 @@
         <a class="navbar-brand" href="/">
             <img width="75" src="{%  static 'main/img/logo.png' %}" class="logo" alt="Логотип">
         </a>
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <i class="fas fa-bars" style="color: red;"></i>
-</button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color: red;"></i>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href=".">Главная</a>
+                    <a class="nav-link" href="/">Главная</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">О нас</a>
@@ -85,32 +90,34 @@
 </header>
 <main>
 
-{% block index %}
-{% endblock %}
+    {% block index %}
+    {% endblock %}
 
     {% block cars %}
-{% endblock %}
+    {% endblock %}
 
-        {% block jobs %}
-{% endblock %}
+    {% block jobs %}
+    {% endblock %}
 
-            {% block realty %}
-{% endblock %}
+    {% block realty %}
+    {% endblock %}
 
-                {% block blog %}
-{% endblock %}
+    {% block blog %}
+    {% endblock %}
 
-                    {% block about %}
-{% endblock %}
+    {% block about %}
+    {% endblock %}
 
-                        {% block services %}
-{% endblock %}
+    {% block services %}
+    {% endblock %}
 
-                            {% block contact %}
-{% endblock %}
+    {% block contact %}
+    {% endblock %}
 
+    {% block search %}
+    {% endblock %}
 
-<footer class="footer-section">
+    <footer class="footer-section">
         <div class="container">
             <div class="footer-cta pt-5 pb-5">
                 <div class="row">
@@ -120,15 +127,6 @@
                             <div class="cta-text">
                                 <h4>Адрес</h4>
                                 <span>Донецк, ДНР</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-4 mb-30">
-                        <div class="single-cta">
-                            <i class="fas fa-phone"></i>
-                            <div class="cta-text">
-                                <h4>Телефон</h4>
-                                <span>+79491234567</span>
                             </div>
                         </div>
                     </div>
@@ -148,14 +146,14 @@
                     <div class="col-xl-4 col-lg-4 mb-50">
                         <div class="footer-widget">
                             <div class="footer-logo">
-                                <a href="index.html"><img src="{%  static 'main/img/logo.png' %}" class="img-fluid" alt="logo"></a>
+                                <a href="index.html"><img src="{%  static 'main/img/logo.png' %}" class="img-fluid"
+                                                          alt="logo"></a>
                             </div>
                             <div class="footer-text">
-                                <p>Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod tempor incididuntut consec tetur adipisicing
-                                elit,Lorem ipsum dolor sit amet.</p>
+                                <p>Доска объявлений ДНР. <br> Авто. Недвижимость. Работа.</p>
                             </div>
                             <div class="footer-social-icon">
-                                <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                                <a href="https://t.me/selbie_bot"><i class="fab fa-telegram-plane"></i></a>
                             </div>
                         </div>
                     </div>
@@ -169,7 +167,7 @@
                                 <li><a href="/about">О Нас</a></li>
                                 <li><a href="/services">Услуги</a></li>
                                 <li><a href="/articles">Блог</a></li>
-                                <li><a href="/contacts">Контакты</a></li>
+                                <li><a href="/contact">Контакты</a></li>
                             </ul>
                         </div>
                     </div>
@@ -180,34 +178,34 @@
                                 <h3>Разместить объявление</h3>
                             </div>
                             <div class="footer-text mb-25">
-<img width="150" src="{%  static 'main/img/qrcode.svg' %}" style="border: 1px solid; padding: 15px;">
+                                <img width="150" src="{%  static 'main/img/qcode.svg' %}"
+                                     style="border: 1px solid; padding: 15px;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            </div>
     </footer>
 
-        <div class="copyright-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 text-center text-lg-left">
-                        <div class="copyright-text">
-                            <p>Copyright &copy; 2024 , Все права защищены <a href="/">Selbie Projects</a></p>
-                        </div>
+    <div class="copyright-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2024 , Все права защищены <a href="/">Selbie Projects</a></p>
                     </div>
-                    <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
-                        <div class="footer-menu">
-                            <ul>
-                                <li><a href="#">Политика обработки персональных данных</a></li>
-                                <li><a href="#">Правила оказания услуг для юридических лиц</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+                    <div class="footer-menu">
+                        <ul>
+                            <li><a href="#">Политика обработки персональных данных</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 </main>
 
@@ -217,10 +215,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 
-const clearInput = () => {
-  const input = document.getElementsByTagName("input")[0];
-  input.value = "";
-}
+    const clearInput = () => {
+      const input = document.getElementsByTagName("input")[0];
+      input.value = "";
+    }
 
 </script>
 </body>
