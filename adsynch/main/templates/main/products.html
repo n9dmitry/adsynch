@@ -14,20 +14,33 @@
 <!--</div>-->
 
 
-<div class="row justify-content-center p-5">
-    {% for ad in recommendation_listing %}
-        <div class="card-product text-left">
-            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">
-            <div class="prod-text">
-                <a href=""><h3>{{ ad.title }}</h3></a>
-                <p>{{ ad.price }} {{ ad.currency }}</p>
-                <p>{{ ad.car_location }}</p>
-                <p>{{ ad.views }} views</p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+<div class="row justify-content-between p-5">
+    <div class="row">
+        {% for ad in recommendation_listing|slice:25 %}
+            <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
+                <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
+                <div class="prod-text">
+                    <a href="#"><h3>{{ ad.title|slice:":30"|safe }}{% if ad.title|length > 30 %}...{% endif %}</h3></a>
+                    <p>{{ ad.price }} {{ ad.currency }}</p>
+                    <p>{{ ad.car_location }}</p>
 
+                    <div class="d-flex align-items-center">
+                        <div class="p-1">
+                            {% if ad.category == "car" %}
+                                <span class="badge badge-success">Авто</span>
+                            {% elif ad.category == "realty" %}
+                                <span class="badge badge-primary">Недвижимость</span>
+                            {% elif ad.category == "job" %}
+                                <span class="badge badge-warning">Работа</span>
+                            {% endif %}
+                        </div>
+                        <p class="mr-3" style="margin-top: 15px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 <!--<div class="row justify-content-center p-5">-->
 <!--    {% for car_ad in car_ad|slice:5 %}-->
@@ -71,11 +84,11 @@
 <!--</div>-->
 
 <script>
-    {% for car_ad in car_ads %}
-        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+    {% for ad in recommendation_listing %}
+        var photoUrlsCar{{ forloop.counter }} = "{{ ad.photos }}".split(",");
         console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
 
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here
 
         mainImageCar{{ forloop.counter }}.style.width = "420px";
         mainImageCar{{ forloop.counter }}.style.height = "240px";
@@ -92,29 +105,5 @@
                 mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
             });
         }
-    {% endfor %}
-
-    {% for job_ad in job_ads %}
-        var photoUrlsJob{{ forloop.counter }} = "{{ job_ad.photos }}".split(",");
-        console.log("photoUrlsJob{{ forloop.counter }}:", photoUrlsJob{{ forloop.counter }});
-
-        var mainImageJob{{ forloop.counter }} = document.getElementById("main-image-job-{{ forloop.counter }}");
-
-        mainImageJob{{ forloop.counter }}.style.width = "420px";
-        mainImageJob{{ forloop.counter }}.style.height = "240px";
-
-        // Add event listeners for job images as needed
-    {% endfor %}
-
-    {% for realty_ad in realty_ads %}
-        var photoUrlsRealty{{ forloop.counter }} = "{{ realty_ad.photos }}".split(",");
-        console.log("photoUrlsRealty{{ forloop.counter }}:", photoUrlsRealty{{ forloop.counter }});
-
-        var mainImageRealty{{ forloop.counter }} = document.getElementById("main-image-realty-{{ forloop.counter }}");
-
-        mainImageRealty{{ forloop.counter }}.style.width = "420px";
-        mainImageRealty{{ forloop.counter }}.style.height = "240px";
-
-        // Add event listeners for realty images as needed
     {% endfor %}
 </script>

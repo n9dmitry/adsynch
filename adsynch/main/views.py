@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
 from .forms import RegistrationForm
-from .models import AboutPage, ServicesPage, Bnr
+from .models import AboutPage, ServicesPage, Bnr, SliderImage
 # from .forms import CustomPasswordResetForm
 
 import uuid
@@ -39,6 +39,8 @@ def index(request):
     # Объединение всех объявлений в один список
     recommendation_listing = list(top_car_ads) + list(top_realty_ads) + list(top_job_ads)
 
+    slider_images = SliderImage.objects.all()
+
     context = {
         'car_ad': car_ad,
         'realty_ad': realty_ad,
@@ -48,6 +50,7 @@ def index(request):
         'banners_center': banners_center,
         'banners_bottom': banners_bottom,
         'recommendation_listing': recommendation_listing,  # Добавляем топ-12 объявлений в контекст
+        'slider_images': slider_images
     }
 
     return render(request, 'main/index.html', context)
