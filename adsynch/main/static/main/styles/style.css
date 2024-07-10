@@ -620,3 +620,8 @@ margin-bottom:50px;
     }
 
 
+.main-image {
+    width: 420px;
+    height: 240px;
+    object-fit: cover; /* Это сохранит соотношение сторон при изменении размеров */
+}
