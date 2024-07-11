@@ -76,8 +76,6 @@
 
         var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
 
-        mainImageCar{{ forloop.counter }}.style.width = "420px";
-        mainImageCar{{ forloop.counter }}.style.height = "240px";
 
         if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
             mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();

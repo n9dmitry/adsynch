@@ -10,3 +10,6 @@ djangorestframework
 django-allauth
 transliterate
 django-ckeditor
+celery[redis]
+redis
+cbrf
