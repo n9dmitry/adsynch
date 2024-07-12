@@ -21,9 +21,9 @@
     <div class="row justify-content-center ">
         {% for car_ad in car_ad|slice:5 %}
         <div class="card-product text-left mb-2">
-            <img id="main-image-cars-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
+            <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">  <!-- Update ID here -->
             <div class="prod-text">
-                <a href="#"><h3>{{ car_ad.title|slice:":30"|safe }}{% if car_ad.title|length > 30 %}...{% endif %}</h3></a>
+                <a href="#"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
                 <p>{{ car_ad.price }} {{ car_ad.currency }}</p>
                 <p>{{ car_ad.car_location }}</p>
             </div>
@@ -47,9 +47,9 @@
     <div class="row justify-content-center">
         {% for realty_ad in realty_ad|slice:5 %}
         <div class="card-product text-left mb-2">
-            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">
+            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
-                <a href=""><h3>{{ realty_ad.title }}</h3></a>
+                 <a href="#"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
                 <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>
                 <p>{{ realty_ad.car_location }}</p>
             </div>
@@ -64,9 +64,9 @@
     <div class="row justify-content-center">
         {% for job_ad in job_ad|slice:5 %}
         <div class="card-product text-left mb-2">
-            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">
+            <img id="main-image-job-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
-                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
+               <a href="#"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
                 <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
                 <p>{{ job_ad.car_location }}</p>
             </div>
@@ -104,12 +104,10 @@
         console.log("photoUrlsJob{{ forloop.counter }}:", photoUrlsJob{{ forloop.counter }});
 
         var mainImageJob{{ forloop.counter }} = document.getElementById("main-image-job-{{ forloop.counter }}");
+        mainImageJob{{ forloop.counter }}.style.width = "260px";
+        mainImageJob{{ forloop.counter }}.style.height = "140px";
 
-        mainImageCar{{ forloop.counter }}.style.width = "260px";
-        mainImageCar{{ forloop.counter }}.style.height = "140px";
-
-        if (photoUrlsJob{{ forloop.counter }}.length >= 2) {
-            console.log("1")
+        if (photoUrlsJob{{ forloop.counter }}.length >= 2 && photoUrlsJob{{ forloop.counter }}[1].trim() !== '') {
             mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
             mainImageJob{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsJob{{ forloop.counter }}[1].trim());
 
@@ -120,23 +118,24 @@
             mainImageJob{{ forloop.counter }}.addEventListener('mouseout', function() {
                 mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
             });
+        } else {
+            mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
+            mainImageJob{{ forloop.counter }}.removeEventListener('mouseover', function() {});
+            mainImageJob{{ forloop.counter }}.removeEventListener('mouseout', function() {});
         }
     {% endfor %}
 </script>
 
 <script>
-
     {% for realty_ad in realty_ad|slice:5 %}
         var photoUrlsRealty{{ forloop.counter }} = "{{ realty_ad.photos }}".split(",");
         console.log("photoUrlsRealty{{ forloop.counter }}:", photoUrlsRealty{{ forloop.counter }});
 
         var mainImageRealty{{ forloop.counter }} = document.getElementById("main-image-realty-{{ forloop.counter }}");
+        mainImageRealty{{ forloop.counter }}.style.width = "260px";
+        mainImageRealty{{ forloop.counter }}.style.height = "140px";
 
-        mainImageCar{{ forloop.counter }}.style.width = "260px";
-        mainImageCar{{ forloop.counter }}.style.height = "140px";
-
-        if (photoUrlsRealty{{ forloop.counter }}.length >= 2) {
-        console.log("2")
+        if (photoUrlsRealty{{ forloop.counter }}.length >= 2 && photoUrlsRealty{{ forloop.counter }}[1].trim() !== '') {
             mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
             mainImageRealty{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsRealty{{ forloop.counter }}[1].trim());
 
@@ -147,35 +146,38 @@
             mainImageRealty{{ forloop.counter }}.addEventListener('mouseout', function() {
                 mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
             });
+        } else {
+            mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
+            mainImageRealty{{ forloop.counter }}.removeEventListener('mouseover', function() {});
+            mainImageRealty{{ forloop.counter }}.removeEventListener('mouseout', function() {});
         }
     {% endfor %}
 </script>
 
-
 <script>
-{% for car_ad in car_ad|slice:5 %}
-    var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-    console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
+    {% for car_ad in car_ad|slice:5 %}
+        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
+        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
 
-   var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-cars-{{ forloop.counter }}");  // Update ID here
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-cars-{{ forloop.counter }}");  // Update ID here
 
-        mainImageCar{{ forloop.counter }}.style.width = "260px";
-        mainImageCar{{ forloop.counter }}.style.height = "140px";
-
-    if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
-    console.log(mainImageCar{{ forloop.counter }})
-        mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-        mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
-
-        mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
-            mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
-        });
-
-        mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+        if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {
             mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-        });
-    }
-{% endfor %}
+            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            });
+        } else {
+            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            mainImageCar{{ forloop.counter }}.removeEventListener('mouseover', function() {});
+            mainImageCar{{ forloop.counter }}.removeEventListener('mouseout', function() {});
+        }
+    {% endfor %}
 </script>
 
 

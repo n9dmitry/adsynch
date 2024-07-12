@@ -625,3 +625,9 @@ margin-bottom:50px;
     height: 240px;
     object-fit: cover; /* Это сохранит соотношение сторон при изменении размеров */
 }
+
+.main-image-cars {
+    width: 260px;
+    height: 140px;
+    object-fit: cover; /* Это сохранит соотношение сторон при изменении размеров */
+}
