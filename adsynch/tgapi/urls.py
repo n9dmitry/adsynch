@@ -22,6 +22,7 @@ urlpatterns = [
     path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
     path('generate_link/', views.generate_link, name='generate_link'),
     path('get-models/', get_models, name='get_models'),
+    path('get_currency_rate/', views.get_currency_rate, name='get_currency_rate'),
     # path('car_ads/', CarAdListView.as_view(), name='car_ad_list'),
 
 ]

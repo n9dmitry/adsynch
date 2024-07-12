@@ -5,6 +5,50 @@
 {% include 'main/slider.html' %}
 {% include 'main/products.html' %}
 
+<script>
+    let curr = "RUB";
+
+    $(document).ready(function() {
+        console.log("Document is ready");
+
+        $('.currency_usd').click(function(e) {
+            e.preventDefault();
+            console.log("USD button clicked");
+
+            if (curr !== "USD") {
+                $.ajax({
+                    url: "{% url 'get_currency_rate' %}",
+                    success: function(data) {
+                        console.log("Currency rate data:", data);
+                        let rate = data.rate;
+                        $('.car-ad').each(function() {
+                            let priceInRub = $(this).data('price');
+                            let priceInUsd = priceInRub / rate;
+                            $(this).find('.price').text(priceInUsd.toFixed(2) + ' $');
+                        });
+                        curr = "USD";
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching the currency rate:", error);
+                    }
+                });
+            }
+        });
+
+        $('.currency_rub').click(function(e) {
+            e.preventDefault();
+            console.log("RUB button clicked");
+
+            if (curr !== "RUB") {
+                $('.car-ad').each(function() {
+                    let priceInRub = $(this).data('price');
+                    $(this).find('.price').text(priceInRub.toFixed(2) + ' ₽');
+                });
+                curr = "RUB";
+            }
+        });
+    });
+</script>
 
 <div class="container-fluid banner">
     <div class="row">
