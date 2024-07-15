@@ -27,7 +27,7 @@
     .date-published {
         font-size: 12px;
     }
-</style>>
+</style>
 
 
 <div class="container mt-4 cars">
@@ -43,7 +43,7 @@
                         <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
                         <p class="card-text">
                             <strong>Категория:</strong> {{ job_ad.job_category }} <br>
-                            <strong>Зарплата:</strong> {{ job_ad.price }} <br>
+                            <strong>Зарплата:</strong>  <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p> <br>
                         </p>
                         <p class="date-published">Дата публикации: {{ job_ad.date_published }}</p>
                         <p>Просмотры: {{ job_ad.views }}</p>

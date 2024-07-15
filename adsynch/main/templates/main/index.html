@@ -26,7 +26,7 @@
                 <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
                 <div class="prod-text">
                     <a href="#"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
-                    <p class="price">{{ car_ad.price }} {{ car_ad.currency }}</p>
+                    <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
                     <p>{{ car_ad.car_location }}</p>
                 </div>
             </div>
@@ -44,6 +44,7 @@
     </div>
 </div>
 
+
 <section class="blog">
     <h3 class="text-center">Недвижимость</h3>
     <div class="row justify-content-center">
@@ -52,7 +53,7 @@
             <img id="main-image-realty-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
                  <a href="#"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>
+                <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p>
                 <p>{{ realty_ad.car_location }}</p>
             </div>
         </div>
@@ -69,7 +70,7 @@
             <img id="main-image-job-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
                <a href="#"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
+                <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
                 <p>{{ job_ad.car_location }}</p>
             </div>
         </div>

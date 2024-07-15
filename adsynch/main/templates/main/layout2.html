@@ -16,13 +16,7 @@
 <div class="header-top">
     <button id="currency_rub">RUB</button>
     <button id="currency_usd">USD</button>
-    <div class="price" color="white" data-price-rub="7300">7300 ₽</div>
-    <div class="price" color="white" data-price-rub="14600">14600 ₽</div>
-    <style>
-        .price {
-            color: white; /* Белый цвет текста */
-        }
-    </style>
+
     <div id="car-list">
         <!-- Список автомобилей или другой контент -->
     </div>
@@ -56,32 +50,58 @@
         });
 
         function switchCurrency(targetCurrency) {
-            console.log("Переключение на валюту " + targetCurrency);
+    console.log("Переключение на валюту " + targetCurrency);
 
-            // Получение всех элементов с классом .price
-            var priceElements = document.querySelectorAll(".price");
-            priceElements.forEach(function (element) {
-                console.log("Элемент цены найден:", element);
-                var priceInRub = parseFloat(element.getAttribute("data-price-rub"));
-                if (isNaN(priceInRub)) {
-                    console.log("Ошибка: неверная цена в рублях для элемента", element);
-                    return;
+    // Получение всех элементов с классом .price
+    var priceElements = document.querySelectorAll(".price");
+
+    // Функция для обновления цен
+    function updatePrices(rate) {
+        priceElements.forEach(function (element) {
+            console.log("Элемент цены найден:", element);
+            var priceInRub = parseFloat(element.getAttribute("price-rub"));
+            if (isNaN(priceInRub)) {
+                console.log("Ошибка: неверная цена в рублях для элемента", element);
+                return;
+            }
+
+            var priceInTargetCurrency;
+            if (targetCurrency === "USD") {
+                priceInTargetCurrency = priceInRub / rate;
+            } else {
+                priceInTargetCurrency = priceInRub;
+            }
+
+            element.textContent = new Intl.NumberFormat('ru-RU', {
+                style: 'currency',
+                currency: targetCurrency
+            }).format(priceInTargetCurrency);
+            console.log("Обновленная цена:", element.textContent);
+        });
+    }
+
+    // Выполнение AJAX-запроса для получения курса валют
+    if (targetCurrency === "USD") {
+        fetch('/get_currency_rate/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-
-                var priceInTargetCurrency;
-                if (targetCurrency === "USD") {
-                    priceInTargetCurrency = priceInRub / 73; // Пример: 1 USD = 73 RUB
-                } else {
-                    priceInTargetCurrency = priceInRub;
-                }
-
-                element.textContent = new Intl.NumberFormat('ru-RU', {
-                    style: 'currency',
-                    currency: targetCurrency
-                }).format(priceInTargetCurrency);
-                console.log("Обновленная цена:", element.textContent);
+                return response.json();
+            })
+            .then(data => {
+                var rate = data.rate;
+                console.log("Полученный курс валюты:", rate);
+                updatePrices(rate);
+            })
+            .catch(error => {
+                console.error("Ошибка при получении курса валют:", error);
             });
-        }
+    } else {
+        updatePrices(1);  // Если целевая валюта не USD, просто обновите цены без изменения
+    }
+}
+
     </script>
 
 

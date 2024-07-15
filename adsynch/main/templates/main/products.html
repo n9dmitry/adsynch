@@ -21,7 +21,7 @@
                 <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
                 <div class="prod-text">
                     <a href="{% if ad.category == 'car' %}{% url 'carad-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'jobs-detail' pk=ad.pk %}{% endif %}"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
-                    <p>{{ ad.price }} {{ ad.currency }}</p>
+                    <p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p>
                     <p>{{ ad.car_location }}</p>
 
                     <div class="d-flex align-items-center">

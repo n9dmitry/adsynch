@@ -40,7 +40,7 @@
                         </a>
                         <p class="card-text">
                             <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
-                            <strong>Цена:</strong> {{ ad.car_price }} {{ currency }}<br>
+                            <strong>Цена:</strong> <p class="price" price-rub="{{ ad.price }}">{{ ad.car_price }} {{ ad.currency }}</p> <br>
                             <strong>Местоположение:</strong> {{ ad.car_location }}
                         </p>
                     </div>
@@ -85,7 +85,7 @@
                             }
                         });
                     });
-                </script>x
+                </script>
             </div>
 
         </div>
