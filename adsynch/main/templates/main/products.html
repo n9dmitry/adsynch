@@ -17,13 +17,14 @@
 <div class="row justify-content-between p-5">
     <div class="row">
         {% for ad in recommendation_listing|slice:25 %}
-            <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
-                <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
+            <div class="card-product text-left mb-5">
+                <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
                 <div class="prod-text">
-                    <a href="{% if ad.category == 'car' %}{% url 'carad-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'jobs-detail' pk=ad.pk %}{% endif %}"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
+                    <a href="{% if ad.category == 'car' %}{% url 'carad-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'jobs-detail' pk=ad.pk %}{% endif %}">
+                        <h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3>
+                    </a>
                     <p>{{ ad.price }} {{ ad.currency }}</p>
                     <p>{{ ad.car_location }}</p>
-
                     <div class="d-flex align-items-center">
                         <div class="p-1">
                             {% if ad.category == "car" %}
@@ -41,7 +42,6 @@
         {% endfor %}
     </div>
 </div>
-
 
 <!--<div class="row justify-content-center p-5">-->
 <!--    {% for car_ad in car_ad|slice:5 %}-->
@@ -114,25 +114,29 @@
 <!--</script>-->
 
 <script>
-    {% for ad in recommendation_listing %}
+    {% for ad in recommendation_listing|slice:25 %}
         var photoUrlsCar{{ forloop.counter }} = "{{ ad.photos }}".split(",");
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here
-        mainImageCar{{ forloop.counter }}.style.width = "260px";
-        mainImageCar{{ forloop.counter }}.style.height = "140px";
+        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
 
-        if (photoUrlsCar{{ forloop.counter }} && photoUrlsCar{{ forloop.counter }}.length >= 1 && photoUrlsCar{{ forloop.counter }}[0].trim() !== '') {
+        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");
+
+        if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {
             mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-        } else if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {
-            (function(mainImage, hoverSrc) {
-                mainImage.addEventListener('mouseover', function() {
-                    mainImage.src = hoverSrc;
-                });
+            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
 
-                mainImage.addEventListener('mouseout', function() {
-                    mainImage.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-                });
-            })(mainImageCar{{ forloop.counter }}, photoUrlsCar{{ forloop.counter }}[1].trim());
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
+                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
+            });
+
+            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
+                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            });
+        } else {
+            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
+            mainImageCar{{ forloop.counter }}.removeEventListener('mouseover', function() {});
+            mainImageCar{{ forloop.counter }}.removeEventListener('mouseout', function() {});
         }
-
-    {% endfor %}
+            {% endfor %}
 </script>
+
+
