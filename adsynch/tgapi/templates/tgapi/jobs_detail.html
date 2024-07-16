@@ -33,7 +33,7 @@
             <p>Имя работадателя: {{ job_ad.contact_name }}</p>
             <a href="tel:{{ job_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
             <a href="https://t.me/{{ job_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
-            <h3 class="mt-5">Зарплата:{{ job_ad.price }}</h3>
+            <h3 class="mt-5"><p class="price" price-rub="{{ job_ad.price }}"> Зарплата: {{ job_ad.car_price }} {{ job_ad.currency }}</p></h3>
 
         </div>
     </div>

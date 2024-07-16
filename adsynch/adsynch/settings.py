@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'search',
     'rest_framework',
+    'debug_toolbar',
     'ckeditor',
     'allauth',
     'allauth.account',
@@ -68,8 +69,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-# авторизация
+
+    # авторизация
     "allauth.account.middleware.AccountMiddleware",
+
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -237,3 +240,4 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 5.0,  # Регулярное повторение задач / в секунду
     },
 }
+

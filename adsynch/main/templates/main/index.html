@@ -5,50 +5,7 @@
 {% include 'main/slider.html' %}
 {% include 'main/products.html' %}
 
-<script>
-    let curr = "RUB";
 
-    $(document).ready(function() {
-        console.log("Document is ready");
-
-        $('.currency_usd').click(function(e) {
-            e.preventDefault();
-            console.log("USD button clicked");
-
-            if (curr !== "USD") {
-                $.ajax({
-                    url: "{% url 'get_currency_rate' %}",
-                    success: function(data) {
-                        console.log("Currency rate data:", data);
-                        let rate = data.rate;
-                        $('.car-ad').each(function() {
-                            let priceInRub = $(this).data('price');
-                            let priceInUsd = priceInRub / rate;
-                            $(this).find('.price').text(priceInUsd.toFixed(2) + ' $');
-                        });
-                        curr = "USD";
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error fetching the currency rate:", error);
-                    }
-                });
-            }
-        });
-
-        $('.currency_rub').click(function(e) {
-            e.preventDefault();
-            console.log("RUB button clicked");
-
-            if (curr !== "RUB") {
-                $('.car-ad').each(function() {
-                    let priceInRub = $(this).data('price');
-                    $(this).find('.price').text(priceInRub.toFixed(2) + ' ₽');
-                });
-                curr = "RUB";
-            }
-        });
-    });
-</script>
 
 <div class="container-fluid banner">
     <div class="row">
@@ -60,21 +17,22 @@
     </div>
 </div>
 
-<section class="blog">
-    <h3 class="text-center">Авто</h3>
-    <div class="row justify-content-center ">
-        {% for car_ad in car_ad|slice:5 %}
-        <div class="card-product text-left mb-2">
-            <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">  <!-- Update ID here -->
-            <div class="prod-text">
-                <a href="#"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
-                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>
-                <p>{{ car_ad.car_location }}</p>
+
+    <section class="blog">
+        <h3 class="text-center">Авто</h3>
+        <div class="row justify-content-center">
+            {% for car_ad in car_ad|slice:":5" %}
+            <div class="card-product text-left mb-2 car-ad" data-price="{{ car_ad.price }}">
+                <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
+                <div class="prod-text">
+                    <a href="#"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
+                    <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
+                    <p>{{ car_ad.car_location }}</p>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-</section>
+    </section>
 
 <div class="container-fluid banner">
     <div class="row">
@@ -86,6 +44,7 @@
     </div>
 </div>
 
+
 <section class="blog">
     <h3 class="text-center">Недвижимость</h3>
     <div class="row justify-content-center">
@@ -94,7 +53,7 @@
             <img id="main-image-realty-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
                  <a href="#"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>
+                <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p>
                 <p>{{ realty_ad.car_location }}</p>
             </div>
         </div>
@@ -111,7 +70,7 @@
             <img id="main-image-job-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
                <a href="#"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>
+                <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
                 <p>{{ job_ad.car_location }}</p>
             </div>
         </div>
