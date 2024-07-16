@@ -3,99 +3,102 @@
 {% load static %}
 
 
-
-
 <div class="container advs">
     <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.title }}</h1>
     <div class="row">
-           <div class="col-md-6">
- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for photo in car_ad.photos %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner">
-                        {% for photo in car_ad.photos %}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
-                            </div>
-                        {% endfor %}
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for photo in car_ad.photos %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"
+                        {% if forloop.first %}class="active" {% endif %}></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for photo in car_ad.photos %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    {% endfor %}
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
+        </div>
         <div class="col-md-6">
             <p>Имя продавца: {{ car_ad.contact_name }}</p>
             <a href="tel:{{ car_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
             <a href="https://t.me/{{ car_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
-            <h3 class="mt-5">Цена:{{ car_ad.price }} {{ car_ad.currency }}</h3>
+            <h3 class="mt-5"><p class="price" price-rub="{{ car_ad.price }}">Цена {{ car_ad.car_price }} {{ car_ad.currency }}</p></h3>
+
         </div>
     </div>
 
     <div class="container p-3">
 
-                    <div class="data-marker">
-                <h4>Об авто</h4>
-<div class="row">
-        <div class="col-md-5">
-            <p>Год выпуска: {{ car_ad.car_year }}</p>
-            <p>Тип кузова: {{ car_ad.car_body_type }}</p>
-            <p>Объем двигателя: {{ car_ad.car_engine_volume }}</p>
-            <p>Мощность: {{ car_ad.car_power }}</p>
-            <p>Тип двигателя: {{ car_ad.car_engine_type }}</p>
-            <p>Цвет: {{ car_ad.car_color }}</p>
-            <p>Тип трансмиссии: {{ car_ad.car_transmission_type }}</p>
-            <p>Пробег: {{ car_ad.car_mileage }}</p>
-        </div>
-        <div class="col-md-5">
-            <p>Статус документов: {{ car_ad.car_document_status }}</p>
-            <p>Количество владельцев: {{ car_ad.car_owners }}</p>
-            <p>Растаможен: {{ car_ad.car_customs_cleared }}</p>
-            <p>Состояние: {{ car_ad.car_condition }}</p>
-            <p>Цена: {{ car_ad.car_price }}</p>
-            <p>Местоположение: {{ car_ad.car_location }}</p>
-            <p>Имя контактного лица: {{ car_ad.car_name }}</p>
-        </div>
-    </div>
+        <div class="data-marker">
+            <h4>Об авто</h4>
+            <div class="row">
+                <div class="col-md-5">
+                    <p>Год выпуска: {{ car_ad.car_year }}</p>
+                    <p>Тип кузова: {{ car_ad.car_body_type }}</p>
+                    <p>Объем двигателя: {{ car_ad.car_engine_volume }}</p>
+                    <p>Мощность: {{ car_ad.car_power }}</p>
+                    <p>Тип двигателя: {{ car_ad.car_engine_type }}</p>
+                    <p>Цвет: {{ car_ad.car_color }}</p>
+                    <p>Тип трансмиссии: {{ car_ad.car_transmission_type }}</p>
+                    <p>Пробег: {{ car_ad.car_mileage }}</p>
+                </div>
+                <div class="col-md-5">
+                    <p>Статус документов: {{ car_ad.car_document_status }}</p>
+                    <p>Количество владельцев: {{ car_ad.car_owners }}</p>
+                    <p>Растаможен: {{ car_ad.car_customs_cleared }}</p>
+                    <p>Состояние: {{ car_ad.car_condition }}</p>
+                    <p>Цена: {{ car_ad.car_price }}</p>
+                    <p>Местоположение: {{ car_ad.car_location }}</p>
+                    <p>Имя контактного лица: {{ car_ad.car_name }}</p>
+                </div>
             </div>
+        </div>
 
         <h3>Описание</h3>
         <p>
-            {{ car_ad.description }}
+            {{ car_ad.description }} </br>
             Просмотры: {{ car_ad.views }}
         </p>
     </div>
 </div>
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const photoUrls = "{{ car_ad.photos }}".split(",").map(url => url.trim());
-            const carouselItems = document.querySelectorAll(".carousel-item");
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const photoUrls = "{{ car_ad.photos }}".split(",").map(url => url.trim());
+        const carouselItems = document.querySelectorAll(".carousel-item");
 
-            carouselItems.forEach((item, index) => {
-                if (photoUrls[index]) {
-                    item.querySelector("img").src = photoUrls[index];
-                } else {
-                    item.remove();
-                }
-            });
-
-            // Убедимся, что индикаторы карусели и элементы карусели имеют одинаковое количество элементов
-            const carouselIndicators = document.querySelectorAll("#carouselExampleIndicators ol.carousel-indicators li");
-            if (carouselIndicators.length !== carouselItems.length) {
-                console.error("Количество индикаторов карусели не соответствует количеству элементов карусели.");
+        carouselItems.forEach((item, index) => {
+            if (photoUrls[index]) {
+                item.querySelector("img").src = photoUrls[index];
+            } else {
+                item.remove();
             }
         });
-    </script>
 
-
+        // Убедимся, что индикаторы карусели и элементы карусели имеют одинаковое количество элементов
+        const carouselIndicators = document.querySelectorAll("#carouselExampleIndicators ol.carousel-indicators li");
+        if (carouselIndicators.length !== carouselItems.length) {
+            console.error("Количество индикаторов карусели не соответствует количеству элементов карусели.");
+        }
+    });
+</script>
+<script>
+    let carId = 5;
+    let url = `/car/${carId}/`;
+    console.log(url); // Проверьте вывод в консоль
+</script>
 {% endblock %}

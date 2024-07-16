@@ -29,8 +29,6 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 from adsynch.tasks import get_usd_rate
 
-
-
 def get_currency_rate(request):
     rate = get_usd_rate()
     print(rate)
@@ -70,7 +68,7 @@ class RealtyAdListView(FilterView):
 
 class JobAdListView(FilterView):
     model = JobAd
-    template_name = 'tgapi/jobs.html'  # Убедитесь, что путь правильный
+    template_name = 'tgapi/jobs.html'
     context_object_name = 'job_ads'
     filterset_class = JobAdFilter
 
@@ -220,6 +218,10 @@ class CarAdDetailView(ViewCountMixin, DetailView):
     model = CarAd
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
+
+    def get(self, request, *args, **kwargs):
+        logger.info(f"Accessing CarAdDetailView with pk={kwargs['pk']}")
+        return super().get(request, *args, **kwargs)
 
 class JobAdDetailView(ViewCountMixin, DetailView):
     model = JobAd

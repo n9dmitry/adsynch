@@ -14,8 +14,97 @@
 <body>
 
 <div class="header-top">
-    <a href="#" class="currency_rub" style="color: white;">RUB</a>
-    <a href="#" class="currency_usd" style="color: white;">USD</a>
+    <button id="currency_rub">RUB</button>
+    <button id="currency_usd">USD</button>
+
+    <div id="car-list">
+        <!-- Список автомобилей или другой контент -->
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Документ готов");
+
+            // Получение кнопок по их идентификаторам
+            var currencyRubButton = document.getElementById("currency_rub");
+            var currencyUsdButton = document.getElementById("currency_usd");
+
+            // Добавление обработчика события для кнопки RUB
+            if (currencyRubButton) {
+                currencyRubButton.addEventListener("click", function () {
+                    console.log("Кнопка RUB нажата");
+                    switchCurrency("RUB");
+                });
+            } else {
+                console.log("Кнопка RUB не найдена в документе.");
+            }
+
+            // Добавление обработчика события для кнопки USD
+            if (currencyUsdButton) {
+                currencyUsdButton.addEventListener("click", function () {
+                    console.log("Кнопка USD нажата");
+                    switchCurrency("USD");
+                });
+            } else {
+                console.log("Кнопка USD не найдена в документе.");
+            }
+        });
+
+        function switchCurrency(targetCurrency) {
+    console.log("Переключение на валюту " + targetCurrency);
+
+    // Получение всех элементов с классом .price
+    var priceElements = document.querySelectorAll(".price");
+
+    // Функция для обновления цен
+    function updatePrices(rate) {
+        priceElements.forEach(function (element) {
+            console.log("Элемент цены найден:", element);
+            var priceInRub = parseFloat(element.getAttribute("price-rub"));
+            if (isNaN(priceInRub)) {
+                console.log("Ошибка: неверная цена в рублях для элемента", element);
+                return;
+            }
+
+            var priceInTargetCurrency;
+            if (targetCurrency === "USD") {
+                priceInTargetCurrency = priceInRub / rate;
+            } else {
+                priceInTargetCurrency = priceInRub;
+            }
+
+            element.textContent = new Intl.NumberFormat('ru-RU', {
+                style: 'currency',
+                currency: targetCurrency
+            }).format(priceInTargetCurrency);
+            console.log("Обновленная цена:", element.textContent);
+        });
+    }
+
+    // Выполнение AJAX-запроса для получения курса валют
+    if (targetCurrency === "USD") {
+        fetch('/get_currency_rate/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var rate = data.rate;
+                console.log("Полученный курс валюты:", rate);
+                updatePrices(rate);
+            })
+            .catch(error => {
+                console.error("Ошибка при получении курса валют:", error);
+            });
+    } else {
+        updatePrices(1);  // Если целевая валюта не USD, просто обновите цены без изменения
+    }
+}
+
+    </script>
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mb-3 mb-lg-0" style="margin-top: 7px;">

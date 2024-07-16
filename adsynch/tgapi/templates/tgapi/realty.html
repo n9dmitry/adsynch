@@ -13,7 +13,7 @@
                     <div style="flex: 2; padding: 0 20px;">
                         <a href="{% url 'realty_detail' pk=realty_ad.pk %}"><h4>{{ realty_ad.title }}</h4></a>
                         <p class="card-text">
-                            <strong>{{ realty_ad.price }} {{ realty_ad.currency }} <br></strong>
+                            <strong>  <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p> <br></strong>
                         <p style="font-size:12px;">{{ realty_ad.date_published }} </p>
                         </p>
                     </div>
