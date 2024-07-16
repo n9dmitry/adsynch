@@ -79,6 +79,10 @@ class JobAdListView(FilterView):
             queryset = queryset.order_by(order_by)
         return queryset
 
+
+
+
+
 @require_http_methods(["GET"])
 @api_view(['GET'])
 def my_ads(request, username):
