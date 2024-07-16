@@ -9,14 +9,13 @@ from .views import CarAdListView, RealtyAdListView, JobAdListView, get_models
 urlpatterns = [
     path("car_ad/", CarAdView.as_view()),
     path("realty_ad/", RealtyAdView.as_view()),
-    path("job_ad/", JobAdView.as_view()),
     path('cars', CarAdListView.as_view(), name='cars'),
     path('realty', RealtyAdListView.as_view(), name='realty'),
     path('jobs', JobAdListView.as_view(), name='jobs'),
 
-    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='carad-detail'),
-    path('jobs/<int:pk>/', views.JobAdDetailView.as_view(), name='jobs-detail'),
-    path('realty_ad/<int:pk>/', views.RealtyAdDetailView.as_view(), name='realty_detail'),
+    path('car/(?P<pk>[0-9]+)/\\Z', views.CarAdDetailView.as_view(), name='carad-detail'),
+    path('jobs/(?P<pk>[0-9]+)/\\Z', views.JobAdDetailView.as_view(), name='jobs-detail'),
+    path('realty_ad/(?P<pk>[0-9]+)/\\Z', views.RealtyAdDetailView.as_view(), name='realty_detail'),
     path('my_ads/<str:username>/', views.my_ads, name='my_ads'),
     path('check_user/<str:username>/', views.check_user, name='check_user'),
     path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
