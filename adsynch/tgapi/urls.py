@@ -17,9 +17,9 @@ urlpatterns = [
     path('realty', RealtyAdListView.as_view(), name='realty'),
     path('jobs', JobAdListView.as_view(), name='jobs'),
 
-    path(r'car/(?P<pk>[0-9]+)/$', views.CarAdDetailView.as_view(), name='carad-detail'),
-    path(r'jobs/(?P<pk>[0-9]+)/$', views.JobAdDetailView.as_view(), name='jobs-detail'),
-    path(r'realty/(?P<pk>[0-9]+)/$', views.RealtyAdDetailView.as_view(), name='realty_detail'),
+    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='car-detail'),
+    path('jobs/<int:pk>/', views.JobAdDetailView.as_view(), name='job-detail'),
+    path('realty/<int:pk>/', views.RealtyAdDetailView.as_view(), name='realty_detail'),
     path('my_ads/<str:username>/', views.my_ads, name='my_ads'),
     path('check_user/<str:username>/', views.check_user, name='check_user'),
     path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
