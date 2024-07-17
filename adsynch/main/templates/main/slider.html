@@ -1,38 +1,37 @@
 {% load static %}
 
 <section class="my-5 slider">
-  <div class="row">
-    <div class="col-lg-3">
-      <div class="vertical-menu">
-        <a href="{{ '/cars' }}" class="active"><i class="fas fa-car"></i> АВТО</a>
-        <a href="{{ '/jobs' }}"><i class="fas fa-city"></i> РАБОТА</a>
-        <a href="/realty"><i class="fas fa-briefcase"></i> НЕДВИЖЕМОСТЬ</a>
-      </div>
-    </div>
-     <div class="col-lg-9">
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          {% for image in slider_images %}
-            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" {% endif %}></li>
-          {% endfor %}
-        </ol>
-        <div class="carousel-inner">
-          {% for image in slider_images %}
-            <div class="carousel-item {% if forloop.first %} active {% endif %}">
-              <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.title }}">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="vertical-menu">
+                <a href="{{ '/cars' }}" class="active"><i class="fas fa-car"></i> АВТО</a>
+                <a href="{{ '/realty' }}"><i class="fas fa-briefcase"></i> НЕДВИЖЕМОСТЬ</a>
+                <a href="{{ '/jobs' }}"><i class="fas fa-city"></i> РАБОТА</a>
             </div>
-          {% endfor %}
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+        <div class="col-lg-9">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for image in slider_images %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for image in slider_images %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ image.title }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
     </div>
-
-  </div>
 </section>

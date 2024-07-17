@@ -214,25 +214,44 @@ class ViewCountMixin:
         obj.refresh_from_db()
         return obj
 
-class CarAdDetailView(ViewCountMixin, DetailView):
+class AdDetailView(ViewCountMixin, DetailView):
+    template_name = None
+    context_object_name = None
+    model = None
+    photos_field = 'photos'  # поле, содержащее фотографии
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        photos = getattr(self.object, self.photos_field, '').split(',') if getattr(self.object, self.photos_field, '') else []
+        context['photos'] = [photo.strip() for photo in photos if photo.strip()]
+        return context
+
+class CarAdDetailView(AdDetailView):
     model = CarAd
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
 
-    # def get(self, request, *args, **kwargs):
-    #     logger.info(f"Accessing CarAdDetailView with pk={kwargs['pk']}")
-    #     response = super().get(request, *args, **kwargs)
-    #     return response
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
-class JobAdDetailView(ViewCountMixin, DetailView):
+class RealtyAdDetailView(AdDetailView):
+    model = RealtyAd
+    template_name = 'tgapi/realty_detail.html'
+    context_object_name = 'realty_ad'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+class JobAdDetailView(AdDetailView):
     model = JobAd
     template_name = 'tgapi/jobs_detail.html'
     context_object_name = 'job_ad'
+    photos_field = 'images'  # предположим, что в модели JobAd поле с фотографиями называется 'images'
 
-class RealtyAdDetailView(ViewCountMixin, DetailView):
-    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
-    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
-    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
 
 
 # def cars(request):
