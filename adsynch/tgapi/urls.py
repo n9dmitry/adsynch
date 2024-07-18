@@ -13,7 +13,7 @@ urlpatterns = [
     path('realty', RealtyAdListView.as_view(), name='realty'),
     path('jobs', JobAdListView.as_view(), name='jobs'),
 
-    path('car/(?P<pk>[0-9]+)/\\Z', views.CarAdDetailView.as_view(), name='carad-detail'),
+    path('car/(?P<pk>[0-9]+)/', views.CarAdDetailView.as_view(), name='carad-detail'),
     path('jobs/(?P<pk>[0-9]+)/\\Z', views.JobAdDetailView.as_view(), name='jobs-detail'),
     path('realty_ad/(?P<pk>[0-9]+)/\\Z', views.RealtyAdDetailView.as_view(), name='realty_detail'),
     path('my_ads/<str:username>/', views.my_ads, name='my_ads'),
