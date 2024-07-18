@@ -21,7 +21,7 @@
     <section class="blog">
         <h3 class="text-center"><a style="color:#000; text-decoration:none;" href="/cars">Авто</a></h3>
         <div class="row justify-content-center">
-            {% for car_ad in car_ad|slice:":5" %}
+            {% for car_ad in car_ad|slice:":10" %}
             <div class="card-product text-left mb-2 car-ad" data-price="{{ car_ad.price }}">
                 <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
                 <div class="prod-text">
@@ -48,7 +48,7 @@
 <section class="blog">
     <h3 class="text-center"><a style="color:#000; text-decoration:none;" href="/realty">Недвижимость</a></h3>
     <div class="row justify-content-center">
-        {% for realty_ad in realty_ad|slice:5 %}
+        {% for realty_ad in realty_ad|slice:10 %}
         <div class="card-product text-left mb-2">
             <img id="main-image-realty-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">
@@ -65,7 +65,7 @@
 <section class="blog">
     <h3 class="text-center"><a style="color:#000; text-decoration:none;" href="/jobs">Работа</a></h3>
     <div class="row justify-content-center">
-        {% for job_ad in job_ad|slice:5 %}
+        {% for job_ad in job_ad|slice:10 %}
         <div class="card-product text-left mb-2">
             <img id="main-image-job-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
             <div class="prod-text">

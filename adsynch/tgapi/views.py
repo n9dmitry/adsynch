@@ -223,9 +223,10 @@ class CarAdDetailView(ViewCountMixin, DetailView):
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
 
-    def get(self, request, *args, **kwargs):
-        logger.info(f"Accessing CarAdDetailView with pk={kwargs['pk']}")
-        return super().get(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     logger.info(f"Accessing CarAdDetailView with pk={kwargs['pk']}")
+    #     response = super().get(request, *args, **kwargs)
+    #     return response
 
 class JobAdDetailView(ViewCountMixin, DetailView):
     model = JobAd
