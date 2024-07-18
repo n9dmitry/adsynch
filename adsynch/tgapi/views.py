@@ -246,7 +246,6 @@ class JobAdDetailView(AdDetailView):
     model = JobAd
     template_name = 'tgapi/jobs_detail.html'
     context_object_name = 'job_ad'
-    photos_field = 'images'  # предположим, что в модели JobAd поле с фотографиями называется 'images'
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
