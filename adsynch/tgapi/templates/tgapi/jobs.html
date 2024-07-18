@@ -40,7 +40,7 @@
                        <img id="main-image-{{ forloop.counter }}" class="main-image" style="width: 100%; height: 120px; object-fit: cover;">
                     </div>
                     <div class="content-container">
-                       <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
+                        <a href="{% url 'job-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
                         <p class="card-text">
                             <strong>Категория:</strong> {{ job_ad.job_category }} <br>
                             <strong>Зарплата:</strong>  <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p> <br>

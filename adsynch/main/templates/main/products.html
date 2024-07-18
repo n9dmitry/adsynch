@@ -20,7 +20,7 @@
             <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
                 <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
                 <div class="prod-text">
-                    <a href="{% if ad.category == 'car' %}{% url 'carad-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'jobs-detail' pk=ad.pk %}{% endif %}"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
+                    <a href="{% if ad.category == 'car' %}{% url 'car-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'job-detail' pk=ad.pk %}{% endif %}"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
                     <p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p>
                     <p>{{ ad.car_location }}</p>
 
@@ -42,76 +42,6 @@
     </div>
 </div>
 
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for car_ad in car_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href=""><h3>{{ car_ad.title }}</h3></a>-->
-<!--                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>-->
-<!--                <p>{{ car_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for job_ad in job_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>-->
-<!--                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>-->
-<!--                <p>{{ job_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for realty_ad in realty_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href=""><h3>{{ realty_ad.title }}</h3></a>-->
-<!--                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>-->
-<!--                <p>{{ realty_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    {% for ad in recommendation_listing %}-->
-<!--        var photoUrlsCar{{ forloop.counter }} = "{{ ad.photos }}".split(",");-->
-<!--&lt;!&ndash;        console.log("recommendations:", photoUrlsCar{{ forloop.counter }});&ndash;&gt;-->
-
-<!--        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here-->
-
-<!--        mainImageCar{{ forloop.counter }}.style.width = "260px";-->
-<!--        mainImageCar{{ forloop.counter }}.style.height = "140px";-->
-
-<!--        if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {-->
-<!--            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-
-<!--            (function(mainImage, hoverSrc) {-->
-<!--                mainImage.addEventListener('mouseover', function() {-->
-<!--                    console.log("hoverSrc", hoverSrc);-->
-<!--                    mainImage.src = hoverSrc;-->
-<!--                });-->
-
-<!--                mainImage.addEventListener('mouseout', function() {-->
-<!--                    mainImage.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-<!--                });-->
-<!--            })(mainImageCar{{ forloop.counter }}, photoUrlsCar{{ forloop.counter }}[1].trim());-->
-<!--        } else {-->
-<!--            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-<!--        }-->
-<!--    {% endfor %}-->
-<!--</script>-->
 
 <script>
     {% for ad in recommendation_listing %}

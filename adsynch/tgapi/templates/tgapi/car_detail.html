@@ -2,20 +2,19 @@
 {% block cars %}
 {% load static %}
 
-
 <div class="container advs">
     <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.title }}</h1>
     <div class="row">
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    {% for photo in car_ad.photos %}
+                    {% for photo in photos %}
                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"
-                        {% if forloop.first %}class="active" {% endif %}></li>
+                        {% if forloop.first %}class="active"{% endif %}></li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
-                    {% for photo in car_ad.photos %}
+                    {% for photo in photos %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
                     </div>
@@ -36,12 +35,10 @@
             <a href="tel:{{ car_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
             <a href="https://t.me/{{ car_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
             <h3 class="mt-5"><p class="price" price-rub="{{ car_ad.price }}">Цена {{ car_ad.car_price }} {{ car_ad.currency }}</p></h3>
-
         </div>
     </div>
 
     <div class="container p-3">
-
         <div class="data-marker">
             <h4>Об авто</h4>
             <div class="row">
@@ -74,31 +71,4 @@
         </p>
     </div>
 </div>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const photoUrls = "{{ car_ad.photos }}".split(",").map(url => url.trim());
-        const carouselItems = document.querySelectorAll(".carousel-item");
-
-        carouselItems.forEach((item, index) => {
-            if (photoUrls[index]) {
-                item.querySelector("img").src = photoUrls[index];
-            } else {
-                item.remove();
-            }
-        });
-
-        // Убедимся, что индикаторы карусели и элементы карусели имеют одинаковое количество элементов
-        const carouselIndicators = document.querySelectorAll("#carouselExampleIndicators ol.carousel-indicators li");
-        if (carouselIndicators.length !== carouselItems.length) {
-            console.error("Количество индикаторов карусели не соответствует количеству элементов карусели.");
-        }
-    });
-</script>
-<script>
-    let carId = 5;
-    let url = `/car/${carId}/`;
-    console.log(url); // Проверьте вывод в консоль
-</script>
 {% endblock %}
