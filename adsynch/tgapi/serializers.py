@@ -2,12 +2,36 @@ from rest_framework import serializers
 from .models import CarAd, RealtyAd, JobAd
 
 
+def save_image_from_url(image_url, category):
+    import os
+    import requests
+    from django.core.files.base import ContentFile
+    from django.core.files.storage import default_storage
+    from urllib.parse import urlparse
+
+    file_name = os.path.basename(urlparse(image_url).path)
+    file_path = os.path.join('ads_img', category, file_name)
+
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        file_content = ContentFile(response.content)
+        full_path = default_storage.save(file_path, file_content)
+        return full_path
+    return None
 
 class CarAdSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarAd
         fields = '__all__'
         # fields = кастомные
+    def create(self, validated_data):
+        photos_urls = validated_data.pop('photos', None)
+        if photos_urls:
+            urls = [url.strip() for url in photos_urls.split(',') if url.strip()]
+            if urls:
+                saved_photos = [save_image_from_url(url, 'car') for url in urls if save_image_from_url(url, 'car')]
+                validated_data['photos'] = ','.join(saved_photos)
+        return super().create(validated_data)
 
 class RealtyAdSerializer(serializers.ModelSerializer):
 

@@ -29,6 +29,8 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 from adsynch.tasks import get_usd_rate
 
+
+
 def get_currency_rate(request):
     rate = get_usd_rate()
     print(rate)

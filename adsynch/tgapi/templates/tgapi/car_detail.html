@@ -10,7 +10,7 @@
                 <ol class="carousel-indicators">
                     {% for photo in photos %}
                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"
-                        {% if forloop.first %}class="active"{% endif %}></li>
+                        {% if forloop.first %}class="active" {% endif %}></li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
@@ -71,4 +71,18 @@
         </p>
     </div>
 </div>
+
+    <div class="debug-photos">
+        <h3>Отладочный блок</h3>
+        {% for photo in photos %}
+        <div>
+            <img src="{{ photo }}" style="max-width: 200px; margin-bottom: 10px;">
+        </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
+
+
+
+
