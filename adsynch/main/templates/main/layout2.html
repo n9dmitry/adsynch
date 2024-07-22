@@ -48,7 +48,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
-                        <li><a class="dropdown-item" href="">Профиль</a></li>
+                        <li><a class="dropdown-item" href="/profile">Профиль</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
                         <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
     <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
@@ -127,6 +127,10 @@
 
     {% block search %}
     {% endblock %}
+
+        {% block profile %}
+    {% endblock %}
+
 
     <footer class="footer-section">
         <div class="container">
