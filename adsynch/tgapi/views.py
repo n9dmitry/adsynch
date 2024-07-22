@@ -37,11 +37,10 @@ def get_currency_rate(request):
     return JsonResponse({'rate': rate})
 
 
-class CarAdListView(FilterView):
-    model = CarAd
-    template_name = 'tgapi/cars.html'  # Убедитесь, что путь правильный
-    context_object_name = 'car_ads'
-    filterset_class = CarAdFilter
+class BaseAdListView(FilterView):
+    context_object_name = None
+    filterset_class = None
+    template_name = None
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -50,36 +49,38 @@ class CarAdListView(FilterView):
             queryset = queryset.order_by(order_by)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ads = context[self.context_object_name]
+        for ad in ads:
+            # Разделяем строку фотографий на список, если атрибут photos существует у объекта
+            if hasattr(ad, 'photos'):
+                ad.photos_list = [photo.strip() for photo in ad.photos.split(',') if photo.strip()]
+        return context
+
+class CarAdListView(BaseAdListView):
+    model = CarAd
+    template_name = 'tgapi/cars.html'
+    context_object_name = 'car_ads'
+    filterset_class = CarAdFilter
 
 def get_models(request):
     brand = request.GET.get('brand')
     models = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
     return JsonResponse({'models': list(models)})
-class RealtyAdListView(FilterView):
+class RealtyAdListView(BaseAdListView):
     model = RealtyAd
-    template_name = 'tgapi/realty.html'  # Убедитесь, что путь правильный
+    template_name = 'tgapi/realty.html'
     context_object_name = 'realty_ads'
     filterset_class = RealtyAdFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        order_by = self.request.GET.get('order_by')
-        if order_by:
-            queryset = queryset.order_by(order_by)
-        return queryset
-
-class JobAdListView(FilterView):
+class JobAdListView(BaseAdListView):
     model = JobAd
     template_name = 'tgapi/jobs.html'
     context_object_name = 'job_ads'
     filterset_class = JobAdFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        order_by = self.request.GET.get('order_by')
-        if order_by:
-            queryset = queryset.order_by(order_by)
-        return queryset
+
 
 @require_http_methods(["GET"])
 @api_view(['GET'])

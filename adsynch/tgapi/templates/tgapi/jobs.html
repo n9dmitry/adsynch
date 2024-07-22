@@ -36,14 +36,20 @@
             {% for job_ad in job_ads %}
             <div class="card mb-4"> <!-- Added margin bottom for spacing -->
                 <div class="card-body card-body-flex">
-                                        <div style="flex: 1; max-width: 200px; max-height: 150px; overflow: hidden;">
-                       <img id="main-image-{{ forloop.counter }}" class="main-image" style="width: 100%; height: 120px; object-fit: cover;">
+                    <div class="image-container">
+                        {% if ad.photos_list %}
+                            <img src="/media/{{ ad.photos_list.0 }}" class="main-image" alt="Car Image">
+                        {% else %}
+                            <img src="#" class="main-image" alt="No Image Available">
+                        {% endif %}
                     </div>
                     <div class="content-container">
                         <a href="{% url 'job-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
                         <p class="card-text">
                             <strong>Категория:</strong> {{ job_ad.job_category }} <br>
-                            <strong>Зарплата:</strong>  <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p> <br>
+                            <strong>Зарплата:</strong>
+                        <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
+                        <br>
                         </p>
                         <p class="date-published">Дата публикации: {{ job_ad.date_published }}</p>
                         <p>Просмотры: {{ job_ad.views }}</p>
