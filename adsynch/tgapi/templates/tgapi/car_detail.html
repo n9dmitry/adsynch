@@ -16,7 +16,7 @@
                 <div class="carousel-inner">
                     {% for photo in photos %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
+                        <img src="/media/{{ ad.category }}/{{ photo }}" class="d-block w-100" alt="Car Photo">
                     </div>
                     {% endfor %}
                 </div>
@@ -76,7 +76,7 @@
         <h3>Отладочный блок</h3>
         {% for photo in photos %}
         <div>
-            <img src="{{ photo }}" style="max-width: 200px; margin-bottom: 10px;">
+            <img src="/media/{{ ad.category }}/{{ photo }}" class="main-image" id="main-image-{{ forloop.counter }}">
         </div>
         {% endfor %}
     </div>

@@ -32,7 +32,10 @@
             <div class="card mb-4">
                 <div class="card-body card-body-flex">
                     <div class="image-container">
-                        <img id="main-image-{{ forloop.counter }}" class="main-image">
+
+                        {% for photo in photos %}
+                        <img src="/media/{{ ad.category }}/{{ photo }}" class="main-image">
+                        {% endfor %}
                     </div>
                     <div class="text-container">
                         <a href="{% url 'car-detail' pk=ad.pk %}">
@@ -118,5 +121,6 @@
         }
     {% endfor %}
 </script>
+
 
 {% endblock %}
