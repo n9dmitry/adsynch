@@ -17,24 +17,6 @@ class Bnr(models.Model):
         return f"{self.get_position_display()} баннер"
 
 
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-#     name = models.CharField(max_length=100, default='Anonymous')
-#     email = models.EmailField(default='example@example.com')
-#     username_tg = models.CharField(max_length=100, blank=True, null=True)
-#
-#     def __str__(self):
-#         return self.name
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            UserProfile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.userprofile.save()
-
 
 class AboutPage(models.Model):
     image = models.ImageField(upload_to='media/')

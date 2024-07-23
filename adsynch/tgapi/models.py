@@ -11,14 +11,6 @@ class UserProfileLink(models.Model):
         return f"{self.username} - {self.token}"
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100, default='Anonymous')
-    email = models.EmailField(default='example@example.com')
-    username_tg = models.CharField(max_length=100, blank=True, null=True)
-
-    def __str__(self):
-        return self.name
 
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -38,16 +30,6 @@ class Ads(models.Model):
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        print(f"Saving Ads: {self.is_active}")
-        super().save(*args, **kwargs)
-        print(f"Saved Ads: {self.is_active}")
-
-        # Продолжаем сохранение объекта Ads
-        super().save(*args, **kwargs)
-
-
 
 
 

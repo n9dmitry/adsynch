@@ -1,10 +1,6 @@
 from django.contrib import admin
-from .models import CarAd, JobAd, RealtyAd, UserProfile
+from .models import CarAd, JobAd, RealtyAd
 
-
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email')
 
 
 @admin.register(CarAd)

@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 
-from tgapi.models import Ads, CarAd, JobAd, RealtyAd, UserProfile
+from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
 from .forms import RegistrationForm
 from .models import AboutPage, ServicesPage, Bnr, SliderImage
@@ -198,7 +198,3 @@ def my_ads_view(request):
 
     return render(request, 'main/my_ads.html', context)
 
-@login_required
-def profile(request):
-    user_profile = UserProfile.objects.first()  # Получаем первый объект UserProfile (ваша логика получения профиля пользователя может отличаться)
-    return render(request, 'main/profile.html', {'user_profile': user_profile})

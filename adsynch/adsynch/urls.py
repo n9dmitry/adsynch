@@ -10,6 +10,7 @@ urlpatterns = [
     path('ads/', include('tgapi.urls')),  # Добавьте эту строку
     path('articles/', include('blog.urls')),  # Добавьте эту строку
     path('search/', include('search.urls')),  # Добавьте эту строку
+    path('profile/', include('prof.urls')),  # Добавьте эту строку
     path('', include('tgapi.urls')),  # Добавьте эту строку
 ]
 
