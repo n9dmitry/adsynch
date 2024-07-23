@@ -38,10 +38,6 @@ def get_currency_rate(request):
 
 
 class BaseAdListView(FilterView):
-    context_object_name = None
-    filterset_class = None
-    template_name = None
-
     def get_queryset(self):
         queryset = super().get_queryset()
         order_by = self.request.GET.get('order_by')
@@ -218,9 +214,6 @@ class ViewCountMixin:
         return obj
 
 class AdDetailView(ViewCountMixin, DetailView):
-    template_name = None
-    context_object_name = None
-    model = None
     photos_field = 'photos'  # поле, содержащее фотографии
 
     def get_context_data(self, **kwargs):

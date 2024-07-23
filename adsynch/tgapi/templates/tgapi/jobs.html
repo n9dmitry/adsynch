@@ -33,26 +33,24 @@
 <div class="container mt-4 cars">
     <div class="row">
         <div class="col-md-9"> <!-- Make the main content wider towards the left -->
-            {% for job_ad in job_ads %}
+            {% for ad in job_ads %}
             <div class="card mb-4"> <!-- Added margin bottom for spacing -->
-                <div class="card-body card-body-flex">
-                    <div class="image-container">
-                        {% if ad.photos_list %}
-                            <img src="/media/{{ ad.photos_list.0 }}" class="main-image" alt="Car Image">
-                        {% else %}
-                            <img src="#" class="main-image" alt="No Image Available">
-                        {% endif %}
+                {% if ad.photos_list %}
+                    <img src="/media/{{ ad.photos_list.0 }}" class="main-image" alt="Car Image">
+                {% else %}
+                    <img src="#" class="main-image" alt="No Image Available">
+                {% endif %}
                     </div>
                     <div class="content-container">
-                        <a href="{% url 'job-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>
+                        <a href="{% url 'job-detail' ad.pk %}">{{ ad.title }}</a>
                         <p class="card-text">
-                            <strong>Категория:</strong> {{ job_ad.job_category }} <br>
+                            <strong>Категория:</strong> {{ ad.job_category }} <br>
                             <strong>Зарплата:</strong>
-                        <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
+                        <p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p>
                         <br>
                         </p>
-                        <p class="date-published">Дата публикации: {{ job_ad.date_published }}</p>
-                        <p>Просмотры: {{ job_ad.views }}</p>
+                        <p class="date-published">Дата публикации: {{ ad.date_published }}</p>
+                        <p>Просмотры: {{ ad.views }}</p>
                     </div>
                 </div>
             </div>
@@ -74,30 +72,5 @@
 
     </div>
 </div>
-
-
-<script>
-    {% for job_ad in job_ads %}
-        var photoUrlsCar{{ forloop.counter }} = "{{ job_ad.photos }}".split(",");
-        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
-
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-
-
-        if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
-            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
-                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
-            });
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
-                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            });
-        }
-    {% endfor %}
-</script>
-
 
 {% endblock %}
