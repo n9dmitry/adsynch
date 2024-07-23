@@ -16,7 +16,7 @@
                 <div class="carousel-inner">
                     {% for photo in photos %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ photo }}" class="d-block w-100" alt="Job Photo">
+                        <img src="/media/{{ ad.category }}/{{ photo }}" class="d-block w-100" alt="Car Photo">
                     </div>
                     {% endfor %}
                 </div>

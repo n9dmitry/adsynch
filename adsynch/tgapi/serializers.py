@@ -22,31 +22,29 @@ def save_image_from_url(image_url, category, ad_id, photo_number):
         return full_path
     return None
 
-
-class CarAdSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CarAd
-        fields = '__all__'
-
+class AdBaseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         photos_urls = validated_data.pop('photos', None)
-        car_ad = super().create(validated_data)  # Создаем объявление и получаем его экземпляр
+        ad_instance = super().create(validated_data)
         if photos_urls:
             urls = [url.strip() for url in photos_urls.split(',') if url.strip()]
             if urls:
                 saved_photos = []
-                ad_id = car_ad.id  # Используем ID созданного объявления
+                ad_id = ad_instance.id  # Используем ID созданного объявления
                 for idx, url in enumerate(urls):
-                    saved_photo = save_image_from_url(url, 'car', ad_id, idx + 1)
+                    saved_photo = save_image_from_url(url, self.Meta.model._meta.model_name, ad_id, idx + 1)
                     if saved_photo:
                         saved_photos.append(saved_photo)
-                car_ad.photos = ','.join(saved_photos)
-                car_ad.save()  # Сохраняем обновленное объявление с путями к фотографиям
-        return car_ad
+                ad_instance.photos = ','.join(saved_photos)
+                ad_instance.save()  # Сохраняем обновленное объявление с путями к фотографиям
+        return ad_instance
 
-class RealtyAdSerializer(serializers.ModelSerializer):
+class CarAdSerializer(AdBaseSerializer):
+    class Meta:
+        model = CarAd
+        fields = '__all__'
 
-
+class RealtyAdSerializer(AdBaseSerializer):
     realty_type = serializers.CharField(allow_null=True, required=False)
     realty_commercial_type = serializers.CharField(allow_null=True, required=False)
     realty_rooms = serializers.IntegerField(allow_null=True, required=False)
@@ -56,15 +54,8 @@ class RealtyAdSerializer(serializers.ModelSerializer):
     class Meta:
         model = RealtyAd
         fields = '__all__'
-    # def create(self, validated_data):
-    #     user = validated_data.pop('user', None)
-    #     instance = self.Meta.model(**validated_data)
-    #     if user is not None:
-    #         instance.user = user
-    #     instance.save()
-    #     return instance
 
-class JobAdSerializer(serializers.ModelSerializer):
+class JobAdSerializer(AdBaseSerializer):
     class Meta:
         model = JobAd
         fields = '__all__'
