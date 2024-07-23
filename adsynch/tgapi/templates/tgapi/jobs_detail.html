@@ -9,14 +9,15 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     {% for photo in photos %}
-                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"
+                        {% if forloop.first %}class="active" {% endif %}></li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
                     {% for photo in photos %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ photo }}" class="d-block w-100" alt="Job Photo">
-                        </div>
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ photo }}" class="d-block w-100" alt="Job Photo">
+                    </div>
                     {% endfor %}
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -45,5 +46,6 @@
         </p>
     </div>
 </div>
+
 
 {% endblock %}

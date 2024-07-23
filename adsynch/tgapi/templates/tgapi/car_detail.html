@@ -10,13 +10,13 @@
                 <ol class="carousel-indicators">
                     {% for photo in photos %}
                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"
-                        {% if forloop.first %}class="active"{% endif %}></li>
+                        {% if forloop.first %}class="active" {% endif %}></li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
                     {% for photo in photos %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ photo }}" class="d-block w-100" alt="Car Photo">
+                        <img src="/media/{{ ad.category }}/{{ photo }}" class="d-block w-100" alt="Car Photo">
                     </div>
                     {% endfor %}
                 </div>
@@ -71,4 +71,18 @@
         </p>
     </div>
 </div>
+
+    <div class="debug-photos">
+        <h3>Отладочный блок</h3>
+        {% for photo in photos %}
+        <div>
+            <img src="/media/{{ ad.category }}/{{ photo }}" class="main-image" id="main-image-{{ forloop.counter }}">
+        </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
+
+
+
+
