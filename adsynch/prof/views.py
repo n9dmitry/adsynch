@@ -1,21 +1,19 @@
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.shortcuts import render, redirect
 from .models import UserProfile
-from tgapi.models import Ads
+from .forms import UserProfileForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 
-@receiver(post_save, sender=Ads)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        user_profile = UserProfile.objects.create(
-            user=instance.user,
-            username_tg=instance.username_tg,
-            contact_phone=instance.contact_phone,
-            contact_name=instance.contact_name
-        )
 
 @login_required
 def profile(request):
-    return render(request, 'prof/profile.html')
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
 
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('some-redirect-url')
+    else:
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, 'prof/profile.html', {'form': form})

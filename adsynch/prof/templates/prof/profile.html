@@ -1,93 +1,34 @@
-{% extends 'main/layout2.html' %}
-
-{% block profile %}
-
-<style>
-
-    .form-control:focus {
-    box-shadow: none;
-    border-color: #BA68C8
-}
-
-.profile-button {
-    background: rgb(99, 39, 120);
-    box-shadow: none;
-    border: none
-}
-
-.profile-button:hover {
-    background: #682773
-}
-
-.profile-button:focus {
-    background: #682773;
-    box-shadow: none
-}
-
-.profile-button:active {
-    background: #682773;
-    box-shadow: none
-}
-
-.back:hover {
-    color: #682773;
-    cursor: pointer
-}
-
-.labels {
-    font-size: 11px
-}
-
-.add-experience:hover {
-    background: #BA68C8;
-    color: #fff;
-    cursor: pointer;
-    border: solid 1px #BA68C8
-}
-
-</style>
-
-
-
-<!-- profile.html -->
-<!-- Допущение: user_profile и usernames_tg передаются в контекст шаблона -->
-
-<div class="container rounded bg mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><i class="fas fa-user-circle profile" style="margin-top: 5px; padding-bottom:15px;color:#000;font-size:48px;"></i><span class="font-weight-bold">{{ user.username }}</span><span class="text-black-50">{{ user_profile.email }}</span><span> </span></div>
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Профиль</h4>
+<div class="text-left">
+    <form id="update-form" method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="updated_fields" value=""> <!-- Добавляем скрытое поле для хранения обновленных данных -->
+        <div class="form-group">
+            <label for="id_telegram_username"><strong>Ваш логин Телеграм:</strong></label>
+            <div class="input-group">
+                <input type="text" id="id_telegram_username" name="telegram_username" value="{{ form.instance.telegram_login }}" class="form-control" readonly>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableFieldAndSubmit('id_telegram_username', 'telegram_username')"><i class="fas fa-edit"></i></button>
                 </div>
-                {% for username_tg in usernames_tg %}
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <label class="labels">Name</label>
-                            <input type="text" class="form-control" placeholder="first name" value="{{ username_tg }}" readonly>
-                        </div>
-                    </div>
-                {% endfor %}
-                <!-- Остальная часть вашего шаблона -->
             </div>
         </div>
-    </div>
-</div>
-
+        <div class="form-group">
+            <label for="id_phone_number"><strong>Ваш Номер телефона:</strong></label>
+            <div class="input-group">
+                <input type="text" id="id_phone_number" name="phone_number" value="{{ form.instance.phone_number }}" class="form-control" readonly>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableFieldAndSubmit('id_phone_number', 'phone_number')"><i class="fas fa-edit"></i></button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-</div>
+    </form>
 </div>
 
 <script>
-    function enableField(fieldId) {
-        var field = document.getElementById(fieldId);
-        field.readOnly = false;
-        field.focus();
-    }
+function enableFieldAndSubmit(fieldId) {
+    var field = document.getElementById(fieldId);
+    field.removeAttribute('readonly');
+    field.focus();
+    var form = field.closest('form');
+    form.submit();
+}
 </script>
-
-    {% endblock %}
