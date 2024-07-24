@@ -1,6 +1,32 @@
 {% extends 'main/layout2.html' %}
 
+
 {% block realty %}
+
+<style>
+    .card-body-flex {
+        display: flex;
+    }
+
+    .image-container {
+        flex: 1;
+        max-width: 200px;
+        max-height: 150px;
+        overflow: hidden;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+    }
+
+    .text-container {
+        flex: 2;
+        padding: 0 20px;
+    }
+</style>
+
 <div class="container mt-4 cars">
     <div class="row">
         <div class="col-md-9"> <!-- Make the main content wider towards the left -->
@@ -25,8 +51,8 @@
                     </div>
                 </div>
             </div>
+                    </div>
             {% endfor %}
-        </div>
 
 
         <div class="col-md-3">
