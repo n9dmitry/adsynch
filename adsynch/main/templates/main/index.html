@@ -28,6 +28,7 @@
                 <a href="{% url 'car-detail' car_ad.pk %}"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
                 <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
                 <p>{{ car_ad.car_location }}</p>
+                <p style="font-size:12px;">{{ car_ad.date_published }} </p>
             </div>
         </div>
         {% endfor %}
@@ -55,6 +56,7 @@
                 <a href="{% url 'realty-detail' realty_ad.pk %}"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
                 <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p>
                 <p>{{ realty_ad.location }}</p>
+                <p style="font-size:12px;">{{ realty_ad.date_published }} </p>
             </div>
         </div>
         {% endfor %}
@@ -71,7 +73,7 @@
             <div class="prod-text">
                 <a href="{% url 'job-detail' job_ad.pk %}"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
                 <p class="price" price-rub="{{ job_ad.salary }}">{{ job_ad.salary }} {{ job_ad.currency }}</p>
-                <p>{{ job_ad.location }}</p>
+                <p style="font-size:12px;">{{ job_ad.date_published }} </p>
             </div>
         </div>
         {% endfor %}
@@ -136,7 +138,7 @@
             ]);
         {% endif %}
 
-        // Обработка изображений для категории "реальные объекты"
+        // Обработка изображений для категории "недвижимость"
         {% if realty_ad %}
             setupImageHover('main-image-realty', [
                 {% for realty_ad in realty_ad|slice:5 %}
