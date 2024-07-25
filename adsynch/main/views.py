@@ -1,7 +1,7 @@
 import uuid
 from transliterate import translit
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 
@@ -202,4 +202,3 @@ def my_ads_view(request):
     }
 
     return render(request, 'main/my_ads.html', context)
-

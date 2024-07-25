@@ -47,7 +47,8 @@
                         <h5 style="color: #fff; margin-left: 15px;">{{ user.username }}</h5>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
+                        <li><a class="dropdown-item" href="#">Профиль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'my_ads' %}">Мои объявления</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
 <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
     <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
@@ -127,7 +128,7 @@
     {% block search %}
     {% endblock %}
 
-        {% block profile %}
+    {% block profile %}
     {% endblock %}
 
 
