@@ -15,6 +15,8 @@ from blog.models import Article
 from .forms import RegistrationForm
 from .models import AboutPage, ServicesPage, Bnr, SliderImage
 # from .forms import CustomPasswordResetForm
+import random
+
 
 import uuid
 from transliterate import translit
@@ -30,14 +32,19 @@ def index(request):
     banners_bottom = Bnr.objects.filter(position='bottom')
 
     # Получение топ-4 объявлений по просмотрам для каждой категории
-    top_car_ads = CarAd.objects.order_by('-views')[:4]
-    top_realty_ads = RealtyAd.objects.order_by('-views')[:4]
-    top_job_ads = JobAd.objects.order_by('-views')[:4]
+    top_car_ads = CarAd.objects.order_by('-views')[:5]
+    top_realty_ads = RealtyAd.objects.order_by('-views')[:5]
+    top_job_ads = JobAd.objects.order_by('-views')[:5]
 
+    def get_images(ad):
+        return [f'/media/{photo.strip()}' for photo in ad.photos.split(',') if photo.strip()]
     # Объединение всех объявлений в один список
     recommendation_listing = list(top_car_ads) + list(top_realty_ads) + list(top_job_ads)
-
+    random.shuffle(recommendation_listing)
     slider_images = SliderImage.objects.all()
+
+    for ad in recommendation_listing:
+        ad.photos_list = ad.photos.split(',') if ad.photos else []
 
     context = {
         'car_ad': car_ad,
@@ -195,3 +202,4 @@ def my_ads_view(request):
     }
 
     return render(request, 'main/my_ads.html', context)
+

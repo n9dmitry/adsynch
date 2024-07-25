@@ -3,72 +3,12 @@
 
                 {% block blog %}
 
-<!--  <div class="container mt-4 cars">-->
-
-<!--<div class="container mt-5">-->
-<!--    <div id="accordion">-->
-
-<!--        &lt;!&ndash; Активные объявления &ndash;&gt;-->
-<!--        <div class="card">-->
-<!--            <div class="card-header" id="headingOne">-->
-<!--                <h5 class="mb-0">-->
-<!--                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">-->
-<!--                        Активное объявление-->
-<!--                    </button>-->
-<!--                </h5>-->
-<!--            </div>-->
-
-<!--<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">-->
-<!--    <div class="">-->
-<!--        {% for ad in active_car_ads %}-->
-<!--            <a href="{% url 'carad-detail' pk=ad.pk %}">{{ ad.title }}</a>-->
-<!--        {% endfor %}-->
-
-<!--        {% for ad in active_realty_ads %}-->
-<!--            <a href="{% url 'realty_detail' pk=ad.pk %}">{{ ad.title }}</a>-->
-<!--        {% endfor %}-->
-
-<!--        {% for ad in active_job_ads %}-->
-<!--            <a href="{% url 'jobs-detail' pk=ad.pk %}">{{ ad.title }}</a>-->
-<!--        {% endfor %}-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--        &lt;!&ndash; Неактивные объявления &ndash;&gt;-->
-<!--        <div class="card">-->
-<!--            <div class="card-header" id="headingTwo">-->
-<!--                <h5 class="mb-0">-->
-<!--                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">-->
-<!--                        Неактивное объявление-->
-<!--                    </button>-->
-<!--                </h5>-->
-<!--            </div>-->
-<!--            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">-->
-<!--                <div class="card-body">-->
-<!--                                  {% for ad in inactive_car_ads %}-->
-<!--                <li class="list-group-item">{{ ad.title }}</li>-->
-<!--              {% endfor %}-->
-<!--                                {% for ad in inactive_realty_ads %}-->
-<!--                <li class="list-group-item">{{ ad.title }}</li>-->
-<!--              {% endfor %}-->
-<!--                                {% for ad in inactive_job_ads %}-->
-<!--                <li class="list-group-item">{{ ad.title }}</li>-->
-<!--              {% endfor %}-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-<!--</div>-->
-<!--    </div>-->
-
-
 <div class="container-fluid mt-4 p-1" style="margin-bottom: 25px;">
     <div class="row">
         <div class="col-3">
 <div class="text-center">
     <i class="fas fa-user-circle profile" style="margin-top: 5px; padding-bottom:15px;color:#000;font-size:48px;"></i>
-    <p><strong>Логин:</strong> {{ user.username }}</p>
+    <p><strong></strong> {{ user.username }}</p>
 </div>
         </div>
         <div class="col-9">
@@ -85,7 +25,7 @@
         </div>
         <div class="prod-text">
             <h5 class="card-title">
-                 <a href="{% url 'carad-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
+                 <a href="{% url 'car-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.date_published }}</p>
             </h5>
@@ -102,7 +42,7 @@
         </div>
         <div class="prod-text">
             <h5 class="card-title">
-                <a href="{% url 'carad-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
+                <a href="{% url 'car-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.date_published }}</p>
             </h5>
@@ -119,7 +59,7 @@
         </div>
         <div class="prod-text">
             <h5 class="card-title">
-                <a href="{% url 'carad-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
+                <a href="{% url 'job-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.date_published }}</p>
             </h5>
@@ -141,7 +81,7 @@
         </div>
         <div class="prod-text">
             <h5 class="card-title">
-                 <a href="{% url 'carad-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
+                 <a href="{% url 'car-detail' pk=ad.pk %}" style="text-decoration: none; color: inherit;font-size:24px;">{{ ad.title }}</a>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
                 <p style="font-size:12px;"><i class="fas fa-eye"></i> {{ ad.date_published }}</p>
             </h5>

@@ -29,18 +29,15 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 from adsynch.tasks import get_usd_rate
 
+
+
 def get_currency_rate(request):
     rate = get_usd_rate()
     print(rate)
     return JsonResponse({'rate': rate})
 
 
-class CarAdListView(FilterView):
-    model = CarAd
-    template_name = 'tgapi/cars.html'  # Убедитесь, что путь правильный
-    context_object_name = 'car_ads'
-    filterset_class = CarAdFilter
-
+class BaseAdListView(FilterView):
     def get_queryset(self):
         queryset = super().get_queryset()
         order_by = self.request.GET.get('order_by')
@@ -48,36 +45,42 @@ class CarAdListView(FilterView):
             queryset = queryset.order_by(order_by)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ads = context[self.context_object_name]
+        for ad in ads:
+            # Разделяем строку фотографий на список, если атрибут photos существует у объекта
+            if hasattr(ad, 'photos'):
+                ad.photos_list = [photo.strip() for photo in ad.photos.split(',') if photo.strip()]
+        return context
+
+class CarAdListView(BaseAdListView):
+    model = CarAd
+    template_name = 'tgapi/cars.html'
+    context_object_name = 'car_ads'
+    filterset_class = CarAdFilter
 
 def get_models(request):
     brand = request.GET.get('brand')
     models = CarAd.objects.filter(car_brand=brand).values_list('car_model', flat=True).distinct()
     return JsonResponse({'models': list(models)})
-class RealtyAdListView(FilterView):
+class RealtyAdListView(BaseAdListView):
     model = RealtyAd
-    template_name = 'tgapi/realty.html'  # Убедитесь, что путь правильный
+    template_name = 'tgapi/realty.html'
     context_object_name = 'realty_ads'
     filterset_class = RealtyAdFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        order_by = self.request.GET.get('order_by')
-        if order_by:
-            queryset = queryset.order_by(order_by)
-        return queryset
-
-class JobAdListView(FilterView):
+class JobAdListView(BaseAdListView):
     model = JobAd
     template_name = 'tgapi/jobs.html'
     context_object_name = 'job_ads'
     filterset_class = JobAdFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        order_by = self.request.GET.get('order_by')
-        if order_by:
-            queryset = queryset.order_by(order_by)
-        return queryset
+
+
+
+
+
 
 @require_http_methods(["GET"])
 @api_view(['GET'])
@@ -214,24 +217,40 @@ class ViewCountMixin:
         obj.refresh_from_db()
         return obj
 
-class CarAdDetailView(ViewCountMixin, DetailView):
+class AdDetailView(ViewCountMixin, DetailView):
+    photos_field = 'photos'  # поле, содержащее фотографии
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        photos = getattr(self.object, self.photos_field, '').split(',') if getattr(self.object, self.photos_field, '') else []
+        context['photos'] = [photo.strip() for photo in photos if photo.strip()]
+        return context
+
+class CarAdDetailView(AdDetailView):
     model = CarAd
     template_name = 'tgapi/car_detail.html'
     context_object_name = 'car_ad'
 
     def get(self, request, *args, **kwargs):
-        logger.info(f"Accessing CarAdDetailView with pk={kwargs['pk']}")
         return super().get(request, *args, **kwargs)
 
-class JobAdDetailView(ViewCountMixin, DetailView):
+class RealtyAdDetailView(AdDetailView):
+    model = RealtyAd
+    template_name = 'tgapi/realty_detail.html'
+    context_object_name = 'realty_ad'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+class JobAdDetailView(AdDetailView):
     model = JobAd
     template_name = 'tgapi/jobs_detail.html'
     context_object_name = 'job_ad'
 
-class RealtyAdDetailView(ViewCountMixin, DetailView):
-    model = RealtyAd  # Указываем модель, по которой будет строиться DetailView
-    template_name = 'tgapi/realty_detail.html'  # Указываем шаблон для отображения детальной информации
-    context_object_name = 'realty_ad'  # Имя контекстного объекта для доступа к данным в шаблоне
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
 
 
 # def cars(request):

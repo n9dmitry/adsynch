@@ -631,3 +631,7 @@ margin-bottom:50px;
     height: 140px;
     object-fit: cover; /* Это сохранит соотношение сторон при изменении размеров */
 }
+
+.currency-btn.active {
+    color: red !important;
+}

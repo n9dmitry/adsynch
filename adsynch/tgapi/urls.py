@@ -16,9 +16,9 @@ urlpatterns = [
     path('realty', RealtyAdListView.as_view(), name='realty'),
     path('jobs', JobAdListView.as_view(), name='jobs'),
 
-    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='carad-detail'),
-    path('jobs/<int:pk>/', views.JobAdDetailView.as_view(), name='jobs-detail'),
-    path('realty/<int:pk>/', views.RealtyAdDetailView.as_view(), name='realty_detail'),
+    path('car/<int:pk>/', views.CarAdDetailView.as_view(), name='car-detail'),
+    path('job/<int:pk>/', views.JobAdDetailView.as_view(), name='job-detail'),
+    path('realty/<int:pk>/', views.RealtyAdDetailView.as_view(), name='realty-detail'),
     path('my_ads/<str:username>/', views.my_ads, name='my_ads'),
     path('check_user/<str:username>/', views.check_user, name='check_user'),
     path('<str:username>/<str:token>/', views.profile_view, name='profile_view'),
@@ -29,3 +29,4 @@ urlpatterns = [
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

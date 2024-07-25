@@ -18,21 +18,21 @@
 </div>
 
 
-    <section class="blog">
-        <h3 class="text-center">Авто</h3>
-        <div class="row justify-content-center">
-            {% for car_ad in car_ad|slice:":5" %}
-            <div class="card-product text-left mb-2 car-ad" data-price="{{ car_ad.price }}">
-                <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
-                <div class="prod-text">
-                    <a href="#"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
-                    <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
-                    <p>{{ car_ad.car_location }}</p>
-                </div>
+<section class="blog">
+    <h3 class="text-center">Авто</h3>
+    <div class="row justify-content-center">
+        {% for car_ad in car_ad|slice:":10" %}
+        <div class="card-product text-left mb-2 car-ad" data-price="{{ car_ad.price }}">
+            <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
+            <div class="prod-text">
+                <a href="{% url 'car-detail' car_ad.pk %}"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
+                <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
+                <p>{{ car_ad.car_location }}</p>
             </div>
-            {% endfor %}
         </div>
-    </section>
+        {% endfor %}
+    </div>
+</section>
 
 <div class="container-fluid banner">
     <div class="row">
@@ -48,13 +48,13 @@
 <section class="blog">
     <h3 class="text-center">Недвижимость</h3>
     <div class="row justify-content-center">
-        {% for realty_ad in realty_ad|slice:5 %}
+        {% for realty_ad in realty_ad|slice:10 %}
         <div class="card-product text-left mb-2">
-            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
+            <img id="main-image-realty-{{ forloop.counter }}" class="main-image-realty" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
             <div class="prod-text">
-                 <a href="#"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
+                <a href="{% url 'realty-detail' realty_ad.pk %}"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
                 <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p>
-                <p>{{ realty_ad.car_location }}</p>
+                <p>{{ realty_ad.location }}</p>
             </div>
         </div>
         {% endfor %}
@@ -65,13 +65,13 @@
 <section class="blog">
     <h3 class="text-center">Работа</h3>
     <div class="row justify-content-center">
-        {% for job_ad in job_ad|slice:5 %}
+        {% for job_ad in job_ad|slice:10 %}
         <div class="card-product text-left mb-2">
-            <img id="main-image-job-{{ forloop.counter }}" class="" alt="..." style="width: 260px; height: 140px;">
+            <img id="main-image-job-{{ forloop.counter }}" class="main-image-job" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
             <div class="prod-text">
-               <a href="#"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
-                <p>{{ job_ad.car_location }}</p>
+                <a href="{% url 'job-detail' job_ad.pk %}"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
+                <p class="price" price-rub="{{ job_ad.salary }}">{{ job_ad.salary }} {{ job_ad.currency }}</p>
+                <p>{{ job_ad.location }}</p>
             </div>
         </div>
         {% endfor %}
@@ -102,88 +102,60 @@
 </section>
 
 <script>
-    {% for job_ad in job_ad|slice:5 %}
-        var photoUrlsJob{{ forloop.counter }} = "{{ job_ad.photos }}".split(",");
-        console.log("photoUrlsJob{{ forloop.counter }}:", photoUrlsJob{{ forloop.counter }});
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupImageHover(category, adData) {
+            adData.forEach((ad, index) => {
+                var photoUrls = ad.photos.split(",").map(url => url.trim()).filter(url => url !== '');
+                var mainImage = document.getElementById(`${category}-${index + 1}`);
 
-        var mainImageJob{{ forloop.counter }} = document.getElementById("main-image-job-{{ forloop.counter }}");
-        mainImageJob{{ forloop.counter }}.style.width = "260px";
-        mainImageJob{{ forloop.counter }}.style.height = "140px";
+                if (photoUrls.length > 0) {
+                    mainImage.src = "/media/" + photoUrls[0];
 
-        if (photoUrlsJob{{ forloop.counter }}.length >= 2 && photoUrlsJob{{ forloop.counter }}[1].trim() !== '') {
-            mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
-            mainImageJob{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsJob{{ forloop.counter }}[1].trim());
+                    if (photoUrls.length > 1) {
+                        var hoverSrc = "/media/" + photoUrls[1];
+                        mainImage.setAttribute("data-hover-src", hoverSrc);
 
-            mainImageJob{{ forloop.counter }}.addEventListener('mouseover', function() {
-                mainImageJob{{ forloop.counter }}.src = mainImageJob{{ forloop.counter }}.getAttribute("data-hover-src");
+                        mainImage.addEventListener('mouseover', function() {
+                            mainImage.src = hoverSrc;
+                        });
+
+                        mainImage.addEventListener('mouseout', function() {
+                            mainImage.src = "/media/" + photoUrls[0];
+                        });
+                    }
+                }
             });
-
-            mainImageJob{{ forloop.counter }}.addEventListener('mouseout', function() {
-                mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
-            });
-        } else {
-            mainImageJob{{ forloop.counter }}.src = photoUrlsJob{{ forloop.counter }}[0].trim();
-            mainImageJob{{ forloop.counter }}.removeEventListener('mouseover', function() {});
-            mainImageJob{{ forloop.counter }}.removeEventListener('mouseout', function() {});
         }
-    {% endfor %}
+
+        // Обработка изображений для категории "автомобили"
+        {% if car_ad %}
+            setupImageHover('main-image-cars', [
+                {% for car_ad in car_ad|slice:5 %}
+                    { photos: "{{ car_ad.photos }}" }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]);
+        {% endif %}
+
+        // Обработка изображений для категории "реальные объекты"
+        {% if realty_ad %}
+            setupImageHover('main-image-realty', [
+                {% for realty_ad in realty_ad|slice:5 %}
+                    { photos: "{{ realty_ad.photos }}" }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]);
+        {% endif %}
+
+        // Обработка изображений для категории "работа"
+        {% if job_ad %}
+            setupImageHover('main-image-job', [
+                {% for job_ad in job_ad|slice:5 %}
+                    { photos: "{{ job_ad.photos }}" }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]);
+        {% endif %}
+
+    });
 </script>
-
-<script>
-    {% for realty_ad in realty_ad|slice:5 %}
-        var photoUrlsRealty{{ forloop.counter }} = "{{ realty_ad.photos }}".split(",");
-        console.log("photoUrlsRealty{{ forloop.counter }}:", photoUrlsRealty{{ forloop.counter }});
-
-        var mainImageRealty{{ forloop.counter }} = document.getElementById("main-image-realty-{{ forloop.counter }}");
-        mainImageRealty{{ forloop.counter }}.style.width = "260px";
-        mainImageRealty{{ forloop.counter }}.style.height = "140px";
-
-        if (photoUrlsRealty{{ forloop.counter }}.length >= 2 && photoUrlsRealty{{ forloop.counter }}[1].trim() !== '') {
-            mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
-            mainImageRealty{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsRealty{{ forloop.counter }}[1].trim());
-
-            mainImageRealty{{ forloop.counter }}.addEventListener('mouseover', function() {
-                mainImageRealty{{ forloop.counter }}.src = mainImageRealty{{ forloop.counter }}.getAttribute("data-hover-src");
-            });
-
-            mainImageRealty{{ forloop.counter }}.addEventListener('mouseout', function() {
-                mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
-            });
-        } else {
-            mainImageRealty{{ forloop.counter }}.src = photoUrlsRealty{{ forloop.counter }}[0].trim();
-            mainImageRealty{{ forloop.counter }}.removeEventListener('mouseover', function() {});
-            mainImageRealty{{ forloop.counter }}.removeEventListener('mouseout', function() {});
-        }
-    {% endfor %}
-</script>
-
-<script>
-    {% for car_ad in car_ad|slice:5 %}
-        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
-
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-cars-{{ forloop.counter }}");  // Update ID here
-
-        if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {
-            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
-                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
-            });
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
-                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            });
-        } else {
-            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            mainImageCar{{ forloop.counter }}.removeEventListener('mouseover', function() {});
-            mainImageCar{{ forloop.counter }}.removeEventListener('mouseout', function() {});
-        }
-    {% endfor %}
-</script>
-
-
 
 
 

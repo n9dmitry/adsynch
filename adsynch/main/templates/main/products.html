@@ -2,137 +2,59 @@
 
 <h3 class="text-center">Рекомендации</h3>
 
-<!--<h1>Recommendation Listing</h1>-->
-<!--<div class="recommendation-listing">-->
-<!--    {% for ad in recommendation_listing %}-->
-<!--        <div class="ad-card">-->
-<!--            <h2>{{ ad.title }}</h2>-->
-<!--            <p>{{ ad.views }} views</p>-->
-<!--            &lt;!&ndash; Другие поля, если необходимо &ndash;&gt;-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-
-<div class="row justify-content-between p-5">
-    <div class="row">
-        {% for ad in recommendation_listing|slice:25 %}
-            <div class="card-product text-left mb-5"> <!-- Added margin bottom -->
-                <img id="main-image-car-{{ forloop.counter }}" class="" alt="..." style="border-radius:15px;">  <!-- Update ID here -->
-                <div class="prod-text">
-                    <a href="{% if ad.category == 'car' %}{% url 'carad-detail' pk=ad.pk %}{% elif ad.category == 'realty' %}{% url 'realty_detail' pk=ad.pk %}{% elif ad.category == 'job' %}{% url 'jobs-detail' pk=ad.pk %}{% endif %}"><h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3></a>
-                    <p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p>
-                    <p>{{ ad.car_location }}</p>
-
-                    <div class="d-flex align-items-center">
-                        <div class="p-1">
-                            {% if ad.category == "car" %}
-                                <span class="badge badge-success">Авто</span>
-                            {% elif ad.category == "realty" %}
-                                <span class="badge badge-primary">Недвижимость</span>
-                            {% elif ad.category == "job" %}
-                                <span class="badge badge-warning">Работа</span>
-                            {% endif %}
-                        </div>
-                        <p class="mr-3" style="margin-top: 15px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for car_ad in car_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-car-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href=""><h3>{{ car_ad.title }}</h3></a>-->
-<!--                <p>{{ car_ad.price }} {{ car_ad.currency }}</p>-->
-<!--                <p>{{ car_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for job_ad in job_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-job-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href="{% url 'jobs-detail' pk=job_ad.pk %}">{{ job_ad.title }}</a>-->
-<!--                <p>{{ job_ad.price }} {{ job_ad.currency }}</p>-->
-<!--                <p>{{ job_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-
-
-<!--<div class="row justify-content-center p-5">-->
-<!--    {% for realty_ad in realty_ad|slice:5 %}-->
-<!--        <div class="card-product text-left">-->
-<!--            <img id="main-image-realty-{{ forloop.counter }}" class="" alt="...">-->
-<!--            <div class="prod-text">-->
-<!--                <a href=""><h3>{{ realty_ad.title }}</h3></a>-->
-<!--                <p>{{ realty_ad.price }} {{ realty_ad.currency }}</p>-->
-<!--                <p>{{ realty_ad.car_location }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    {% for ad in recommendation_listing %}-->
-<!--        var photoUrlsCar{{ forloop.counter }} = "{{ ad.photos }}".split(",");-->
-<!--&lt;!&ndash;        console.log("recommendations:", photoUrlsCar{{ forloop.counter }});&ndash;&gt;-->
-
-<!--        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here-->
-
-<!--        mainImageCar{{ forloop.counter }}.style.width = "260px";-->
-<!--        mainImageCar{{ forloop.counter }}.style.height = "140px";-->
-
-<!--        if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {-->
-<!--            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-
-<!--            (function(mainImage, hoverSrc) {-->
-<!--                mainImage.addEventListener('mouseover', function() {-->
-<!--                    console.log("hoverSrc", hoverSrc);-->
-<!--                    mainImage.src = hoverSrc;-->
-<!--                });-->
-
-<!--                mainImage.addEventListener('mouseout', function() {-->
-<!--                    mainImage.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-<!--                });-->
-<!--            })(mainImageCar{{ forloop.counter }}, photoUrlsCar{{ forloop.counter }}[1].trim());-->
-<!--        } else {-->
-<!--            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();-->
-<!--        }-->
-<!--    {% endfor %}-->
-<!--</script>-->
-
-<script>
+<div class="row justify-content-center">
     {% for ad in recommendation_listing %}
-        var photoUrlsCar{{ forloop.counter }} = "{{ ad.photos }}".split(",");
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-car-{{ forloop.counter }}");  // Update ID here
-        mainImageCar{{ forloop.counter }}.style.width = "260px";
-        mainImageCar{{ forloop.counter }}.style.height = "140px";
+    <div class="card-product text-left mb-5">
+        <a href="{{ ad.category }}/{{ ad.pk }}" class="image-link">
+            {% if ad.photos_list %}
+            <!-- Добавляем классы и атрибуты для работы с JS -->
+            <img src="media/{{ ad.photos_list.0 }}" alt="..."
+                data-hover-src="media/{{ ad.photos_list.1 }}"
+                class="ad-image"
+                style="border-radius:15px; width: 260px; height: 140px;">
+            {% endif %}
 
-        if (photoUrlsCar{{ forloop.counter }} && photoUrlsCar{{ forloop.counter }}.length >= 1 && photoUrlsCar{{ forloop.counter }}[0].trim() !== '') {
-            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-        } else if (photoUrlsCar{{ forloop.counter }}.length >= 2 && photoUrlsCar{{ forloop.counter }}[1].trim() !== '') {
-            (function(mainImage, hoverSrc) {
-                mainImage.addEventListener('mouseover', function() {
-                    mainImage.src = hoverSrc;
-                });
+            <div class="prod-text">
+                <h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3>
+            </div>
+        </a>
+        <p class="price" price-rub="{{ ad.price }}">{{ ad.price }}{{ ad.currency }}</p>
+        <p>{{ ad.location }}</p>
 
-                mainImage.addEventListener('mouseout', function() {
-                    mainImage.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-                });
-            })(mainImageCar{{ forloop.counter }}, photoUrlsCar{{ forloop.counter }}[1].trim());
-        }
-
+        <div class="d-flex align-items-center">
+            <div class="p-1">
+                {% if ad.category == "car" %}
+                <span class="badge badge-success">Авто</span>
+                {% elif ad.category == "realty" %}
+                <span class="badge badge-primary">Недвижимость</span>
+                {% elif ad.category == "job" %}
+                <span class="badge badge-warning">Работа</span>
+                {% endif %}
+            </div>
+        </div>
+        <p class="mr-3" style="margin-top: 15px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
+    </div>
     {% endfor %}
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var images = document.querySelectorAll('.ad-image');
+
+        images.forEach(function(image) {
+            // Сохраняем исходный URL изображения
+            var originalSrc = image.src;
+            var hoverSrc = image.getAttribute('data-hover-src');
+
+            image.addEventListener('mouseover', function() {
+                // Переключаем на изображение hover
+                image.src = hoverSrc;
+            });
+
+            image.addEventListener('mouseout', function() {
+                // Возвращаем исходное изображение
+                image.src = originalSrc;
+            });
+        });
+    });
 </script>
+

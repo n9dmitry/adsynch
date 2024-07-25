@@ -3,25 +3,26 @@
 {% block cars %}
 <style>
     .card-body-flex {
-    display: flex;
+        display: flex;
     }
 
     .image-container {
         flex: 1;
-        max-width: 200px;
-        max-height: 150px;
+        max-width: 360px;
+        max-height: 240px;
         overflow: hidden;
     }
 
     .main-image {
         width: 100%;
-        height: 120px;
+        height: 240px;
         object-fit: cover;
     }
 
     .text-container {
         flex: 2;
         padding: 0 20px;
+        margin:0;
     }
 </style>
 
@@ -32,26 +33,31 @@
             <div class="card mb-4">
                 <div class="card-body card-body-flex">
                     <div class="image-container">
-                        <img id="main-image-{{ forloop.counter }}" class="main-image">
+                        {% if ad.photos_list %}
+                            <img src="/media/{{ ad.photos_list.0 }}" class="main-image" alt="Car Image">
+                        {% else %}
+                            <img src="#" class="main-image" alt="No Image Available">
+                        {% endif %}
                     </div>
                     <div class="text-container">
-                        <a href="{% url 'carad-detail' pk=ad.pk %}">
-                            <h5 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}</h5>
+                        <a href="{% url 'car-detail' pk=ad.pk %}">
+                            <h4 class="card-title">{{ ad.car_brand }} {{ ad.car_model }}, {{ ad.car_transmission_type }}, {{ ad.car_year }}, {{ ad.car_engine_type }}, {{ ad.car_engine_volume }} </h4>
                         </a>
                         <p class="card-text">
-                            <strong>Год выпуска:</strong> {{ ad.car_year }}<br>
-                            <strong>Цена:</strong> <p class="price" price-rub="{{ ad.price }}">{{ ad.car_price }} {{ ad.currency }}</p> <br>
-                            <strong>Местоположение:</strong> {{ ad.car_location }}
+                            <strong><p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p></strong>
+                            <p style="font-size:13px;">{{ ad.description|slice:":45"|safe }}{% if ad.description|length > 45 %}... {% endif %}<a style="color:#000;" href="{% url 'car-detail' pk=ad.pk %}">Подробнее</a></p>
+                            {{ ad.car_location }}
+                           <p class="date-published">{{ ad.date_published }} <i class="fas fa-eye"></i> {{ ad.views }}</p>
                         </p>
                     </div>
                 </div>
             </div>
-
             {% endfor %}
         </div>
 
         <div class="col-md-3">
-            <div id="sidebar" class="p-3  border-danger rounded">
+            <p>Фильтр корректно работает только с валютой RUB</p>
+            <div id="sidebar" class="p-3 border-danger rounded">
                 <form method="get">
                     {{ filter.form.as_p }}
                     <button type="submit" class="btn btn-danger">Фильтр</button>
@@ -87,35 +93,7 @@
                     });
                 </script>
             </div>
-
         </div>
-
     </div>
-
 </div>
-
-
-<script>
-    {% for car_ad in car_ads %}
-        var photoUrlsCar{{ forloop.counter }} = "{{ car_ad.photos }}".split(",");
-        console.log("photoUrlsCar{{ forloop.counter }}:", photoUrlsCar{{ forloop.counter }});
-
-        var mainImageCar{{ forloop.counter }} = document.getElementById("main-image-{{ forloop.counter }}");
-
-
-        if (photoUrlsCar{{ forloop.counter }}.length >= 2) {
-            mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            mainImageCar{{ forloop.counter }}.setAttribute("data-hover-src", photoUrlsCar{{ forloop.counter }}[1].trim());
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseover', function() {
-                mainImageCar{{ forloop.counter }}.src = mainImageCar{{ forloop.counter }}.getAttribute("data-hover-src");
-            });
-
-            mainImageCar{{ forloop.counter }}.addEventListener('mouseout', function() {
-                mainImageCar{{ forloop.counter }}.src = photoUrlsCar{{ forloop.counter }}[0].trim();
-            });
-        }
-    {% endfor %}
-</script>
-
 {% endblock %}
