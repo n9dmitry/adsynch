@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'blog',
     'search',
     'rest_framework',
-    'debug_toolbar',
     'ckeditor',
     'allauth',
     'allauth.account',

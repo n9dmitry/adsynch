@@ -5,7 +5,6 @@ from django.conf import settings
 from .views import CarAdView, RealtyAdView, JobAdView, my_ads, profile_view, check_user, generate_link
 from .views import CarAdListView, RealtyAdListView, JobAdListView, get_models
 import logging
-import debug_toolbar
 from django.conf import settings
 from django.urls import path, include
 

@@ -3,11 +3,9 @@ from .models import CarAd, JobAd, RealtyAd
 
 
 
-
-
 @admin.register(CarAd)
 class CarAdAdmin(admin.ModelAdmin):
-    list_display = ['car_brand', 'car_model', 'car_year', 'car_price', 'date_published']
+    list_display = ['car_brand', 'car_model', 'car_year', 'date_published']
     search_fields = ['car_brand', 'car_model']
     list_filter = ['car_brand', 'car_year']
     ordering = ['-date_published']

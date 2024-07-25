@@ -202,3 +202,4 @@ def my_ads_view(request):
     }
 
     return render(request, 'main/my_ads.html', context)
+

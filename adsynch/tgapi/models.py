@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 class UserProfileLink(models.Model):
     username = models.CharField(max_length=255)
@@ -13,6 +14,11 @@ class UserProfileLink(models.Model):
 
 
 
+def validate_integer(value):
+    try:
+        int(value)
+    except (TypeError, ValueError):
+        raise ValidationError('Value must be an integer')
 
 class Ads(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -25,17 +31,14 @@ class Ads(models.Model):
     contact_name = models.CharField(max_length=255, blank=True, null=True)
     contact_phone = models.CharField(max_length=20, blank=True, null=True)
     currency = models.CharField(max_length=5, blank=True, null=True)
-    price = models.IntegerField(blank=True, null=True)
+    price = models.CharField(max_length=25, blank=True, null=True, validators=[RegexValidator(regex='^\d+$', message='Price must be an integer')])
     description = models.TextField(max_length=400, blank=True, null=True)
     category = models.CharField(max_length=15, blank=True, null=True)
     views = models.PositiveIntegerField(default=0)  # Поле для счётчика просмотров
 
     class Meta:
         abstract = True
-    def save(self, *args, **kwargs):
-        print(f"Saving Ads: {self.is_active}")
-        super().save(*args, **kwargs)
-        print(f"Saved Ads: {self.is_active}")
+
 
 class CarAd(Ads):
     car_brand = models.CharField(max_length=255, blank=True, null=True)
@@ -53,7 +56,6 @@ class CarAd(Ads):
     car_customs_cleared = models.TextField(blank=True, null=True)
     car_condition = models.CharField(max_length=255, blank=True, null=True)
     # car_description = models.TextField(blank=True, null=True)
-    car_price = models.FloatField(blank=True, null=True)
     car_location = models.CharField(max_length=255, blank=True, null=True)
     car_name = models.CharField(max_length=255, blank=True, null=True)
     # car_phone = models.CharField(max_length=20, blank=True, null=True)

@@ -78,6 +78,10 @@ class JobAdListView(BaseAdListView):
 
 
 
+
+
+
+
 @require_http_methods(["GET"])
 @api_view(['GET'])
 def my_ads(request, username):
