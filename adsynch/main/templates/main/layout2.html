@@ -48,11 +48,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="/my_ads">Мои объявления</a></li>
-                        <li><a class="dropdown-item" href="/profile">Профиль</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
-                        <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
-    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
-    <a style="color:#000; text-decoration:none;margin-left:25px;" href="#" class="" id="currency_usd""><i class="fas fa-dollar-sign"></i></a>
+<div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
+    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
+    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn" id="currency_usd"><i class="fas fa-dollar-sign"></i></a>
 </div>
                     </ul>
                     {% else %}
@@ -289,11 +288,15 @@
                 priceInTargetCurrency = priceInRub;
             }
 
-            element.textContent = new Intl.NumberFormat('ru-RU', {
-                style: 'currency',
-                currency: targetCurrency
-            }).format(priceInTargetCurrency);
-            console.log("Обновленная цена:", element.textContent);
+element.innerHTML = '<strong>' + new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: targetCurrency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+    useGrouping: false
+}).format(priceInTargetCurrency.toFixed(0)) + '</strong>';
+
+console.log("Обновленная цена:", element.innerHTML);
         });
     }
 
