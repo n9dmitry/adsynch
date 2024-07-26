@@ -3,7 +3,7 @@
 {% load static %}
 
 <div class="container advs">
-    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ job_ad.title }}</h1>
+    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ job_ad.title }}<br><p style="font-size:12px;">{{ job_ad.job_category }}</p></h1>
     <div class="row">
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -34,7 +34,11 @@
             <p>Имя работадателя: {{ job_ad.contact_name }}</p>
             <a href="tel:{{ job_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
             <a href="https://t.me/{{ job_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
-            <h3 class="mt-5"><p class="price" price-rub="{{ job_ad.price }}">Зарплата: {{ job_ad.price }} {{ job_ad.currency }}</p></h3>
+            {% if job_ad.price %}
+            <h3 class="mt-5"><p class="price" price-rub="{{ job_ad.price }}">Зарплата:
+        <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
+    </p></h3>
+            {% endif %}
         </div>
     </div>
 
