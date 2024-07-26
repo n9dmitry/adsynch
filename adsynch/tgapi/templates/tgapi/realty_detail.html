@@ -4,7 +4,7 @@
 {% load static %}
 
 <div class="container advs">
-    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ realty_ad.title }}</h1>
+    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ realty_ad.title }}, {% if realty_ad.realty_rooms is not none %} к. {{ realty_ad.realty_rooms }} ,{% endif %}  {% if realty_ad.realty_floor is not none %}эт {{ realty_ad.realty_floor }}{% endif %}/{% if realty_ad.realty_floor_total is not none %}{{ realty_ad.realty_floors_total }}{% endif %}</h1>
     <div class="row">
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -45,9 +45,9 @@
                     </div>
                     <div class="col-md-5">
                         <p>Местоположение: {{ realty_ad.realty_location }}</p>
-                        <p>Количество комнат: {{ realty_ad.realty_rooms }}</p>
-                        <p>Этаж: {{ realty_ad.realty_floor }}</p>
-                        <p>Всего этажей: {{ realty_ad.realty_floors_total }}</p>
+                        {% if realty_ad.realty_rooms is not none %}<p>Количество комнат:  {{ realty_ad.realty_rooms }} {% endif %}</p>
+                        {% if realty_ad.realty_floor is not none %}<p>Этаж: {{ realty_ad.realty_floor }}{% endif %}
+                        {% if realty_ad.realty_floor_total is not none %}<p>Всего этажей: {{ realty_ad.realty_floors_total }}{% endif %}</p>
                     </div>
                 </div>
             </div>

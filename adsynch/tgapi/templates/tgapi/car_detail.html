@@ -3,7 +3,7 @@
 {% load static %}
 
 <div class="container advs">
-    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.title }}</h1>
+    <h1 style="margin-bottom:2vh;margin-top:2vh;">{{ car_ad.car_brand }} {{ car_ad.car_model }}, {{ car_ad.car_transmission_type }}, {{ car_ad.car_year }}, {{ car_ad.car_engine_type }}, {{ car_ad.car_engine_volume }}</h1>
     <div class="row">
         <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -34,7 +34,7 @@
             <p>Имя продавца: {{ car_ad.contact_name }}</p>
             <a href="tel:{{ car_ad.contact_phone }}" class="btn btn-danger">Позвонить</a>
             <a href="https://t.me/{{ car_ad.username_tg }}" class="btn btn-danger">Написать в Telegram</a><br>
-            <h3 class="mt-5"><p class="price" price-rub="{{ car_ad.price }}">Цена {{ car_ad.car_price }} {{ car_ad.currency }}</p></h3>
+            <h3 class="mt-5"><p class="price" price-rub="{{ car_ad.price }}">Цена {{ car_ad.price }} {{ car_ad.currency }}</p></h3>
         </div>
     </div>
 

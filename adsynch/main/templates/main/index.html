@@ -26,9 +26,13 @@
             <img id="main-image-cars-{{ forloop.counter }}" class="main-image-cars" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
             <div class="prod-text">
                 <a href="{% url 'car-detail' car_ad.pk %}"><h3>{{ car_ad.title|slice:":25"|safe }}{% if car_ad.title|length > 25 %}...{% endif %}</h3></a>
-                <p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p>
+                <strong><p class="price" price-rub="{{ car_ad.price }}">{{ car_ad.price }} {{ car_ad.currency }}</p></strong>
                 <p>{{ car_ad.car_location }}</p>
-                <p style="font-size:12px;">{{ car_ad.date_published }} </p>
+                        <div class="d-flex align-items-center">
+            <div class="p-1">
+                <span class="badge badge-success">Авто</span>
+            </div>
+        </div>
             </div>
         </div>
         {% endfor %}
@@ -54,9 +58,13 @@
             <img id="main-image-realty-{{ forloop.counter }}" class="main-image-realty" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
             <div class="prod-text">
                 <a href="{% url 'realty-detail' realty_ad.pk %}"><h3>{{ realty_ad.title|slice:":20"|safe }}{% if realty_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p>
+                <strong><p class="price" price-rub="{{ realty_ad.price }}">{{ realty_ad.price }} {{ realty_ad.currency }}</p></strong>
                 <p>{{ realty_ad.location }}</p>
-                <p style="font-size:12px;">{{ realty_ad.date_published }} </p>
+                        <div class="d-flex align-items-center">
+            <div class="p-1">
+                <span class="badge badge-primary">Недвижимость</span>
+            </div>
+        </div>
             </div>
         </div>
         {% endfor %}
@@ -71,9 +79,16 @@
         <div class="card-product text-left mb-2">
             <img id="main-image-job-{{ forloop.counter }}" class="main-image-job" alt="..." style="width: 260px; height: 140px; border-radius:15px;">
             <div class="prod-text">
-                <a href="{% url 'job-detail' job_ad.pk %}"><h3>{{ job_ad.title|slice:":20"|safe }}{% if job_ad.title|length > 20 %}...{% endif %}</h3></a>
-                <p class="price" price-rub="{{ job_ad.salary }}">{{ job_ad.salary }} {{ job_ad.currency }}</p>
-                <p style="font-size:12px;">{{ job_ad.date_published }} </p>
+                <a href="{% url 'job-detail' job_ad.pk %}"><h3>{{ job_ad.title|slice:":18"|safe }}{% if job_ad.title|length > 18 %}...{% endif %}</h3></a>
+                    {% if job_ad.price %}
+        <p class="price" price-rub="{{ job_ad.price }}">{{ job_ad.price }} {{ job_ad.currency }}</p>
+    {% endif %}
+                <p>{{ job_ad.location }}</p>
+                        <div class="d-flex align-items-center">
+            <div class="p-1">
+                <span class="badge badge-warning">Работа</span>
+            </div>
+        </div>
             </div>
         </div>
         {% endfor %}
@@ -138,7 +153,7 @@
             ]);
         {% endif %}
 
-        // Обработка изображений для категории "недвижимость"
+        // Обработка изображений для категории "реальные объекты"
         {% if realty_ad %}
             setupImageHover('main-image-realty', [
                 {% for realty_ad in realty_ad|slice:5 %}

@@ -18,7 +18,7 @@
                 <h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3>
             </div>
         </a>
-        <p class="price" price-rub="{{ ad.price }}">{{ ad.price }}{{ ad.currency }}</p>
+        <strong><p class="price" price-rub="{{ ad.price }}">{{ ad.price }}{{ ad.currency }}</p></strong>
         <p>{{ ad.location }}</p>
         <p style="font-size:12px;">{{ ad.date_published }} </p>
 
