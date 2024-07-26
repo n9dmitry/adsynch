@@ -10,11 +10,36 @@
     <title>User Profile</title>
 </head>
 <body>
-    <h1>Profile of {{ profile.name }}</h1>
-    <p>Email: {{ profile.email }}</p>
-    <p>Telegram: {{ profile.telegram }}</p>
-    <p>Phone: {{ profile.phone }}</p>
-    <!-- Добавьте ссылки на редактирование или другие действия -->
-    <a href="{% url 'profile-edit' profile.pk %}">Edit Profile</a>
+<h1>Профиль: {{ user.username }}</h1>
+<p>Ваше имя:</p>
+<strong>
+    {% if profile.name %}{{ profile.name }}{% else %}Профиль не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>email:</p>
+<strong>
+    {% if profile.email %}{{ profile.email }}{% else %}Email не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>Номер:</p>
+<strong>
+    {% if profile.phone %}{{ profile.phone }}{% else %}Номер не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>telegram:</p>
+<strong>
+    {% if profile.telegram %}{{ profile.telegram }}{% else %}Телеграм не задан{% endif %}
+</strong>
+</br></br></br></br></br></br></br></br>
+<h3>Редактирование данные</h3>
+<p>Изменить имя:</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
 </body>
 {% endblock %}

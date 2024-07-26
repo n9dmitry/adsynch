@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AboutPage, ServicesPage, Bnr, SliderImage
+from .models import AboutPage, ServicesPage, Bnr, SliderImage, UserProfile
 
 class BnrAdmin(admin.ModelAdmin):
     list_display = ('position',)
@@ -23,3 +23,10 @@ class SliderImageAdmin(admin.ModelAdmin):
     search_fields = ('title',)  # Добавляем поиск по указанным полям
 
 admin.site.register(SliderImage, SliderImageAdmin)
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user_username', 'name', )
+    def user_username(self, obj):
+        return obj.user.username
+
+admin.site.register(UserProfile, UserProfileAdmin)

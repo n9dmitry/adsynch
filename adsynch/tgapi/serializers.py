@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CarAd, RealtyAd, JobAd, UserProfile
+from .models import CarAd, RealtyAd, JobAd
 import os
 import requests
 from django.core.files.base import ContentFile

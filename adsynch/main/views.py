@@ -12,8 +12,8 @@ from django.contrib.auth.models import User
 
 from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
-from .forms import RegistrationForm
-from .models import AboutPage, ServicesPage, Bnr, SliderImage
+from .forms import RegistrationForm, UserProfileForm
+from .models import AboutPage, ServicesPage, Bnr, SliderImage, UserProfile
 # from .forms import CustomPasswordResetForm
 import random
 
@@ -59,6 +59,33 @@ def index(request):
     }
 
     return render(request, 'main/index.html', context)
+
+
+@login_required
+def profile(request):
+    user = request.user
+
+    # Попытка получить профиль пользователя
+    profile, created = UserProfile.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            # Вывод отладочных сообщений
+            print("Form is valid")
+            print("Cleaned data:", form.cleaned_data)
+
+            form.save()
+            print("Profile saved")
+            return redirect('profile')  # Перенаправление на ту же страницу после успешного сохранения
+        else:
+            print("Form is not valid")
+            print("Errors:", form.errors)
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'main/profile.html', {'user': user, 'form': form, 'profile': profile})
+
 
 def services(request):
     service_pages = ServicesPage.objects.all()
