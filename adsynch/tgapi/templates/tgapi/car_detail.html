@@ -65,21 +65,19 @@
         </div>
 
         <h3>Описание</h3>
-        <p>
-            {{ car_ad.description }} </br>
-            Просмотры: {{ car_ad.views }}
-        </p>
+        <p> {{ car_ad.description }} </p>
+        <p> Просмотры: {{ car_ad.views }} </p>
     </div>
 </div>
 
-    <div class="debug-photos">
-        <h3>Отладочный блок</h3>
-        {% for photo in photos %}
-        <div>
-            <img src="/media/{{ ad.category }}/{{ photo }}" class="main-image" id="main-image-{{ forloop.counter }}">
-        </div>
-        {% endfor %}
-    </div>
+<!--    <div class="debug-photos">-->
+<!--        <h3>Отладочный блок</h3>-->
+<!--        {% for photo in photos %}-->
+<!--        <div>-->
+<!--            <img src="/media/{{ ad.category }}/{{ photo }}" class="main-image" id="main-image-{{ forloop.counter }}">-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
 
 {% endblock %}
 

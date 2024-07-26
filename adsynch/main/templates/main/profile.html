@@ -1,0 +1,45 @@
+{% extends 'main/layout2.html' %}
+{% load static %}
+{% block profile %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<h1>Профиль: {{ user.username }}</h1>
+<p>Ваше имя:</p>
+<strong>
+    {% if profile.name %}{{ profile.name }}{% else %}Профиль не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>email:</p>
+<strong>
+    {% if profile.email %}{{ profile.email }}{% else %}Email не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>Номер:</p>
+<strong>
+    {% if profile.phone %}{{ profile.phone }}{% else %}Номер не задан{% endif %}
+</strong>
+</br></br></br>
+
+<p>telegram:</p>
+<strong>
+    {% if profile.telegram %}{{ profile.telegram }}{% else %}Телеграм не задан{% endif %}
+</strong>
+</br></br></br></br></br></br></br></br>
+<h3>Редактирование данные</h3>
+<p>Изменить имя:</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</body>
+{% endblock %}
