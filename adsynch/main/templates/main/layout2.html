@@ -14,18 +14,10 @@
 <body>
 
 <div class="header-top">
-<!--    <button id="currency_rub">RUB</button>-->
-<!--    <button id="currency_usd">USD</button>-->
-
-    <div id="car-list">
-        <!-- Список автомобилей или другой контент -->
-    </div>
-
-
+    <div id="car-list"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mb-3 mb-lg-0" style="margin-top: 7px;">
-                <!-- content of the first column -->
                 <form action="{% url 'search_results' %}" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control border-danger" name="q" placeholder="Введите запрос..."
@@ -38,7 +30,6 @@
             </div>
 
             <div class="col-lg-6 d-flex justify-content-end">
-                <!-- content второго столбца, расположенный справа -->
                 <div class="dropdown" style="margin-top: 10px;">
                     {% if user.is_authenticated %}
                     <a class="d-flex" href="#" style="padding-bottom: 5px; text-decoration: none;" role="button"
@@ -50,10 +41,12 @@
                         <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
                         <li><a class="dropdown-item" href="{% url 'my_ads' %}">Мои объявления</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
-<div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
-    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
-    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn" id="currency_usd"><i class="fas fa-dollar-sign"></i></a>
-</div>
+                        <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
+                            <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active"
+                               id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
+                            <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn" id="currency_usd"><i
+                                    class="fas fa-dollar-sign"></i></a>
+                        </div>
                     </ul>
                     {% else %}
                     <a class="d-flex" href="https://t.me/autobotxyi2bot?text=/my_profile"
