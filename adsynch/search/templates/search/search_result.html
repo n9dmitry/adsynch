@@ -21,7 +21,7 @@
                     <div class="prod-text">
 <h5 class="card-title">
     {% if result.category == "car" %}
-        <a href="{% url 'carad-detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
+        <a href="{% url 'car-detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
     {% elif result.category == "realty" %}
         <a href="{% url 'realty_detail' result.id %}" style="text-decoration: none; color: inherit;">{{ result.title }}</a>
     {% elif result.category == "job" %}
@@ -37,7 +37,7 @@
         {% endfor %}
     </div>
 {% else %}
-    <p class="mt-4">No results found for "{{ query }}".</p>
+    <p class="mt-4">Совпадений по "{{ query }}" не найдено.</p>
 {% endif %}
     </section>
 {% endblock %}
