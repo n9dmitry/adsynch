@@ -12,7 +12,8 @@ class UserProfile(models.Model):
     telegram = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else "No Name Provided"
+
 
 class Bnr(models.Model):
     POSITION_CHOICES = (
