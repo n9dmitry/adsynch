@@ -47,7 +47,7 @@
                         </a>
                         <p class="card-text">
                             <strong><p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p></strong><br>
-                         <p style="font-size:13px;">{{ ad.description|slice:":45"|safe }}{% if ad.description|length > 45 %}... {% endif %}<a style="color:#000;" href="{% url 'job-detail' pk=ad.pk %}"> Подробнее</a></p>
+                         <p style="font-size:13px;">{{ ad.description|slice:":45"|safe }}{% if ad.description|length > 45 %}... {% endif %}<a style="color:#000;" href="{% url 'realty-detail' pk=ad.pk %}"> Подробнее</a></p>
                          {{ ad.realty_location }}
                          <p class="date-published">{{ ad.date_published }} <i class="fas fa-eye"></i> {{ ad.views }}</p>
                         </p>
