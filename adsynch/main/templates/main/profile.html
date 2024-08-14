@@ -23,7 +23,7 @@
 
 
     .profile-card {
-    width: 100%;
+    width: 90%;
     background-color: var(--primary-bg);
     border-radius: 40px;
     border: 2px solid var(--accent-bg);
@@ -114,18 +114,45 @@
         grid-template-rows: 2fr 1fr;
         gap: 20px;
     }
-        .data {
-        margin-top:45px;
-            grid-area: 1/1/2/3;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: var(--secondary-color);
-            padding: 90px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-        }
+.data {
+    margin-top: 45px;
+    grid-area: 1/1/2/3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--secondary-color);
+    padding: 90px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+}
+
+/* Добавление медиа-запроса для экранов меньше 1000 пикселей */
+@media screen and (max-width: 1000px) {
+    .data {
+        padding: 40px; /* Уменьшение отступов */
+    }
+
+    .data-item {
+        margin: 10px 0; /* Уменьшение вертикальных отступов между .data-item */
+        max-width: 90%; /* Установка максимальной ширины для предотвращения выхода за пределы */
+        box-sizing: border-box; /* Учитывать отступы и границы в общей ширине */
+    }
+
+    .important-data .value,
+    .other-data .value,
+    .data-item .value {
+        font-size: 1vw; /* Уменьшение размера текста */
+    }
+
+    .important-data {
+    margin-top:5em;
+        flex-direction: column; /* Перенос элементов в столбик при необходимости */
+        align-items: flex-start; /* Выравнивание по началу */
+    }
+}
+
+
             .important-data {
                 display: flex;
                 justify-content: space-between;
@@ -144,10 +171,11 @@
                 color: var(--accent-color);
             }
                 .important-data .value {
-                    font-size: var(--title-size);
+                     font-size: 1.5vw;
+                     padding:5px;
                 }
                 .other-data .value {
-                    font-size: var(--subtitle);
+                     font-size: 1vw;
                 }
         .social-media {
             grid-area: 2/1/3/3;

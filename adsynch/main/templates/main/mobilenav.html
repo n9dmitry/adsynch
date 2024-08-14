@@ -1,0 +1,109 @@
+
+
+{% load static %}
+<style>
+
+  .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      color: white;
+  }
+
+  .menu-icon {
+      font-size: 30px;
+      cursor: pointer;
+      color: #c30000;
+  }
+
+  .fullscreen-menu {
+      z-index: 999;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 75%;
+      height: 100%;
+      background: #000;
+      color: #c30000;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .fullscreen-menu.active {
+      display: flex;
+  }
+
+  .menu-items {
+      list-style-type: none;
+      padding: 0;
+  }
+
+  .menu-items li {
+      margin: 20px 0;
+  }
+
+  .menu-items a {
+      color: #c30000;
+      text-decoration: none;
+      font-size: 44px;
+  }
+
+  .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #c30000;
+  }
+
+  /* Медиа-запросы для адаптивности */
+  @media (min-width: 1001px) {
+      .menu-icon {
+          display: none; /* Скрыть иконку на экранах шире 1000px */
+      }
+
+      .fullscreen-menu {
+          display: none; /* Скрыть меню на экранах шире 1000px */
+      }
+       .logo {
+          display: none; /* Скрыть меню на экранах шире 1000px */
+      }
+  }
+</style>
+
+
+<nav class="navbar">
+        <div class="logo">             <a class="navbar-brand" href="/">
+            <img width="75" src="{%  static 'main/img/logo.png' %}" class="logo" alt="Логотип">
+        </a></div>
+        <div class="menu-icon" id="menu-icon">☰</div>
+    </nav>
+    <div class="fullscreen-menu" id="fullscreen-menu">
+        <div class="close" id="close-menu">✖</div>
+        <ul class="menu-items">
+            <li><a href="/">Главная</a></li>
+            <li><a href="/about">О нас</a></li>
+            <li><a href="/services">Услуги</a></li>
+            <li><a href="/articles">Блог</a></li>
+            <li><a href="/contact">Контакты</a></li>
+        </ul>
+    </div>
+
+<script>
+  const menuIcon = document.getElementById('menu-icon');
+const fullscreenMenu = document.getElementById('fullscreen-menu');
+const closeMenu = document.getElementById('close-menu');
+
+menuIcon.addEventListener('click', () => {
+    fullscreenMenu.classList.add('active');
+});
+
+closeMenu.addEventListener('click', () => {
+    fullscreenMenu.classList.remove('active');
+});
+
+</script>

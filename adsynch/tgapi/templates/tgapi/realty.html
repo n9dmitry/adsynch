@@ -26,6 +26,51 @@
         flex: 2;
         padding: 0 20px;
     }
+
+
+    #open-modal {
+    position: fixed;
+    top: 260px; /* Расстояние от нижней части экрана */
+    right: 20px; /* Расстояние от правой части экрана */
+    z-index: 999; /* Убедитесь, что кнопка находится поверх других элементов */
+}
+
+/* Стили для модального окна уже были приведены выше */,
+.modal {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.modal-content {
+     opacity: 0.95; /* Полупрозрачный элемент */
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Ширина модального окна */
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 </style>
 
 <div class="container mt-4 cars">
@@ -58,20 +103,80 @@
             {% endfor %}
 
 
-        <div class="col-md-3">
-            <p>Фильтр корректно работает только с валютой RUB</p>
-            <div id="sidebar" class="p-3">
+<div class="col-md-3" id="filter-container">
+    <p>Фильтр корректно работает только с валютой RUB</p>
+    <div id="sidebar" class="p-3">
+        <form method="get">
+            {{ filter.form.as_p }}
+            <button type="submit" class="btn btn-danger">Фильтр</button>
+            <a href="{% url 'realty' %}" class="btn btn-secondary">Сбросить</a>
+        </form>
+    </div>
+</div>
 
+<!-- Кнопка открывающая модальное окно -->
+<button id="open-modal" class="btn btn-danger" style="display: none; width: 50px; height: 50px;">
+    <i class="fas fa-filter" style="font-size: 28px;"></i>
+</button>
+
+<div id="filter-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-filter-btn">&times;</span>
+        <div>
+            <p>Фильтр корректно работает только с валютой RUB</p>
+            <div id="modal-filter" class="p-3">
                 <form method="get">
                     {{ filter.form.as_p }}
                     <button type="submit" class="btn btn-danger">Фильтр</button>
                     <a href="{% url 'realty' %}" class="btn btn-secondary">Сбросить</a>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterContainer = document.getElementById('filter-container');
+        const openFilterModalButton = document.getElementById('open-modal');
+        const filterModal = document.getElementById('filter-modal');
+        const closeFilterBtn = document.querySelector('.close-filter-btn');
+
+        function toggleFilterContainer() {
+            if (window.innerWidth < 1000) {
+                filterContainer.style.display = 'none';
+                openFilterModalButton.style.display = 'block';
+            } else {
+                filterContainer.style.display = 'block';
+                openFilterModalButton.style.display = 'none';
+                filterModal.style.display = 'none'; // Закрываем модал при увеличении размера
+            }
+        }
+
+        // Обработчик открытия модального окна
+        openFilterModalButton.onclick = function () {
+            filterModal.style.display = 'block';
+        };
+
+        // Обработчик закрытия модального окна
+        closeFilterBtn.onclick = function () {
+            filterModal.style.display = 'none';
+        };
+
+        // Закрытие модального окна при клике вне его
+        window.onclick = function (event) {
+            if (event.target === filterModal) {
+                filterModal.style.display = 'none';
+            }
+        };
+
+        // Добавляем обработчик изменения размера окна
+        window.addEventListener('resize', toggleFilterContainer);
+
+        // Инициализируем состояние при загрузке страницы
+        toggleFilterContainer();
+    });
+</script>
 
 
 {% endblock %}

@@ -1,15 +1,15 @@
 {% load static %}
 
-<section class="my-5 slider">
+
     <div class="row">
         <div class="col-lg-3">
             <div class="vertical-menu">
-                <a href="{{ '/cars' }}" class="active"><i class="fas fa-car"></i> АВТО</a>
-                <a href="{{ '/realty' }}"><i class="fas fa-briefcase"></i> НЕДВИЖЕМОСТЬ</a>
-                <a href="{{ '/jobs' }}"><i class="fas fa-city"></i> РАБОТА</a>
+                <a href="{{ '/cars' }}" class="active "><i class="fas fa-car"></i><p>АВТО</p> </a>
+                <a href="{{ '/realty' }}"><i class=" fas fa-city"></i><p> НЕДВИЖИМОСТЬ</p></a>
+                <a href="{{ '/jobs' }}"><i class="fas fa-briefcase"></i><p> РАБОТА</p></a>
             </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9 slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     {% for image in slider_images %}
@@ -34,4 +34,4 @@
             </div>
         </div>
     </div>
-</section>
+

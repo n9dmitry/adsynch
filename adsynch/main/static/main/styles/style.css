@@ -21,26 +21,48 @@
 body {
     overflow-x: hidden;
     background: #f5f7fa;
+
 }
 
-main {
-    padding-right: 10em;
-    padding-left: 10em;
-    padding-bottom: 2em;
+
+@media (max-width: 450px){
+body {
+    margin-right:-325px;
+    padding:0;
 }
+}
+/* Общие отступы для экранов шириной более 1000px */
+main {
+    padding-bottom: 2em;
+    padding-left: 6em;
+    padding-right: 5em;
+}
+
+/* Медиа-запрос для экранов шириной менее 1000px */
+@media (max-width: 1000px) {
+    main {
+        padding-bottom: 1em; /* Пример значения для меньших экранов */
+        padding-left: 1em; /* Пример значения для меньших экранов */
+        padding-right: 1em; /* Пример значения для меньших экранов */
+    }
+}
+
 
 header {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    padding: 10px 0;
-       display: flex; /* Добавляем flex контейнер */
+    display: flex; /* Добавляем flex контейнер */
     justify-content: center; /* Выравниваем по центру по горизонтали */
 
+    @media (max-width: 1000px) {
+        justify-content: flex-end;
 
+    }
 
     .navbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .navbar-nav {
             display: flex;
             list-style: none;
@@ -62,11 +84,12 @@ header {
         }
     }
 }
+    @media (max-width: 1000px) {
+        .navbar {
+            display: none;
+        }
+    }
 
-.navbar-toggler-icon{
-
-    
-}
 
 
 .header-top {
@@ -77,16 +100,6 @@ header {
 
 }
 
-
-    .header-top::before {
-        left: 0;
-            transform: skewX(-45deg); /* Добавленный скос */
-    }
-
-    .header-top::after {
-        right: 0;
-            transform: skewX(45deg); /* Добавленный скос */
-    }
 
     .header-top{
         .link {
@@ -107,17 +120,8 @@ header {
 
 
 
-@media screen and (max-width: 768px) {
-    .container {
-    margin-left: 20px;
-}
-}
 
-@media screen and (max-width: 480px) {
-        .container {
-    margin-left:20px;
-}
-}
+
 
     .list-group {
 
@@ -128,10 +132,48 @@ header {
     color: #d24a43;
 }
 
+.adapted-text {
+  text-align: center;
+  font-size: 80%; /* Пример значения размера шрифта, которое можно настроить */
+}
+
+
 
 .vertical-menu {
   display: flex;
   flex-direction: column;
+}
+
+.vertical-menu a {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1000px) {
+  .vertical-menu {
+    flex-direction: row; /* Изменяем направление на горизонтальное при адаптации */
+    justify-content: space-around; /* Распределяем элементы по ширине контейнера */
+    align-items: center; /* Выравниваем по вертикали */
+  }
+  .vertical-menu a {
+    margin: 10px; /* Добавляем немного отступов между элементами */
+  }
+  .vertical-menu p {
+    display: none; /* Скрываем текстовые метки при адаптации */
+  }
+}
+
+
+@media (max-width: 970px) {
+  .navbar-toggler {
+margin-left:28vh;
+  }
+}
+
+@media (max-width: 1000px) {
+    .slider {
+        display: none;
+    }
 }
 
 .vertical-menu a {
@@ -188,15 +230,29 @@ header {
 
 
 .prod {
-    padding: 5vh;
+    padding-left: 15vh;
+    padding-right: 15vh;
     margin-top: 5vh;
 }
 
+
 .card-product {
+margin:10px;
+          display: flex;
+      flex-direction: column;
+      height: 100%;
     margin-left: 2vh;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+    @media (max-width: 1000px) {
+        .prod {
+    padding-left: 2vh;
+    padding-right: 2vh;
+    margin-top: 5vh; /* Задаем ширину карточки 100% на малых экранах */
+        }
+    }
 
 .prod-text {
 padding:5px;
@@ -231,16 +287,30 @@ color:#d24a43;
 }
 
 .blog {
-    padding: 3vh;
     margin-top: 5vh;
+    max-width:85%;
 }
 .card-blog {
     background-color: #fff;
     border-radius: 5px;
-    padding: 20px;
+    padding:10px;
     width: 320px;
     margin-left: 5vh;
     margin-top: 2vh;
+              display: flex;
+      flex-direction: column;
+      height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 1000px) {
+
+
+.card-blog {
+    margin-left: 5vh;
+    width: 280px;
+
+}
 }
 
 .card-blog img {
@@ -602,6 +672,11 @@ margin-bottom:50px;
     width: 0px;
 
 }
+
+.input-group {
+width:55%;
+}
+
 
 @media screen and (max-width: 620px) {
 .searchBox:hover > .searchInput {
