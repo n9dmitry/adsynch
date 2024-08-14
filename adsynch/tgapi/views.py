@@ -129,13 +129,6 @@ def profile_view(request, username, token):
     return redirect('/')
 
 
-# @csrf_exempt
-# @require_http_methods(["GET"])
-# def check_user(request, username):
-#     exists = User.objects.filter(username=username).exists()
-#     print(JsonResponse({'exists': exists}))
-#     return JsonResponse({'exists': exists})
-
 @csrf_exempt
 @require_http_methods(["GET"])
 def check_user(request, username):
