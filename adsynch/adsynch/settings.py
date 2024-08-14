@@ -73,7 +73,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 
 ]
-
+# 111
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
