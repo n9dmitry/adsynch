@@ -42,11 +42,11 @@
                         <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
                         <li><a class="dropdown-item" href="{% url 'my_ads' %}">Мои объявления</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}" id="logoutButton">Выход</a></li>
+                        <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
+    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
+    <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn" id="currency_usd"><i class="fas fa-dollar-sign"></i></a>
+</div>
                     </ul>
-                    <div class="btn-group" role="group" aria-label="Currency" style="margin-top:10px;">
-                        <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn active" id="currency_rub"><i class="fas fa-ruble-sign"></i></a>
-                        <a style="color:#000; text-decoration:none; margin-left:25px;" href="#" class="currency-btn" id="currency_usd"><i class="fas fa-dollar-sign"></i></a>
-                    </div>
                     {% else %}
                     <a class="d-flex" href="https://t.me/autobotxyi2bot?text=/my_profile"
                        style="padding-bottom: 5px; text-decoration: none;">
