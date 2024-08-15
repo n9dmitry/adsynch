@@ -24,6 +24,50 @@
         padding: 0 20px;
         margin:0;
     }
+
+#open-modal {
+    position: fixed;
+    top: 260px; /* Расстояние от нижней части экрана */
+    right: 20px; /* Расстояние от правой части экрана */
+    z-index: 999; /* Убедитесь, что кнопка находится поверх других элементов */
+}
+
+/* Стили для модального окна уже были приведены выше */,
+.modal {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.modal-content {
+     opacity: 0.95; /* Полупрозрачный элемент */
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Ширина модального окна */
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 </style>
 
 <div class="container mt-4 cars">
@@ -47,7 +91,7 @@
                             <strong><p class="price" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p></strong>
                             <p style="font-size:13px;">{{ ad.description|slice:":45"|safe }}{% if ad.description|length > 45 %}... {% endif %}<a style="color:#000;" href="{% url 'car-detail' pk=ad.pk %}">Подробнее</a></p>
                             {{ ad.car_location }}
-                           <p class="date-published">{{ ad.date_published }} <i class="fas fa-eye"></i> {{ ad.views }}</p>
+                             <p class="p-2" style="font-size:12px;">{{ ad.date_published }} | <i class="fas fa-eye"></i> {{ ad.views }} </p>
                         </p>
                     </div>
                 </div>
@@ -55,45 +99,106 @@
             {% endfor %}
         </div>
 
-        <div class="col-md-3">
+<div class="col-md-3" id="sidebar-container">
+    <p>Фильтр корректно работает только с валютой RUB</p>
+    <div id="sidebar" class="p-3 border-danger rounded">
+        <form method="get">
+            {{ filter.form.as_p }}
+            <button type="submit" class="btn btn-danger">Фильтр</button>
+            <a href="{% url 'cars' %}" class="btn btn-secondary">Сбросить</a>
+        </form>
+    </div>
+</div>
+        <button id="open-modal" class="btn btn-danger" style="display: none; width:50px; height:50px;"><i class="fas fa-filter" style="font-size:28px;"></i></button>
+
+<div id="modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div>
             <p>Фильтр корректно работает только с валютой RUB</p>
-            <div id="sidebar" class="p-3 border-danger rounded">
+            <div id="modal-sidebar" class="p-3 border-danger rounded">
                 <form method="get">
                     {{ filter.form.as_p }}
                     <button type="submit" class="btn btn-danger">Фильтр</button>
                     <a href="{% url 'cars' %}" class="btn btn-secondary">Сбросить</a>
                 </form>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const brandField = document.querySelector('select[name="brand"]');
-                        const modelField = document.querySelector('select[name="model"]');
-
-                        modelField.disabled = true;  // Изначально поле модели неактивно
-
-                        brandField.addEventListener('change', function () {
-                            const selectedBrand = this.value;
-                            if (selectedBrand) {
-                                fetch(`/get-models/?brand=${selectedBrand}`)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        modelField.innerHTML = '';  // Очистка текущих опций
-                                        data.models.forEach(model => {
-                                            const option = document.createElement('option');
-                                            option.value = model;
-                                            option.textContent = model;
-                                            modelField.appendChild(option);
-                                        });
-                                        modelField.disabled = false;  // Активируем поле модели
-                                    });
-                            } else {
-                                modelField.innerHTML = '';  // Очистка текущих опций, если бренд не выбран
-                                modelField.disabled = true;  // Отключаем поле модели
-                            }
-                        });
-                    });
-                </script>
             </div>
         </div>
     </div>
 </div>
+
+
+
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const brandField = document.querySelector('select[name="brand"]');
+    const modelField = document.querySelector('select[name="model"]');
+
+    modelField.disabled = true;  // Изначально поле модели неактивно
+
+    brandField.addEventListener('change', function () {
+        const selectedBrand = this.value;
+        if (selectedBrand) {
+            fetch(`/get-models/?brand=${selectedBrand}`)
+                .then(response => response.json())
+                .then(data => {
+                    modelField.innerHTML = '';  // Очистка текущих опций
+                    data.models.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelField.appendChild(option);
+                    });
+                    modelField.disabled = false;  // Активируем поле модели
+                });
+        } else {
+            modelField.innerHTML = '';  // Очистка текущих опций, если бренд не выбран
+            modelField.disabled = true;  // Отключаем поле модели
+        }
+    });
+});
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebarContainer = document.getElementById('sidebar-container');
+        const openModalButton = document.getElementById('open-modal');
+        const modal = document.getElementById('modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        function toggleSidebar() {
+            if (window.innerWidth < 1000) {
+                sidebarContainer.style.display = 'none';
+                openModalButton.style.display = 'block';
+            } else {
+                sidebarContainer.style.display = 'block';
+                openModalButton.style.display = 'none';
+                modal.style.display = 'none';
+            }
+        }
+
+        openModalButton.onclick = function () {
+            modal.style.display = 'block';
+        };
+
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        window.addEventListener('resize', toggleSidebar);
+        toggleSidebar(); // Инициализируем состояние при загрузке страницы
+    });
+</script>
+
 {% endblock %}

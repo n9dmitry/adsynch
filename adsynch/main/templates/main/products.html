@@ -1,41 +1,46 @@
 {% load static %}
 
-<h3 class="text-center">Рекомендации</h3>
 
+<h3 class="text-center">Рекомендации</h3>
 <div class="row justify-content-center">
     {% for ad in recommendation_listing %}
-    <div class="card-product text-left mb-5">
-        <a href="{{ ad.category }}/{{ ad.pk }}" class="image-link">
-            {% if ad.photos_list %}
-            <!-- Добавляем классы и атрибуты для работы с JS -->
-            <img src="media/{{ ad.photos_list.0 }}" alt="..."
-                data-hover-src="media/{{ ad.photos_list.1 }}"
-                class="ad-image"
-                style="border-radius:15px; width: 260px; height: 140px;">
-            {% endif %}
-
-            <div class="prod-text">
-                <h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3>
-            </div>
-        </a>
-        <p class="price" price-rub="{{ ad.price }}">{{ ad.price }}{{ ad.currency }}</p>
-        <p>{{ ad.location }}</p>
-
-        <div class="d-flex align-items-center">
-            <div class="p-1">
-                {% if ad.category == "car" %}
-                <span class="badge badge-success">Авто</span>
-                {% elif ad.category == "realty" %}
-                <span class="badge badge-primary">Недвижимость</span>
-                {% elif ad.category == "job" %}
-                <span class="badge badge-warning">Работа</span>
+    <div class="col-6 col-sm-4 col-md-3 mb-2">
+        <div class="card-product text-left">
+            <a href="{{ ad.category }}/{{ ad.pk }}" class="image-link">
+                {% if ad.photos_list %}
+                <img src="media/{{ ad.photos_list.0 }}" alt="..." data-hover-src="media/{{ ad.photos_list.1 }}" class="ad-image" style="border-radius:15px; width: 100%; height: 140px;">
                 {% endif %}
+
+                <div class="prod-text">
+                    <h3>{{ ad.title|slice:":20"|safe }}{% if ad.title|length > 20 %}...{% endif %}</h3>
+                </div>
+            </a>
+            <strong>
+                {% if ad.price %}
+                <p class="price p-2" price-rub="{{ ad.price }}">{{ ad.price }} {{ ad.currency }}</p>
+                {% else %}
+                <p class="p-2">Зарплата не указана</p>
+                {% endif %}
+            </strong>
+            <p>{{ ad.location }}</p>
+            <p class="p-2" style="font-size:12px;">{{ ad.date_published }} | <i class="fas fa-eye"></i> {{ ad.views }} </p>
+
+            <div class="d-flex align-items-center">
+                <div class="p-2">
+                    {% if ad.category == "car" %}
+                    <span class="badge badge-success">Авто</span>
+                    {% elif ad.category == "realty" %}
+                    <span class="badge badge-primary">Недвижимость</span>
+                    {% elif ad.category == "job" %}
+                    <span class="badge badge-warning">Работа</span>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <p class="mr-3" style="margin-top: 15px;"><i class="fas fa-eye"></i> {{ ad.views }}</p>
     </div>
     {% endfor %}
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var images = document.querySelectorAll('.ad-image');

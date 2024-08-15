@@ -7,7 +7,6 @@ from django.core.files.storage import default_storage
 from urllib.parse import urlparse
 from datetime import datetime
 
-
 def save_image_from_url(image_url, category, ad_id, photo_number):
     # Формируем имя файла в формате "дата(ГГММДД)_id_номер фото"
     now = datetime.now().strftime("%y%m%d")
@@ -59,3 +58,5 @@ class JobAdSerializer(AdBaseSerializer):
     class Meta:
         model = JobAd
         fields = '__all__'
+
+

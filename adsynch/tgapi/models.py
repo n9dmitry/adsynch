@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
+
 class UserProfileLink(models.Model):
     username = models.CharField(max_length=255)
     token = models.CharField(max_length=32)
@@ -11,8 +12,6 @@ class UserProfileLink(models.Model):
 
     def __str__(self):
         return f"{self.username} - {self.token}"
-
-
 
 def validate_integer(value):
     try:

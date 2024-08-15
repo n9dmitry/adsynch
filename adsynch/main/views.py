@@ -1,7 +1,7 @@
 import uuid
 from transliterate import translit
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 
@@ -12,8 +12,8 @@ from django.contrib.auth.models import User
 
 from tgapi.models import Ads, CarAd, JobAd, RealtyAd
 from blog.models import Article
-from .forms import RegistrationForm
-from .models import AboutPage, ServicesPage, Bnr, SliderImage
+from .forms import RegistrationForm, UserProfileForm
+from .models import AboutPage, ServicesPage, Bnr, SliderImage, UserProfile
 # from .forms import CustomPasswordResetForm
 import random
 
@@ -59,6 +59,53 @@ def index(request):
     }
 
     return render(request, 'main/index.html', context)
+
+
+@login_required
+def profile(request):
+    user = request.user
+
+    profile, created = UserProfile.objects.get_or_create(user=user)
+
+    user_ads_count = (
+            CarAd.objects.filter(user=user).count()
+            + RealtyAd.objects.filter(user=user).count()
+            + JobAd.objects.filter(user=user).count()
+    )
+
+    car_ads = CarAd.objects.filter(user=user)
+    realty_ads = RealtyAd.objects.filter(user=user)
+    job_ads = JobAd.objects.filter(user=user)
+
+    user_ads = list(car_ads) + list(realty_ads) + list(job_ads)
+    user_ads = sorted(user_ads, key=lambda x: x.date_published, reverse=True)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            print("Form is valid")
+            print("Cleaned data:", form.cleaned_data)
+
+            form.save()
+            print("Profile saved")
+            return redirect('profile')
+        else:
+            print("Form is not valid")
+            print("Errors:", form.errors)
+    else:
+        form = UserProfileForm(instance=profile)
+
+    context = {'user': user, 'form': form, 'profile': profile, 'user_ads_count': user_ads_count, 'user_ads': user_ads}
+    add_photos_to_context(user_ads)
+
+    return render(request, 'main/profile.html', context)
+
+
+def add_photos_to_context(user_ads):
+    for ad in user_ads:
+        if hasattr(ad, 'photos'):
+            ad.photos_list = [photo.strip() for photo in ad.photos.split(',') if photo.strip()]
+
 
 def services(request):
     service_pages = ServicesPage.objects.all()
@@ -202,4 +249,3 @@ def my_ads_view(request):
     }
 
     return render(request, 'main/my_ads.html', context)
-
