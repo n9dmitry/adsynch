@@ -25,12 +25,6 @@ body {
 }
 
 
-@media (max-width: 450px){
-body {
-    margin-right:-325px;
-    padding:0;
-}
-}
 /* Общие отступы для экранов шириной более 1000px */
 main {
     padding-bottom: 2em;
@@ -237,13 +231,35 @@ margin-left:28vh;
 
 
 .card-product {
-margin:10px;
-          display: flex;
-      flex-direction: column;
-      height: 100%;
-    margin-left: 2vh;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Обрезка содержимого */
+    transition: transform 0.2s; /* Плавный эффект при наведении */
+}
+
+/* Медиазапрос для экранов до 1640px */
+@media (max-width: 1640px) {
+    .card-product {
+        margin: 5px; /* Уменьшаем отступы для более компактного отображения */
+    }
+    .prod-text h3 {
+        font-size: 1.2em; /* Уменьшение размера заголовка для лучшего отображения */
+    }
+}
+
+/* Общий медиазапрос для мобильных устройств */
+@media (max-width: 1000px) {
+    .card-product {
+        max-width: calc(100% - 20px); /* Полная ширина за вычетом отступов */
+        margin: 10px auto; /* Центрируем карточку */
+    }
+        .prod-text h3 {
+        font-size: 0.8em; /* Уменьшение размера заголовка для лучшего отображения */
+    }
 }
 
     @media (max-width: 1000px) {
@@ -288,42 +304,44 @@ color:#d24a43;
 
 .blog {
     margin-top: 5vh;
-    max-width:85%;
+    max-width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
+.blog h3 {
+    text-align: center; /* Выровнять текст по центру */
+    width: 100%; /* Занять всю ширину родительского контейнера */
+    margin: 0; /* Удалить отступы по умолчанию */
+    padding-bottom: 1vh; /* Добавить отступ снизу для лучшего визуального восприятия */
+}
+
+
 .card-blog {
     background-color: #fff;
     border-radius: 5px;
-    padding:10px;
-    width: 320px;
-    margin-left: 5vh;
-    margin-top: 2vh;
-              display: flex;
-      flex-direction: column;
-      height: 100%;
+    padding: 10px;
+    max-width: 320px;
+    width: 100%; /* Убрано фиксированное значение ширины для карточек */
+    margin: 2vh 1vh; /* Установлено равномерное внешнее отступы */
+    display: flex;
+    flex-direction: column;
+    height: 70%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-@media screen and (max-width: 1000px) {
-
-
-.card-blog {
-    margin-left: 5vh;
-    width: 280px;
-
-}
 }
 
 .card-blog img {
     border-radius: 5px;
     width: 100%;
+    height: 140px; /* Изменено для соответствия высоте изображения */
     object-fit: cover;
 }
 
 .card-blog h3 {
+    text-align: left;
     font-size: 1.2em;
     color: #333;
-    margin-bottom: 10px;
-    margin-top: 1vh;
+    margin: 10px 0 10px; /* Упрощены отступы */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -331,10 +349,18 @@ color:#d24a43;
 
 .card-blog p {
     color: #666;
+    margin: 0; /* Удалены ненужные отступы */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 1000px) {
+    .card-blog {
+        max-width: 180px; /* Фиксированная ширина для мобильных устройств */
+    }
+}
+
 .partner {
     padding: 5vh;
     margin-top: 5vh;
@@ -680,7 +706,7 @@ width:55%;
 
 @media screen and (max-width: 620px) {
 .searchBox:hover > .searchInput {
-    width: 150px;
+    width: 120px;
     padding: 0 6px;
 }
 }
@@ -709,5 +735,35 @@ width:55%;
 
 .currency-btn.active {
     color: red !important;
+}
+
+@media (max-width: 450px) {
+    .card-product {
+        height: auto;  /* Позволяем блоку адаптироваться по высоте */
+        margin-top: 20px;
+        wi/* Уменьшаем отступ сверху */
+    }
+
+    .main-image-cars {
+        height: 100px;  /* Уменьшаем высоту изображения */
+    }
+
+    .prod-text h3 {
+        font-size: 16px;  /* Уменьшаем размер шрифта заголовка */
+        line-height: 1.2;  /* Уменьшаем межстрочный интервал */
+        white-space: normal;  /* Позволяем перенос заголовка на следующую строку */
+    }
+
+    .prod-text .price {
+        font-size: 14px;  /* Уменьшаем размер шрифта для цены */
+    }
+
+    .prod-text p {
+        font-size: 12px;  /* Уменьшаем размер шрифта для местоположения авто */
+    }
+
+    .badge {
+        font-size: 12px;  /* Уменьшаем размер шрифта бейджа */
+    }
 }
 

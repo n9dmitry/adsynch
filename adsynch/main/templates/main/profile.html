@@ -23,7 +23,7 @@
 
 
     .profile-card {
-    width: 90%;
+    width: 100%;
     background-color: var(--primary-bg);
     border-radius: 40px;
     border: 2px solid var(--accent-bg);
@@ -313,6 +313,19 @@ margin-left:2px;
     border: 2px solid #d24a43;
     padding:2px;
 }
+.modal-backdrop{
+display:none;
+}
+
+.modal {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
 
 </style>
 <!--    <div class="container mt-5">-->
@@ -380,30 +393,30 @@ margin-left:2px;
     </small>
 </div>
 
-<!-- Модальное окно для редактирования имени -->
-<div class="modal fade" id="editNameModal" tabindex="-1" role="dialog" aria-labelledby="editNameModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editNameModalLabel" style="color:var(--accent-color)">Редактировать имя</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="updateMessage" style="display: none; color:#86d243;">Данные обновлены</div>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="modal-footer">
-                <button type="submit" class="btn btn-edite" id="updateButton">Обновить</button>
-                <button type="button" class="btn btn-edite" data-dismiss="modal">Закрыть</button>
-            </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!--&lt;!&ndash; Модальное окно для редактирования имени &ndash;&gt;-->
+<!--<div class="modal fade" id="editNameModal" tabindex="-1" role="dialog" aria-labelledby="editNameModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="editNameModalLabel" style="color:var(&#45;&#45;accent-color)">Редактировать имя</h5>-->
+<!--                <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <div id="updateMessage" style="display: none; color:#86d243;">Данные обновлены</div>-->
+<!--                <form method="post">-->
+<!--                    {% csrf_token %}-->
+<!--                    {{ form.as_p }}-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="submit" class="btn btn-edite" id="updateButton">Обновить</button>-->
+<!--                        <button type="button" class="btn btn-edite" data-dismiss="modal">Закрыть</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
                 </div>
@@ -481,6 +494,26 @@ margin-left:2px;
 
                 </div>
             </div>
+</div>
+
+<div class="modal fade" id="editNameModal" tabindex="-1" aria-labelledby="editNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-sm-down"> <!-- Полноэкранный модальный режим для мобильных -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editNameModalLabel">Редактировать имя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary" style="background:#c30000;">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
