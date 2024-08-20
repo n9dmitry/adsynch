@@ -14,6 +14,13 @@
     display: inline-block;
 }
 
+@media (max-width: 1000px) {
+
+.fa-car, .fa-city, .fa-briefcase{
+font-size:69px;
+}
+}
+
 .fa-user-circle {
 color:#fff;
 font-size:20px;
